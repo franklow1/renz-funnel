@@ -1298,7 +1298,7 @@
       var worn=Math.max(1,Math.round(own*0.30));
       /* the second cut has to move with what he told us on the fit screen. a man who
          said nearly everything fits him cannot be handed the same gold count as a man
-         who said almost nothing does, or he stops believing the screen in front of him. */
+         who said almost nothing does, so the two counts stay consistent with each other. */
       var f=(S.a.fitn&&S.a.fitn.v);
       var rate = f===0.70 ? 0.45 : f===0.40 ? 0.22 : f===0.12 ? 0.10 : 0.20;
       var work=Math.max(1,Math.min(worn,Math.round(worn*rate)));
@@ -1694,7 +1694,7 @@
                 Math.round(GOLD*0.45)+(RM?0:300));
         },T1);
 
-        /* the punch and the exit arrive together, or he leaves before the argument lands */
+        /* the closing line and the button are revealed together */
         later(function(){ pn.classList.add('show'); S.revealSeen=true; buzz(20);
           only(null);                                     /* the sweep is over. all three are his now. */
           var g=ft.querySelector('#go'); if(g) g.disabled=false; },T2);
@@ -2108,14 +2108,7 @@
       ['fit','suits','goes','room'].forEach(function(k){ if(m[k]<lo){ lo=m[k]; worst=k; } });
       var b=(S.a.block&&S.a.block.v)||'';
       if(DRAG[b] && m[b]<2.5) worst=b;   /* what he told us outranks a tie break */
-      /* The score is deliberately harsh. A man who reads himself as a six has no reason to
-         book, so the scale is halved and capped: the best possible closet still shows five
-         out of ten, and the gap he can see is the reason to pick up the phone. */
-      /* The scale is capped, not compressed. Totals already cluster low, so halving them put
-         nearly every man on one and the number stopped telling him anything. Capping leaves
-         that natural spread alone and only takes the top off: the best closet reads five,
-         because a man who reads himself as an eight has no reason to book. */
-      var n=Math.max(1,Math.min(5,Math.floor(total)));
+      var n=Math.max(1,Math.min(10,Math.floor(total)));
       return {n:n,total:total,lo:lo,m:m,worst:worst};
     }
 
