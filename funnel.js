@@ -2101,11 +2101,16 @@
        Nothing weighted, nothing hidden, nothing rounded in his favour.
        ===================================================================== */
     function calc(){
-      var m={fit:0.25,suits:0.25,goes:0.75,room:0.75},id,A;
-      for(id in S.a){ A=S.a[id]; if(A && A.dim && A.score!==undefined) m[A.dim]=A.score; }
+      var m={fit:0.25,suits:0.25,goes:0.75,room:0.75},id,A,seen={};
+      for(id in S.a){ A=S.a[id]; if(A && A.dim && A.score!==undefined){ m[A.dim]=A.score; seen[A.dim]=1; } }
       var total=m.fit+m.suits+m.goes+m.room;
       var worst='fit',lo=99;
-      ['fit','suits','goes','room'].forEach(function(k){ if(m[k]<lo){ lo=m[k]; worst=k; } });
+      /* Only a cut he actually answered about can be named as his weakest. Two of the four
+         start at the bottom of the scale and are set by one question each, so a cut he was
+         never asked about could otherwise win on its starting value and he would be told
+         something about himself that nothing he said supports. */
+      ['fit','suits','goes','room'].forEach(function(k){ if(seen[k] && m[k]<lo){ lo=m[k]; worst=k; } });
+      if(lo===99){ ['fit','suits','goes','room'].forEach(function(k){ if(m[k]<lo){ lo=m[k]; worst=k; } }); }
       var b=(S.a.block&&S.a.block.v)||'';
       if(DRAG[b] && m[b]<2.5) worst=b;   /* what he told us outranks a tie break */
       var n=Math.max(1,Math.min(10,Math.floor(total)));
