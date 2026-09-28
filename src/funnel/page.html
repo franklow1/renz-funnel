@@ -1,0 +1,514 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Cabin:wght@400;500;600&display=swap">
+
+
+<div id="rz-funnel">
+<div id="rz-quiz"><div id="rz-phone"><div id="rot"><div style="font-size:40px">&#128241;</div><div>Turn your phone upright to carry on.</div></div>
+
+<div class="hd">
+  <div class="hdrow">
+    <button class="bk" id="bk" type="button" aria-label="Back" disabled>&#8592;</button>
+    <div class="trk"><i id="trk"></i></div>
+    <div class="qn" id="qn" aria-live="polite"></div>
+  </div>
+</div>
+<div class="stage" id="stage"></div>
+<div class="ft" id="ft"></div></div></div>
+<div id="rz-page" hidden><!-- ====================== HERO ====================== -->
+<section class="hero">
+ <div class="wrap">
+  <div class="sc" id="score" hidden>
+   <div class="l"><div class="k" id="sc-k">You scored</div>
+    <div class="d">The ones you dropped are facts about you, not taste.</div></div>
+   <div class="n"><span id="sc-n">0</span><i>/10</i></div>
+  </div>
+  <p class="sc-next" id="sc-next" hidden>Here&#8217;s how you get it to ten.</p>
+  <i class="measure" aria-hidden="true"></i>
+
+  <h1 id="h1">I&#8217;ll help you solve your style forever.</h1>
+  <p class="lede" id="lede">No more struggling with fit.<br>No more guessing what to get.<br><b>No more wasted time.</b></p>
+
+  <div class="vid" id="vid" hidden><div class="vidph" id="vidph"><div class="play"></div><span class="phn">Video goes here</span></div></div>
+  <div class="cta" id="cta1">
+   <a class="btn" href="#book" data-book><span class="l1">Book Your Style Solve Call</span><span class="l2">Your details below. The scan comes the moment you are in.</span></a>
+   <p class="promise promise-hero">You decide if it was worth it. <b>If not, every penny back</b> and you keep everything.</p>
+  </div>
+
+  <div class="proofstrip" id="proofstrip">
+   <span class="eyeb mid">Don&#8217;t take my word for it</span>
+   <p class="pslede" id="pslede">Men I&#8217;ve done this with. <b>Their words, not mine.</b></p>
+   <div class="reel" id="reel">
+    <div class="reel-stage"><div class="reel-track" id="reeltrack"></div></div>
+    <button type="button" class="reel-nav next" id="reelnext" aria-label="Next"><i></i></button>
+   </div>
+  </div>
+
+  <span class="folio">1</span>
+  <div class="nots-early">
+   <h3 id="nots-h">What this is not, before you go any further.</h3>
+   <p><b>Not a personal shopper.</b> Nobody follows you round a shop, nobody turns up with bags, and nobody ever needs to know this happened.</p>
+   <p><b>Not a stylist.</b> Nobody is coming to tell you what your taste should be. This is a system: four cuts, run against every single thing you own, in an order that works whoever you are. The output is a set of facts about your own body and a closet that agrees with itself.</p>
+   <p><b>Not something you have to learn.</b> Nothing to study, nothing to log into. I hand you facts about your own body and you decide once.</p>
+   <p id="adv-line" hidden></p>
+  </div>
+ </div>
+</section>
+
+<!-- ====================== LORENZO ====================== -->
+<section>
+ <div class="wrap rise">
+  <span class="eyeb">Who you&#8217;d be on the call with</span>
+  <h2>Nobody has ever looked at you properly.</h2>
+  <p class="body mt3 letter">My name is Lorenzo. I&#8217;ve dressed more than two hundred men, one at a time. Most of them work for themselves.</p>
+  <p class="body">I started Renz Tailors to make dressing easy. Then I hit a wall. Almost every man who came to me had no idea what to order.</p>
+  <p class="pull">Making good clothes easy to buy does nothing for a man who doesn&#8217;t know what to buy.</p>
+  <p class="body">So I started sitting down with them instead, one at a time. Nearly every closet failed on the same four things. That is where the four cuts came from.</p>
+  <p class="body"><!-- INVENTED, LORENZO TO CONFIRM -->About twenty minutes into a Style Solve call, it goes quiet. A man is stood there holding something up, and nearly every one of them says the same thing. <b>Why has nobody ever told me this.</b> Not about the shirt. About himself.</p>
+  <p id="lorenzo-tail" class="body" hidden></p>
+  <span class="folio">2</span>
+ </div>
+</section>
+
+<!-- ====================== THE COUNT ====================== -->
+<i class="baste" aria-hidden="true"></i>
+<section class="canvas" id="asksec">
+ <div class="wrap rise">
+  <span class="eyeb" id="ask-eyeb">Before you decide anything</span>
+  <h2 id="ask-h">Open the doors. Let&#8217;s count what you actually own.</h2>
+  <p class="body mt3" id="ask-sub" hidden></p>
+  <div class="ask" id="ask">
+   <p>Roughly how much is hanging in there?</p>
+   <div class="opts">
+    <button type="button" data-own="40">40<span>or so</span></button>
+    <button type="button" data-own="70">70<span>about average</span></button>
+    <button type="button" data-own="120">120<span>more than that</span></button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ====================== THE FOUR CUTS &#183; pinned, scrubbed ====================== -->
+<i class="baste" aria-hidden="true"></i>
+<section class="scene canvas" id="sc-cuts">
+ <div class="pin"><div class="wrap">
+  <div class="counter"><span class="n" id="cnum">70</span><span class="lab" id="clab">things in there</span></div>
+  <div class="rail"><div class="g" id="rail"></div></div>
+  <ol class="cutlist" id="cutlist">
+   <li><b>One.</b> Out goes anything that doesn&#8217;t actually fit you. Not close enough. Properly.<em class="cnt"></em></li>
+   <li><b>Two.</b> Out goes anything that does nothing for your colouring and your face.<em class="cnt"></em></li>
+   <li><b>Three.</b> Out goes anything that only goes with one other thing you own.<em class="cnt"></em></li>
+   <li><b>Four.</b> Out goes anything that doesn&#8217;t make people see you the way you want.<em class="cnt"></em></li>
+  </ol>
+  <p class="cutend" id="cutend">Four left. That&#8217;s the handful that&#8217;s been doing the work all year.</p>
+ </div></div>
+</section>
+
+<!-- ====================== THE THIRD CUT, ON TWELVE PIECES ====================== -->
+<section>
+ <div class="wrap rise">
+  <span class="eyeb">The third cut, on twelve pieces</span>
+  <h2 id="mg-h">Four of these twelve are doing nothing.</h2>
+  <p class="ch-r" id="mg-r">Tap them and find out which four. On a full rail it is not four. It is most of them.</p>
+  <div class="mg" id="mg">
+   <div class="mg-top"><span class="mg-num" id="mgn"><i class="blankline sm" aria-hidden="true"></i></span><span class="mg-lab">outfits it<br>makes</span></div>
+   <div class="mg-grid" id="mgg" role="toolbar" aria-orientation="horizontal" aria-label="Tap a piece to see what it goes with"></div>
+   <p class="mg-say" id="mgs" aria-live="polite"><span class="hd">Pick one.</span>Tap anything on the rail and I&#8217;ll show you everything it actually goes with.</p>
+  </div>
+ </div>
+</section>
+
+<section class="canvas">
+ <div class="wrap rise">
+  <p class="body blameline" id="blame" hidden></p>
+  <p class="body" id="notlist">So most of what is in there was never doing anything for you. <b>That is not a loss.</b> You just did not know which ones were carrying you.</p>
+  <div class="cta" id="cta2">
+   <a class="btn" href="#book" data-book><span class="l1">Book Your Style Solve Call</span><span class="l2">We open your doors together.</span></a>
+  </div>
+ </div>
+</section>
+
+<!-- ====================== THE THREE ====================== -->
+<section>
+ <div class="wrap rise">
+  <span class="eyeb">The three, one at a time</span>
+  <h2>Two of these are facts. The third is yours to decide.</h2>
+  <p class="body mt3">Nobody has ever handed you the first two. That is the whole reason this has been hard.</p>
+  <p class="yours" id="yours" hidden></p>
+  <div class="index" id="index">
+   <p><i>01</i><a href="#num1"><span>What fits you</span></a></p>
+   <p><i>02</i><a href="#ch2"><span>Which colours are yours</span></a></p>
+   <p><i>03</i><a href="#ch3"><span>What you actually wear</span></a></p>
+  </div>
+
+  <i class="grain" aria-hidden="true"></i><span class="num" id="num1"><b>01</b> / 03 &nbsp;&middot;&nbsp; What fits you</span><span class="flag" id="flag1" hidden>This is the one in your way</span>
+  <div class="taperule" aria-hidden="true"><span>0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span></div>
+  <p class="ch-r" id="ch1-r">Nobody has ever measured you. Every size you have bought was a guess at which of three shapes you were nearest to.</p>
+ </div>
+</section>
+
+<section class="scene" id="sc-fit">
+ <div class="pin"><div class="wrap">
+  <div class="say">
+   <p id="say1">The medium pulls across the chest.</p>
+   <p id="say2">The large hangs off you like your dad&#8217;s.</p>
+   <p>Neither one was cut for you.</p>
+  </div>
+  <div class="tape">
+   <svg viewBox="0 0 300 196" aria-hidden="true">
+    <path class="shirt" pathLength="1" d="M96 30 L120 18 L150 28 L180 18 L204 30 L222 58 L200 72 L200 174 L100 174 L100 72 L78 58 Z"/>
+    <path class="shirt" pathLength="1" d="M120 18 L150 42 L180 18"/>
+    <path class="dim" pathLength="1" d="M78 58 H222"/><text class="lab" x="150" y="52" text-anchor="middle">Shoulder</text>
+    <path class="dim" pathLength="1" d="M100 96 H200"/><text class="lab" x="150" y="90" text-anchor="middle">Chest</text>
+    <path class="dim" pathLength="1" d="M100 132 H200"/><text class="lab" x="150" y="126" text-anchor="middle">Waist</text>
+    <path class="dim" pathLength="1" d="M226 58 L216 164"/><text class="lab" x="258" y="114" text-anchor="middle">Arm</text>
+    <path class="dim" pathLength="1" d="M100 174 H200"/><text class="lab" x="150" y="168" text-anchor="middle">Hem</text>
+   </svg>
+   <ul class="mrow">
+    <li>Shoulder<i></i><b></b></li><li>Chest<i></i><b></b></li><li>Waist<i></i><b></b></li><li>Arm<i></i><b></b></li><li>Hem<i></i><b></b></li>
+   </ul>
+   <p class="mcap">You stand in front of your phone, fully dressed, and turn round once. <b>We scan you once, and you stop guessing at a size.</b></p>
+  </div>
+ </div></div>
+</section>
+
+<section>
+ <div class="wrap rise">
+  <p class="ch-p" id="chp1">You order a shirt at eleven at night and you already know it fits.</p>
+
+  <i class="grain" aria-hidden="true"></i><span class="num" id="ch2" style="margin-top:var(--s7)"><b>02</b> / 03 &nbsp;&middot;&nbsp; Which colours are yours</span><span class="flag" id="flag2" hidden>This is the one in your way</span>
+  <p class="ch-r" id="ch2-r">Same face, same sleep, same haircut. One shirt gets you a compliment. The next one gets you nothing.</p>
+  <!-- INVENTED, LORENZO TO CONFIRM: the eight colour verdicts are written in his voice, not his words -->
+  <div class="dr" id="dr">
+   <div class="dr-stage">
+    <div class="dr-face">
+     <svg viewBox="0 0 180 200" aria-hidden="true" focusable="false">
+      <path class="dr-skin" d="M72 98h36v74H72Z"/>
+      <path class="dr-dull" d="M72 98h36v74H72Z"/>
+      <path class="dr-cloth" d="M0 200v-26c0-16 14-25 34-31l30-9L90 163l26-29 30 9c20 6 34 15 34 31v26Z"/>
+      <path class="dr-collar" d="M64 134 90 163l26-29"/>
+      <path class="dr-skin" d="M90 14c-25 0-40 17-40 42 0 30 18 62 40 62s40-32 40-62c0-25-15-42-40-42Z"/>
+      <path class="dr-hair" d="M90 10c-27 0-43 17-42 44 1 8 3 12 4 12 2 0 1-14 6-19 4-4 12-6 32-6s28 2 32 6c5 5 4 19 6 19 1 0 3-4 4-12 1-27-15-44-42-44Z"/>
+      <path class="dr-dull" d="M90 14c-25 0-40 17-40 42 0 30 18 62 40 62s40-32 40-62c0-25-15-42-40-42Z"/>
+     </svg>
+    </div>
+    <div class="dr-verd" id="drv" aria-live="polite">
+     <span class="n" id="drn">Deep navy</span>
+     <span class="w" id="drw">This one works.</span>
+     <span class="u"></span>
+     <span class="r" id="drr">Takes the grey out of your skin and the tired out of your eyes.</span>
+    </div>
+   </div>
+   <div class="dr-rail" id="drrail" role="radiogroup" aria-label="Drape a colour"></div>
+   <p class="dr-hint">Tap any of them. <b>Same man, same light.</b> Yours are not these. <b>Yours come off the scan</b>, and then you never guess again.</p>
+  </div>
+  <p class="ch-p" id="chp2">You walk past a rail and know in one second. That one&#8217;s mine. That one isn&#8217;t.</p>
+
+  <i class="grain" aria-hidden="true"></i><span class="num" id="ch3" style="margin-top:var(--s7)"><b>03</b> / 03 &nbsp;&middot;&nbsp; What you actually wear</span><span class="flag" id="flag3" hidden>This is the one in your way</span>
+  <p class="ch-r" id="ch3-r">The part no scan can do for you. How do you want to be seen?</p>
+  <p class="body ch-d" id="ch-d">Forty five minutes, one to one. Everything you own goes through the four cuts, one at a time. Then what to buy next, and what to wear to what.</p>
+  <p class="mine" id="mine" hidden></p>
+  <p class="ch-p" id="chp3">You wake up and reach in without looking. What you pull out goes with what you pull out next.</p>
+  <span class="folio">3</span>
+ </div>
+</section>
+
+<!-- ====================== WHAT IT&#8217;S FOR ====================== -->
+<i class="baste" aria-hidden="true"></i>
+<section class="dark">
+ <div class="wrap rise">
+  <span class="eyeb" id="dk-eyeb">What it&#8217;s actually for</span>
+  <h2 id="dk-h">You don&#8217;t look good. You look right. And you know it before you&#8217;re out the front door.</h2>
+  <p class="body mt3" id="dk-b1">On the ten o&#8217;clock call and the two o&#8217;clock. At the dinner. In front of the people who decide. They stop looking past you, because you have stopped looking like the man they look past.</p>
+  <p class="body" id="dk-b2">Nobody says a word about your clothes. That&#8217;s how you know it worked.</p>
+  <p class="body" id="dk-lead" hidden></p>
+
+  <div class="tsec" id="tsec">
+   <div class="ts-row"><span class="ts-k">How long they take</span>
+    <span class="ts-n"><b id="ts-n">0.00</b><i>s</i></span></div>
+   <div class="ts-bar"><i id="ts-bar"></i></div>
+   <p class="ts-v" id="ts-v">By the time you have crossed the room, they have decided.</p>
+  </div>
+  <div class="switch" id="nowafter" hidden>
+   <p class="sw-h" id="sw-h">The next room</p>
+   <div class="sw-tabs" role="group" aria-label="Before and after">
+    <button type="button" aria-pressed="true"  aria-selected="true"  data-s="now">As you are now</button>
+    <button type="button" aria-pressed="false" aria-selected="false" data-s="aft">After the call</button>
+    <i class="sw-ink" id="sw-ink" aria-hidden="true"></i>
+   </div>
+   <ul class="sw-list" id="sw-list" aria-live="polite"></ul>
+  </div>
+
+  <div class="callout">
+   <p id="dk-c1">A man told me he went to a dinner and looked good. He still drove the whole way home wondering if he could have looked better.</p>
+   <p class="b" id="dk-c2">That&#8217;s the bit this ends.</p>
+  </div>
+  <p class="trial" id="trial1" hidden></p>
+  <div class="cta" id="cta-mid">
+   <a class="btn" href="#book" data-book><span class="l1">Book Your Style Solve Call</span><span class="l2">Forty five minutes, once, and it is settled.</span></a>
+  </div>
+  <div class="rev">
+   <h3 id="dk-rh">Waiting until you&#8217;re more established?</h3>
+   <p id="dk-rp">Look at the order of that. People decide how seriously to take a younger man on the way in, before he&#8217;s opened his mouth. <b>Nobody gives him the benefit of the doubt.</b> It runs the other way round.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ====================== THE STACK ====================== -->
+<section class="canvas">
+ <div class="wrap rise">
+  <span class="eyeb">Everything you walk away with</span>
+  <h2>The Style Solve.</h2>
+  <!-- INVENTED, LORENZO TO CONFIRM: the three comparison prices (150 / 209 / 450) and the three sources under them -->
+  <ol class="val" id="val">
+   <li data-p="150"><span class="ord">01</span><h3>Your style guide, the numbers</h3>
+    <p>You stop being a medium in one shop and a large in the next. <b>Your measurements and your cuts, in writing.</b></p>
+    <span class="src">What a made to measure house charges just to measure you.</span>
+    <span class="p"><em>Elsewhere</em><s data-n="150">&pound;0</s></span></li>
+   <li data-p="209"><span class="ord">02</span><h3>Your style guide, the colours</h3>
+    <p>You stop wondering why you look rested in some shirts and rough in others. <b>Yours, written down.</b></p>
+    <span class="src">What a one to one colour analysis costs in London.</span>
+    <span class="p"><em>Elsewhere</em><s data-n="209">&pound;0</s></span></li>
+   <li data-p="450"><span class="ord">03</span><h3>The Four Cuts, live with Lorenzo</h3>
+    <p>Every single thing you own, held against the four cuts, one at a time. <b>What goes. What stays. What to buy next. What to wear to what.</b></p>
+    <span class="src">What a styling session in London starts at, before anyone opens the closet.</span>
+    <span class="p"><em>Elsewhere</em><s data-n="450">&pound;0</s></span></li>
+   <li data-p="0"><span class="ord">04</span><h3>The Fitting Room, for life</h3>
+    <p>Hold up two shirts, ask which one, get a straight answer. <b>The private room for the men who&#8217;ve done this.</b> Taking the call is the only door there is.</p>
+    <span class="src">There is no price on it and no list to join.</span>
+    <span class="p"><em>Not for sale</em><b class="np">at any price</b></span></li>
+  </ol>
+
+  <div class="tally" id="tally">
+   <span class="ty-k">Running total</span>
+   <span class="ty-n"><i>&pound;</i><b id="ty-n">0</b></span>
+  </div>
+
+  <div class="docket">
+   <div class="counterfoil"><span class="cf-k">Order</span><span class="cf-n" id="cf-n">0201</span><span class="cf-d">Renz<br>Tailors</span></div>
+   <div class="cf-body">
+    <span class="cf-lab">All four, together</span>
+    <ul class="cf-sum" id="cfsum">
+     <li><span>The three you can price</span><b id="cf-was">&pound;809</b></li>
+     <li><span>The fourth</span><b>not for sale</b></li>
+     <li class="now"><span>Here, once</span><b id="cf-now" class="veil">&pound;99</b></li>
+     <li class="save"><span>You keep</span><b id="cf-save" class="veil">&pound;710</b></li>
+    </ul>
+    <span class="cf-note">Once. Nothing after it, for any of it.</span>
+   </div>
+  </div>
+
+  <p class="trial" id="trial2" hidden></p>
+  <p class="ifall">Say it did nothing but stop the guessing. Every purchase from here comes down to one question. <b>Does this go with me.</b> Worth ninety nine pounds?</p>
+  <p class="notfor" id="notfor" hidden></p>
+  <div class="cta" id="cta3">
+   <a class="btn" href="#book" data-book><span class="l1">Book Your Style Solve Call</span><span class="l2">Once, and nothing after it.</span></a>
+   <p class="promise">You decide if it was worth it. <b>If not, every penny back</b> and you keep everything.</p>
+  </div>
+  <span class="folio">4</span>
+ </div>
+</section>
+
+<!-- ====================== THE TWO AT THE CHECKOUT ====================== -->
+<i class="baste" aria-hidden="true"></i>
+<section>
+ <div class="wrap rise">
+  <span class="eyeb">Two small things at the order form</span>
+  <h2>On the call you will ask me two questions. These are the answers, already written.</h2>
+  <ul class="adds">
+   <li>
+    <span class="askq">&ldquo;Right, where do I actually buy it?&rdquo;</span>
+    <h3>The Brand List</h3>
+    <span class="p"><em>Add it</em><b>&pound;29</b></span>
+    <p>A hundred brands, sorted by what each one is actually good at. Which ones run small.
+     Which ones fit a man who trains. Which ones to walk past. <b>You stop walking round
+     the shops hoping and open a list instead.</b></p>
+   </li>
+   <li>
+    <span class="askq">&ldquo;Can I get that without paying for the label?&rdquo;</span>
+    <h3>The Factory Line</h3>
+    <span class="p"><em>Add it</em><b>&pound;49</b></span>
+    <p>Most of what you are about to buy is made in a handful of factories. The label goes
+     on last and the price triples. Same cloth, same make, no logo, ordered to the
+     measurements we take on the call. <b>Nobody can tell what you paid.</b></p>
+   </li>
+  </ul>
+  <p class="adds-note">Tick either one at the order form, or neither.
+   <b>The call is exactly the same.</b></p>
+  <span class="folio">5</span>
+ </div>
+</section>
+
+<!-- ====================== GUARANTEE ====================== -->
+<i class="baste" aria-hidden="true"></i>
+<section class="dark">
+ <div class="wrap rise">
+  <div class="gtee">
+   <span class="seal">The Straight Back Guarantee</span>
+   <h2>You are the only person who decides whether this was worth it.</h2>
+   <p class="lead">Not me. Not a form. Not a reason you have to give anybody.</p>
+   <div class="fig"><span>Every penny, back</span><em>If you say so. That is the whole test</em></div>
+   <p class="txt"><b>Then decide.</b> You come off that call. If you still can&#8217;t tell me what fits you, which colours are yours, and what to wear next, I haven&#8217;t done my job. <b>Say so.</b> It all goes back, no argument, and you keep every bit of it.</p>
+   <div class="ifno" id="ifno">
+    <button type="button" class="ifno-b" id="ifno-b" aria-expanded="false" aria-controls="ifno-a">
+     <span id="ifno-q">And what if I say it wasn&#8217;t worth it?</span><i aria-hidden="true"></i></button>
+    <div class="ifno-a" id="ifno-a"><div>
+     <ol>
+      <li>You say so. One line, no reason, no form.</li>
+      <li>Every penny goes back, no argument. The call, and anything you added to it.</li>
+      <li>You keep your numbers, your colours and your place in The Fitting Room.</li>
+     </ol>
+     <p>That is the entire procedure. <b>I ask you on the call, so there is nothing to remember, nothing to send back, and I never ask you why.</b></p>
+    </div></div>
+   </div>
+
+   <div class="sign">
+    <svg class="ink" viewBox="0 0 260 76" aria-hidden="true" focusable="false">
+     <path pathLength="1" d="M8 58 C 22 20, 30 12, 36 16 C 42 20, 30 44, 26 56 C 22 68, 30 70, 40 60 C 50 50, 58 34, 64 36 C 70 38, 62 56, 68 58 C 74 60, 84 44, 92 34 C 100 24, 104 30, 100 44 C 96 58, 104 62, 114 52 C 124 42, 130 26, 138 28 C 146 30, 138 52, 146 56 C 154 60, 166 40, 176 30 C 186 20, 192 26, 188 42 C 184 58, 192 64, 204 54 C 216 44, 226 26, 236 24 C 246 22, 250 34, 246 44"/>
+     <path pathLength="1" d="M96 70 C 130 64, 178 62, 214 66"/>
+    </svg>
+    <span class="sg-n">Lorenzo Segor</span>
+    <span class="sg-d" id="sg-d">Renz Tailors, London</span>
+    <span class="stamp" aria-hidden="true"><b>RENZ</b><em>London</em></span>
+   </div>
+  </div>
+
+  <div class="ledger" id="ledger">
+   <div class="ledger-k"><span>No.</span><span>Name</span><span>Cloth</span></div>
+   <ol class="ledger-rows">
+    <li><i>0198</i><b class="blankline"></b><em>cut</em></li>
+    <li><i>0199</i><b class="blankline"></b><em>cut</em></li>
+    <li><i>0200</i><b class="blankline"></b><em>cut</em></li>
+    <li class="you"><i id="ledger-no">0201</i><b id="ledger-name" class="blankline"></b><em>not yet cut</em></li>
+   </ol>
+  </div>
+  <p class="ledger-cap">Two hundred closets, one at a time. The next line is empty.</p>
+
+  <div class="cta" id="cta4">
+   <a class="btn" href="#book" data-book><span class="l1">Book Your Style Solve Call</span><span class="l2">One payment. You decide afterwards if I keep it.</span></a>
+  </div>
+ </div>
+</section>
+
+<!-- ====================== FAQ ====================== -->
+<section class="canvas">
+ <div class="wrap rise">
+  <span class="eyeb">Straight answers</span>
+  <h2 id="faq-h">What men ask me before they book.</h2>
+  <p class="faq-lead" id="faq-lead" hidden></p>
+  <div class="faq">
+   <details name="faq"><summary>Is this just a capsule closet with a different name?<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>No. A capsule closet is someone else&#8217;s list of thirty things. It fails for one reason. It was written without you in the room. <b>This starts from your measurements and your colouring and works outwards.</b> Two men who go through this end up with different closets, because they are different men. That is the whole point of it.</p></div></div></details>
+   <details name="faq"><summary>What actually happens in the scan?<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>I send you a link. You stand in front of your phone in what you are already wearing, fully dressed, and turn round once. It takes about two minutes and it is the last time anyone needs to measure you. <b>Nothing goes anywhere else. Nobody else sees it. You can delete it the moment your profile is done.</b> Camera on or off for the call itself, your choice. I need to see the clothes, not you.</p></div></div></details>
+   <details name="faq"><summary>I&#8217;m an awkward size. Long arms, short legs, a chest that needs a large and a waist that doesn&#8217;t.<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>That&#8217;s exactly who this works best for. <b>Once you know your numbers, an awkward size stops being a problem and turns into a filter.</b></p></div></div></details>
+   <details name="faq"><summary>My closet&#8217;s a state and I&#8217;d rather nobody looked in it.<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>Good. A tidy closet tells me nothing. I&#8217;ve looked inside two hundred of them and never once been surprised. Don&#8217;t tidy. Don&#8217;t lay anything out. Don&#8217;t buy something first. <b>Open the doors as they are.</b></p></div></div></details>
+   <details name="faq"><summary>Can forty five minutes really do this?<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>Yes, because the hard part happens before we speak. Your fit and your colours are worked out already, so the call goes on you and your actual closet. <b>You&#8217;ve spent longer than that in one shop putting things back on the rail.</b></p></div></div></details>
+   <details name="faq"><summary>I&#8217;ll sort this out when I&#8217;m further along.<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>Every man I sit down with says a version of that. Then he tells me people take him less seriously until he looks the part. So which comes first? <b>Men don&#8217;t buy this after they&#8217;ve made it. They buy it before, which is why they get treated like they already have.</b></p></div></div></details>
+   <details name="faq"><summary>So I bin most of what I own and buy it all again?<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>No. Nothing has to leave your closet unless you want it to. You do not have to buy a thing. You will still be better off on Monday than you were on Friday. <b>The four cuts mostly change which of your own things you reach for, and in what order.</b> What to buy next is a list you keep, not a bill you pay. You order off it when you were going to buy something anyway, which you were.</p></div></div></details>
+   <!-- INVENTED, LORENZO TO CONFIRM: what he says at the end of a call -->
+   <details name="faq"><summary>Is the call a pitch for something bigger?<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>The forty five minutes is finished work on its own. You come off it with your numbers, your colours, and everything you own sorted. If you never speak to me again, all of that still stands. There is more I can do with a man after that. At the end I will tell you what it is, in one sentence. <b>You can ignore it and nothing you were given goes away.</b></p></div></div></details>
+   <details name="faq"><summary>I&#8217;m not in the UK.<span class="mk" aria-hidden="true"></span></summary>
+    <div class="a"><div><p>Doesn&#8217;t matter. It&#8217;s a video call and the booking page shows times in yours. The scan works anywhere, and your measurements come in centimetres and inches both.</p></div></div></details>
+  </div>
+  <span class="folio">6</span>
+ </div>
+</section>
+
+<!-- ====================== THE GAP ====================== -->
+<section>
+ <div class="wrap rise">
+  <span class="eyeb mid">Your style guide</span>
+  <h2 class="mid" id="gap-h">Everything I know about you, and everything nobody has ever measured.</h2>
+
+  <div class="gapcard" id="gapcard">
+   <span class="gc-hole" aria-hidden="true"></span>
+   <span class="pin-l" aria-hidden="true"></span><span class="pin-r" aria-hidden="true"></span>
+   <span class="notch n1" aria-hidden="true"></span><span class="notch n2" aria-hidden="true"></span>
+   <div class="gc-h"><span class="gc-shop">Renz Tailors &middot; London</span>
+    <span class="gc-no">Guide no. <i id="gc-no">0000</i></span></div>
+   <p class="gc-name" id="gc-name">Your style guide</p>
+   <ul class="gc-rows" id="gc-rows"></ul>
+   <div class="gc-meter">
+    <div class="gc-bar"><i id="gc-fill"></i></div>
+    <p class="gc-cap"><b id="gc-k">0</b> of <b id="gc-t">0</b> filled in.
+     <span id="gc-x">The rest of it nobody has ever taken.</span></p>
+   </div>
+  </div>
+
+  <p class="patcap" id="patcap">Everything above that line, anybody could tell you. <b>Everything below it is a fact about your own body that has never once been written down.</b> Forty five minutes and the card is full, in your hands, and it never has to be taken again.</p>
+  <div class="wall">
+   <div class="g" id="wall"></div>
+   <p class="cap"><b id="walln">0</b> style guides written, one man at a time.</p>
+   <div class="mine-row"><i class="you"></i><span class="wyours" id="wallyou"><b>Two hundred and one.</b> Still empty. That one is yours.</span></div>
+  </div>
+  <p class="failed-lead">Every one of those two hundred failed on the same four things.</p>
+  <ul class="failed" id="failed">
+   <li><span>Things that didn&#8217;t fit</span><i></i><b>every closet</b></li>
+   <li><span>Colours that did nothing</span><i></i><b>every closet</b></li>
+   <li><span>Pieces that went with one thing</span><i></i><b>every closet</b></li>
+   <li><span>Nothing chosen on purpose</span><i></i><b>nearly every one</b></li>
+  </ul>
+  <p class="failed-cap">Different men, different cities, different money. <b>The same four, nearly every time.</b> That is why they became the four cuts.</p>
+ </div>
+</section>
+
+<!-- ====================== CLOSE ====================== -->
+<i class="baste" aria-hidden="true"></i>
+<section class="dark close">
+ <div class="wrap rise">
+  <span class="eyeb" id="cl-eyeb">Here&#8217;s what to do next</span>
+  <h2 id="cl-h">What have you got coming in the next thirty days?</h2>
+  <p class="body mt3" id="cl-b1">A pitch. A dinner. Somewhere you actually want something out of. It&#8217;s happening whether you book this or not. Whoever&#8217;s in there makes their mind up the moment you walk in.</p>
+  <div class="doors">
+   <p class="b">Only one of the two below comes with your money back.</p>
+  </div>
+  <p class="costq" id="costq" hidden></p>
+  <div class="fork" id="fork">
+   <p class="fk-q" id="fk-q">From here there are two of you.</p>
+   <div class="fk-row fk-a">
+    <span class="fk-k">Do nothing</span>
+    <p id="fk-do">Tomorrow goes the way this morning went, and so does the one after it. <b>And whoever is in the next room decides what you are worth before you have sat down.</b></p>
+   </div>
+   <i class="fk-split" aria-hidden="true"><i></i><i></i></i>
+   <a class="fk-row fk-b" href="#book" data-book>
+    <span class="fk-k">Book the call</span>
+    <p id="fk-bk">Forty five minutes, once. <b>Then every room you walk into gets the man they were hoping would walk in.</b></p>
+   </a>
+  </div>
+
+  <ol class="next" id="next">
+   <li><span><b>Tap the button and put your details in.</b> Two minutes, and it&#8217;s off your list for good.</span></li>
+   <li><span><b>I send you the scan.</b> You stand in front of your phone, fully dressed, and turn round once. That is the whole of it, and it is done forever.</span></li>
+   <li><span><b>Forty five minutes, one to one.</b> You hang up and it&#8217;s done. Next morning you reach without thinking.</span></li>
+  </ol>
+  <div class="cta" id="cta5">
+   <a class="btn" href="#book" data-book id="book"><span class="l1">Book Your Style Solve Call</span><span class="l2">You decide afterwards if it was worth it.</span></a>
+   <p class="promise">You decide if it was worth it. <b>If not, every penny back</b> and you keep everything.</p>
+   <p class="pace-line" id="pace-line" hidden></p>
+  </div>
+  <p class="ps"><b>P.S.</b> <span id="ps-line">Everyone else can see you. You&#8217;re the only one who can&#8217;t.</span> Skipped to the bottom? We scan you once. Your numbers and your colours are set for good. Forty five minutes runs everything you own through the four cuts. Once. Nothing after it. <a href="#book" data-book>Let&#8217;s fix it.</a></p>
+ </div>
+</section>
+
+<div class="foot">
+ <div class="label"><i></i><i></i><i></i><i></i>
+  <p>Renz Tailors<br>London</p>
+  <p>Made in Britain</p>
+  <!-- LORENZO: point these at the real pages before launch. They 404 today. -->
+  <p><a href="https://lorenzosegor.com/privacy-policy-page">Privacy</a> &nbsp;&middot;&nbsp; <a href="https://lorenzosegor.com/terms--conditions-page">Terms</a></p>
+ </div>
+</div>
+
+<div class="pad" id="pad"></div>
+<div class="stick" id="stick"><div class="in">
+  <span class="k">Your fit &middot; your colours &middot; your closet, sorted</span>
+  <a class="btn" href="#book" data-book><span class="l1">Book Your Style Solve Call</span><span class="l2">Every penny back if you say so.</span></a>
+</div></div></div>
+</div>
