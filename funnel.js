@@ -999,16 +999,16 @@
     {t:'choice',id:'fitn',bar:1,dim:'fit',h:'How many of those {N} fit you properly?',
      s:'Properly. Not close enough.',
      o:[['\uD83D\uDC54','Nearly all of them','I only buy what fits me',0.70,2.5],
-        ['\u2696\uFE0F','About half','Some fit, the rest are close enough',0.40,0.75],
-        ['\u26A0\uFE0F','Only a few','Close enough is most of my closet',0.12,0.25]]},
+        ['\u2696\uFE0F','About half','Some fit, the rest are close enough',0.40,0.6],
+        ['\u26A0\uFE0F','Only a few','Close enough is most of my closet',0.12,0.2]]},
 
     {t:'yn',id:'reach',bar:1,dim:'goes',
      h:'Can you open your closet in the morning and know exactly what to reach for, every time?',
-     yes:2.5,no:0.75},
+     yes:2.5,no:0.6},
 
     {t:'yn',id:'room',bar:1,dim:'room',
      h:'When you walk into a room, do you know what people are thinking about you, just by looking at you?',
-     yes:2.5,no:0.75},
+     yes:2.5,no:0.6},
 
     {t:'hinge',bar:1},
 
@@ -1026,11 +1026,11 @@
 
     {t:'choice',id:'block',bar:1,dim:'suits',h:'{CAP}, what is the main thing in the way?',
      s:'The closest one. Even if it\'s a small one.',
-     o:[['\uD83D\uDCCF','Nothing fits me properly','Shop sizes never quite work on me','fit',0.75],
-        ['\uD83E\uDD37','I can\'t tell what suits me','I don\'t know what works on my body','suits',0.25],
-        ['\uD83E\uDDE9','My things don\'t go together','Good pieces, no outfits','goes',0.75],
-        ['\uD83D\uDED2','I wouldn\'t know where to buy','Every shop looks the same to me','buy',0.75],
-        ['\u23F3','I haven\'t got the time','I\'m not spending weekends shopping','time',0.75],
+     o:[['\uD83D\uDCCF','Nothing fits me properly','Shop sizes never quite work on me','fit',0.6],
+        ['\uD83E\uDD37','I can\'t tell what suits me','I don\'t know what works on my body','suits',0.2],
+        ['\uD83E\uDDE9','My things don\'t go together','Good pieces, no outfits','goes',0.6],
+        ['\uD83D\uDED2','I wouldn\'t know where to buy','Every shop looks the same to me','buy',0.6],
+        ['\u23F3','I haven\'t got the time','I\'m not spending weekends shopping','time',0.6],
         ['\u2B50','Nothing major','I just want it sharper than it is','none',2.5]]},
 
     {t:'choice',id:'advice',bar:1,multi:1,h:'Do you follow anyone for style advice?',
@@ -1072,7 +1072,7 @@
     function verdict(R){
       if(R.lo>=2.5) return 'Nothing major is holding you back.';
       var d=DRAG[R.worst]; if(!d) return 'Nothing major is holding you back.';
-      return (R.m[R.worst]>=0.75 && d.m) ? d.m : d.c;
+      return (R.m[R.worst]>=0.6 && d.m) ? d.m : d.c;
     }
     /* his own answers, in his own words, for the last screen */
     var SAID={
@@ -1135,7 +1135,7 @@
             lid:LEADID, t:Date.now() })); }catch(e){}
       return VSL_URL+(VSL_URL.indexOf('?')>-1?'&':'?')+
         'score='+encodeURIComponent(R.n)+'&worst='+encodeURIComponent(R.worst)+
-        '&lo='+(R.lo<2.5?'1':'0')+'&sev='+(R.m[R.worst]>=0.75?'1':'0')+
+        '&lo='+(R.lo<2.5?'1':'0')+'&sev='+(R.m[R.worst]>=0.6?'1':'0')+
         '&days='+encodeURIComponent(days===undefined?'':days)+
         '&own='+encodeURIComponent(C.own)+'&work='+encodeURIComponent(C.work)+
         '&goal='+encodeURIComponent((S.a.goal&&S.a.goal.v)||'')+
@@ -2101,14 +2101,15 @@
        Nothing weighted, nothing hidden, nothing rounded in his favour.
        ===================================================================== */
     function calc(){
-      var m={fit:0.25,suits:0.25,goes:0.75,room:0.75},id,A;
+      var m={fit:0.2,suits:0.2,goes:0.6,room:0.6},id,A;
       for(id in S.a){ A=S.a[id]; if(A && A.dim && A.score!==undefined) m[A.dim]=A.score; }
       var total=m.fit+m.suits+m.goes+m.room;
       var worst='fit',lo=99;
       ['fit','suits','goes','room'].forEach(function(k){ if(m[k]<lo){ lo=m[k]; worst=k; } });
       var b=(S.a.block&&S.a.block.v)||'';
       if(DRAG[b] && m[b]<2.5) worst=b;   /* what he told us outranks a tie break */
-      var n=Math.max(1,Math.min(10,Math.floor(total)));
+      var top=(m.fit===2.5&&m.goes===2.5&&m.room===2.5&&m.suits===2.5);
+      var n=Math.max(1,top?Math.min(10,Math.floor(total)):Math.min(5,Math.floor(total)));
       return {n:n,total:total,lo:lo,m:m,worst:worst};
     }
 
