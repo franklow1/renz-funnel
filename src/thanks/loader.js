@@ -723,6 +723,7 @@
         $('pg-n').textContent=n; $('pg-left').textContent=Math.max(0,total-n);
         var d=$('pg-d'); if(d) d.textContent=(['none','one','two','three','four','five','six'][total]||total);
         $('pg-bar').style.width=Math.round(n/total*100)+'%';
+        var ad=$('alldone'); if(ad) ad.hidden = n < total;
         [].forEach.call(RZT.all('#recap li'),function(li){
           li.classList.toggle('done',!!state[li.getAttribute('data-for')]); });
 

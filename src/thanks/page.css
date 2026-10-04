@@ -147,6 +147,11 @@ body:has(#rz-thanks) *:has(#rz-thanks){background:#F4F1EA!important}
 #rz-thanks .prog-r b{color:var(--ink);font-variant-numeric:tabular-nums;font-size:12px}
 #rz-thanks .prog-r span{flex:1 1 auto}
 #rz-thanks .prog-bar{margin-top:10px;height:2px;background:var(--hairline);overflow:hidden}
+#rz-thanks .alldone{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--hairline);
+ font:400 16px/25px var(--text);color:var(--graphite)}
+#rz-thanks .alldone[hidden]{display:none!important}
+#rz-thanks .alldone b{color:var(--ink);font-weight:700}
+#rz-thanks .alldone span{display:block;margin-top:4px;color:var(--pencil)}
 #rz-thanks .prog-bar i{display:block;height:100%;width:0;background:var(--brass-lift);
  transition:width .7s var(--ezs)}
 #rz-thanks .doc{margin-top:var(--s5);padding:var(--s5) var(--s4) var(--s4);background:var(--paper);
