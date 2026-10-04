@@ -641,27 +641,37 @@
          and always through real input and change events, because the builder's form is a
          Vue app and setting .value alone leaves its model empty: the form would look
          filled in and submit blank. */
-      RZ._typed = false;
       try{
         document.addEventListener('input', function(ev){
-          if(!ev.isTrusted) return;
           var t=ev.target;
-          try{ if(t && t.matches && t.matches('input,textarea') && !t.closest('#rz-funnel')) RZ._typed=true; }catch(e){}
+          if(!t || !t.matches) return;
+          try{
+            if(t.closest('#rz-funnel')) return;
+            /* His typing, and only his: the field has to be the one with focus. A page
+               wide flag was set by the host's own widgets before he had touched anything,
+               which stopped the fill from ever running. */
+            if(document.activeElement===t) t.setAttribute('data-rz-touched','1');
+          }catch(e){}
         }, true);
       }catch(e){}
 
       RZ.who = function(){
-        var d={};
-        try{ d=JSON.parse(localStorage.getItem('renz_you')||localStorage.getItem('renz_score')||'{}')||{}; }catch(e){}
-        var who=null; try{ who=JSON.parse(localStorage.getItem('renz_who')||'null'); }catch(e){}
-        var first=(who&&who.f)||d.first||(d.name||'').split(' ')[0]||'';
-        var last =(who&&who.l)||d.last ||(d.name||'').split(' ').slice(1).join(' ')||'';
-        return {first:first, last:last, name:((first+' '+last).trim()||d.name||''), email:d.email||''};
+        var you={}, sco={}, who=null;
+        try{ you=JSON.parse(localStorage.getItem('renz_you')||'{}')||{}; }catch(e){}
+        try{ sco=JSON.parse(localStorage.getItem('renz_score')||'{}')||{}; }catch(e){}
+        try{ who=JSON.parse(localStorage.getItem('renz_who')||'null'); }catch(e){}
+        var whole=String(sco.name||you.name||'').trim();
+        var first=(who&&who.f)||sco.first||you.first||whole.split(' ')[0]||'';
+        var last =(who&&who.l)||sco.last ||you.last ||whole.split(' ').slice(1).join(' ')||'';
+        return {first:first, last:last,
+                name:((first+' '+last).trim()||whole),
+                email:(sco.email||you.email||'')};
       };
 
       function setField(el,val){
         if(!el || !val) return false;
         if(el.value && el.value.trim()) return false;      /* never overwrite him */
+        if(el.getAttribute('data-rz-touched')) return false;
         try{
           var proto = el.tagName==='TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
           var setter = Object.getOwnPropertyDescriptor(proto,'value').set;
@@ -673,7 +683,6 @@
       }
 
       RZ.fillCheckout = function(){
-        if(RZ._typed || RZ._filled) return 0;
         var w=RZ.who(); if(!w.name && !w.email) return 0;
         var root=null;
         try{ root=document.querySelector('.c-order, [id^="one-step-order-"]'); }catch(e){}
@@ -696,8 +705,38 @@
           n+=setField(pick('input[name="last_name"]','input[name*="last" i]',
                            'input[placeholder*="last" i]'), w.last)?1:0;
         }
-        if(n) RZ._filled=true;
+        if(n) RZ._filled=(RZ._filled||0)+n;
         return n;
+      };
+
+      /* The checkout is drawn late, and the host redraws it again whenever its own
+         state changes, which empties anything written into it. One pass on a timer was
+         never going to hold. This watches the form itself and refills only what is still
+         empty, until both fields are filled or the budget runs out. */
+      RZ.watchCheckout = function(){
+        var t0=Date.now(), BUDGET=180000, obs=null, tick=null;
+        function done(){
+          var root=null;
+          try{ root=document.querySelector('.c-order, [id^="one-step-order-"]'); }catch(e){}
+          if(!root) return false;
+          var need=root.querySelectorAll('input[name="name"],input[name="email"],'
+                 + 'input[name="full_name"],input[name="first_name"],input[type="email"]');
+          if(!need.length) return false;
+          for(var i=0;i<need.length;i++){ if(!(need[i].value||'').trim()) return false; }
+          return true;
+        }
+        function stop(){ try{ if(obs) obs.disconnect(); }catch(e){} if(tick) clearInterval(tick); }
+        function pass(){
+          if(Date.now()-t0>BUDGET){ stop(); return; }
+          try{ RZ.fillCheckout(); RZ.fixBumpHeading(); }catch(e){}
+          if(done()) stop();
+        }
+        try{
+          obs=new MutationObserver(function(){ pass(); });
+          obs.observe(document.body,{childList:true,subtree:true});
+        }catch(e){}
+        tick=setInterval(pass,700);
+        pass();
       };
 
       /* The builder's own bump heading is "Upgrade Your Order & Save!", which promises a
@@ -979,6 +1018,7 @@
           }
         }catch(e){}
         try{ RZ.watchBumps(); }catch(e){}
+        try{ RZ.watchCheckout(); }catch(e){}
         var t=null;
         try{ t=document.querySelector(RZ.CAL_TRIGGER); }catch(e){}
         if(t){ t.style.position='absolute'; t.style.left='-9999px';
