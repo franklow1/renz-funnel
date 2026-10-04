@@ -385,7 +385,7 @@
            The worklist wakes up after this, so the tick is handed over rather than clicked. */
         if(booked){
           window.__rzStepOneDone = true;
-          try{ $('job-book-p').innerHTML = 'Your time is held, and it is written at the top of '
+          try{ $('job-book-p').innerHTML = 'Your time is held. It is written at the top of '
             + 'this page. <b>Now the other three.</b>'; }catch(e){}
         }
 
@@ -399,7 +399,7 @@
               + '<br><b>You have stopped putting it off.</b>';
           } else {
             $('h1').textContent = 'Right. You\u2019re In' + nm + '.';
-            $('lede').innerHTML = 'The call is paid for.<br>One thing left, and it takes ten '
+            $('lede').innerHTML = 'The call is paid for.<br>One thing left. It takes ten '
               + 'seconds.<br><b>Pick your time, just under this video.</b>';
           }
         }catch(e){}
@@ -422,6 +422,12 @@
                 + '<br>Then drop the first one with the link in your confirmation email.'
                 + '<br><b>Or message me and I\u2019ll move it for you.</b>';
             }catch(e2){}
+            /* step one was ticked and its line said his time is held and is written at the
+               top of the page. Neither is true from the moment this calendar opens. */
+            try{ window.__rzStepOneDone = false;
+                 if(window.__rzSetStep) window.__rzSetStep('job-book',false); }catch(e2){}
+            try{ $('job-book-p').innerHTML = 'The calendar is at the top of this page. '
+              + '<b>Nothing else starts until your new time is in.</b>'; }catch(e2){}
             if(slot) slot.hidden = true;
             again.hidden = true;
             wrap.hidden = false;
@@ -549,20 +555,74 @@
 
       /* Named, because a man who picks his time in the calendar on this page has to be
          able to see it written out without the page reloading under him. */
+      /* A booking platform that sends both a time and a zone means that time IN that
+         zone. The string it sends usually carries no offset, so new Date() reads it as
+         the DEVICE's wall clock: a man who books on a laptop and opens this page on a
+         phone an hour away was shown a time that disagreed with his own email. When the
+         sent time is naive and a zone came with it, the wall clock is read as being in
+         that zone and the real instant is solved for, so the calendar file is right too. */
+      function zoneParts(ms,tz){
+        var P={};
+        new Intl.DateTimeFormat('en-GB',{timeZone:tz,year:'numeric',month:'2-digit',
+          day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})
+          .formatToParts(new Date(ms)).forEach(function(x){ P[x.type]=x.value; });
+        return Date.UTC(+P.year,+P.month-1,+P.day,(+P.hour)%24,+P.minute);
+      }
+      function whenToDate(str,tz){
+        if(!str) return null;
+        var naive=/^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(:\d{2})?$/.test(String(str).trim());
+        if(!(naive && tz)){ var d0=new Date(str); return isNaN(d0.getTime())?null:d0; }
+        var m=String(str).trim().match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})/);
+        if(!m) { var d1=new Date(str); return isNaN(d1.getTime())?null:d1; }
+        var want=Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]);
+        var guess=want;
+        try{
+          for(var i=0;i<3;i++){
+            var diff=want-zoneParts(guess,tz);
+            if(!diff) break;
+            guess+=diff;
+          }
+        }catch(e){ return new Date(str); }
+        var out=new Date(guess);
+        return isNaN(out.getTime())?null:out;
+      }
+
       function paintTime(d){
         if(!(d&&!isNaN(d.getTime()))) return false;
         var DAY=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
             MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
-        var hh=d.getHours(), mm=d.getMinutes();
-        var t=((hh%12)||12)+(mm?':'+('0'+mm).slice(-2):'')+(hh<12?'am':'pm');
-        $('slot-val').innerHTML=DAY[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()]+
+        /* The booking platform can pass the zone the appointment was made in, and this
+           page was ignoring it and formatting in whatever zone the device happens to be
+           set to. A man who books on a laptop and opens this on a phone an hour away was
+           shown a time that disagreed with his own confirmation email. */
+        var TZ=qp('tz')||'', P=null;
+        if(TZ){
+          try{
+            P={};
+            new Intl.DateTimeFormat('en-GB',{timeZone:TZ,weekday:'long',day:'numeric',
+              month:'long',hour:'numeric',minute:'2-digit',hour12:true})
+              .formatToParts(d).forEach(function(p){ P[p.type]=p.value; });
+            if(!P.weekday||!P.hour||!P.day||!P.month) P=null;
+          }catch(e){ P=null; }
+        }
+        var dayName,dayNum,monName,t;
+        if(P){
+          dayName=P.weekday; dayNum=P.day; monName=P.month;
+          t=P.hour+(P.minute&&P.minute!=='00'?':'+P.minute:'')+
+            String(P.dayPeriod||'').toLowerCase().replace(/[\s\u202f\u00a0.]/g,'');
+        } else {
+          var hh=d.getHours(), mm=d.getMinutes();
+          dayName=DAY[d.getDay()]; dayNum=d.getDate(); monName=MON[d.getMonth()];
+          t=((hh%12)||12)+(mm?':'+('0'+mm).slice(-2):'')+(hh<12?'am':'pm');
+        }
+        $('slot-val').innerHTML=dayName+' '+dayNum+' '+monName+
           '<em>'+t+' &middot; forty-five minutes, one to one</em>';
         /* a real calendar file, built in his browser, no server needed */
         var end=new Date(d.getTime()+45*60000);
         function z(n){ return ('0'+n).slice(-2); }
         function ics(x){ return x.getUTCFullYear()+z(x.getUTCMonth()+1)+z(x.getUTCDate())+'T'+z(x.getUTCHours())+z(x.getUTCMinutes())+'00Z'; }
         var TITLE='The Style Solve with Lorenzo';
-        var NOTE='Forty-five minutes, one to one. Somewhere quiet, camera on, and near your closet if you can.';
+        var NOTE='Forty-five minutes, one to one. Somewhere quiet, camera on, near your closet if you can.';
         var gcal='https://calendar.google.com/calendar/render?action=TEMPLATE'+
           '&text='+encodeURIComponent(TITLE)+
           '&dates='+ics(d)+'/'+ics(end)+
@@ -598,7 +658,7 @@
       [].forEach.call(RZT.all('[data-cal]'),function(a){
         if(!/^https?:/.test(a.getAttribute('href')||'')){ a.setAttribute('data-inert','1'); a.hidden=true; } });
       window.__rzPaintTime = paintTime;
-      paintTime(when?new Date(when):null);
+      paintTime(whenToDate(when, qp('tz')||''));
       paintTicket();
     }catch(e){}
 
@@ -642,6 +702,12 @@
       var jobs=[].slice.call(RZT.all('.jobs>li'));
 
       function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
+
+      /* Booking again reopens step one, and the worklist is built after the link that
+         does it is wired, so the link needs a way in rather than a reference. */
+      window.__rzSetStep = function(id,on){
+        try{ if(on) state[id]=1; else delete state[id]; save(); paint(); }catch(e){}
+      };
 
       function paint(){
         var n=0;

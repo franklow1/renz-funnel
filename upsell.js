@@ -304,11 +304,18 @@
           }
         }catch(e){}
         film();
-        /* The way out is put into the host's own markup, and their checkout is a server
+        /* The way out goes in straight away, after the copy, because a man who has just
+           been pitched something he did not ask for must always be able to leave. It used
+           to wait for the checkout to draw, or eighteen seconds, whichever came first, so
+           there were eighteen seconds with no way out and nothing to buy.
+           It is MOVED under the checkout below, once there is a checkout to move it under.
+
+           The way out is put into the host's own markup, and their checkout is a server
            rendered app that has not taken it over yet. Put anything in there before it does
            and the hand over fails: the card field never draws and nobody can pay. So this
            waits for the checkout to be genuinely finished, which is the moment the pay
            button exists, and only then does the link go in under it. */
+        wayOut();
         var tries = 0;
         var again = setInterval(function(){
           var live = false;
