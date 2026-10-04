@@ -187,11 +187,52 @@ body:has(#rz-upsell) *:has(#rz-upsell){background:#F4F1EA!important}
    Same ribbon of text down the middle of a laptop as the other two pages had.
    ===================================================================== */
 @media(min-width:1024px){
-  #rz-upsell{--wrap:980px;--pad:40px}
+  #rz-upsell{--wrap:1040px;--pad:40px}
   #rz-upsell section{padding:var(--s8) 0}
-  #rz-upsell h1{font-size:clamp(44px,3.6vw,58px)}
+  #rz-upsell h1{font-size:clamp(44px,3.6vw,56px);margin:0}
   #rz-upsell h2{font-size:32px;line-height:39px}
-  #rz-upsell .body,#rz-upsell .lede{max-width:38ch}
-  #rz-upsell .vid{max-width:720px;margin-left:auto;margin-right:auto}
+  #rz-upsell .body,#rz-upsell .lede{max-width:44ch}
   #rz-upsell .btn{max-width:540px}
+
+  /* THE OPENING. A headline centred over a centred film, with half the monitor
+     either side of both. The sentence and the man saying it are a pair. */
+  #rz-upsell .hero{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);
+   column-gap:var(--s7);align-items:start}
+  #rz-upsell .stamp{grid-column:1 / -1;margin-bottom:var(--s6)}
+  #rz-upsell h1{grid-column:1;grid-row:2;text-align:left}
+  #rz-upsell .sub{grid-column:1;grid-row:3;text-align:left;margin:var(--s4) 0 0;max-width:30ch}
+  #rz-upsell .film{grid-column:2;grid-row:2 / span 2;align-self:center;margin:0;max-width:none}
+
+  /* the argument runs as two columns under the opening rather than as a ribbon down
+     the middle of the monitor with the rest of it empty */
+  #rz-upsell .say{max-width:none;margin-top:var(--s7);
+   column-count:2;column-gap:var(--s7)}
+  #rz-upsell .say p{break-inside:avoid;margin-bottom:var(--s4)}
+
+  /* THREE BEATS. Three parallel statements stacked in a column with two thirds of
+     the screen empty beside them. They are a row, and the line that joins them
+     runs the way the eye does. */
+  #rz-upsell .tape{display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--s6);
+   max-width:none;margin-top:var(--s7)}
+  #rz-upsell .tape:before{left:23px;right:23px;top:23px;bottom:auto;width:auto;height:1px;
+   transform:scaleX(0);transform-origin:left;animation-name:rzu-linex}
+  #rz-upsell .tape li{flex-direction:column;gap:var(--s3);padding-bottom:0}
+  #rz-upsell .tape .cap{padding-top:0}
+
+  /* what he receives: three columns, same as the three beats above them */
+  #rz-upsell .gets{display:grid;grid-template-columns:repeat(3,1fr);column-gap:var(--s5);
+   max-width:none;border-top:1px solid var(--hairline)}
+  #rz-upsell .gets div{border-bottom:0;border-top:0;padding-top:var(--s4)}
+  #rz-upsell .gets p{max-width:none}
+
+  #rz-upsell .once{max-width:46ch}
+  /* the price and the guarantee are one statement in two halves */
+  #rz-upsell .costs{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--s6);
+   align-items:start}
+  #rz-upsell .costs .cost{max-width:34ch;margin-left:0;margin-right:0}
+  #rz-upsell .down{max-width:40ch}
+}
+@keyframes rzu-linex{to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){
+  #rz-upsell .tape:before{animation:none!important;transform:none!important}
 }
