@@ -20,7 +20,7 @@
  <div class="wrap">
   <div class="sc" id="score" hidden>
    <div class="l"><div class="k" id="sc-k">You scored</div>
-    <div class="d">The ones you dropped are facts about you, not taste.</div></div>
+    <div class="d">The points you dropped are facts about you, not taste.</div></div>
    <div class="n"><span id="sc-n">0</span><i>/10</i></div>
   </div>
   <p class="sc-next" id="sc-next" hidden>Here&#8217;s how you get it to ten.</p>
@@ -116,11 +116,11 @@
  <div class="wrap rise">
   <span class="eyeb">The third cut, on twelve pieces</span>
   <h2 id="mg-h">Four of these twelve are doing nothing.</h2>
-  <p class="ch-r" id="mg-r">Tap them and find out which four. On a full rail it is not four. It is most of them.</p>
+  <p class="ch-r" id="mg-r">Go through them and find out which four. On a full rail it is not four. It is most of them.</p>
   <div class="mg" id="mg">
    <div class="mg-top"><span class="mg-num" id="mgn"><i class="blankline sm" aria-hidden="true"></i></span><span class="mg-lab">outfits it<br>makes</span></div>
-   <div class="mg-grid" id="mgg" role="toolbar" aria-orientation="horizontal" aria-label="Tap a piece to see what it goes with"></div>
-   <p class="mg-say" id="mgs" aria-live="polite"><span class="hd">Pick one.</span>Tap anything on the rail and I&#8217;ll show you everything it actually goes with.</p>
+   <div class="mg-grid" id="mgg" role="toolbar" aria-orientation="horizontal" aria-label="Pick a piece to see what it goes with"></div>
+   <p class="mg-say" id="mgs" aria-live="polite"><span class="hd">Pick one.</span>Anything on the rail. I&#8217;ll show you everything it actually goes with.</p>
   </div>
  </div>
 </section>
@@ -188,14 +188,55 @@
   <div class="dr" id="dr">
    <div class="dr-stage">
     <div class="dr-face">
-     <svg viewBox="0 0 180 200" aria-hidden="true" focusable="false">
-      <path class="dr-skin" d="M72 98h36v74H72Z"/>
-      <path class="dr-dull" d="M72 98h36v74H72Z"/>
-      <path class="dr-cloth" d="M0 200v-26c0-16 14-25 34-31l30-9L90 163l26-29 30 9c20 6 34 15 34 31v26Z"/>
-      <path class="dr-collar" d="M64 134 90 163l26-29"/>
-      <path class="dr-skin" d="M90 14c-25 0-40 17-40 42 0 30 18 62 40 62s40-32 40-62c0-25-15-42-40-42Z"/>
-      <path class="dr-hair" d="M90 10c-27 0-43 17-42 44 1 8 3 12 4 12 2 0 1-14 6-19 4-4 12-6 32-6s28 2 32 6c5 5 4 19 6 19 1 0 3-4 4-12 1-27-15-44-42-44Z"/>
-      <path class="dr-dull" d="M90 14c-25 0-40 17-40 42 0 30 18 62 40 62s40-32 40-62c0-25-15-42-40-42Z"/>
+     <span class="dr-k">Drape</span>
+     <!-- The cloth goes on a man, because the whole argument of this scene is what a
+          colour does to a face. It was a flat cartoon with a helmet of black hair and a
+          V cut straight across the bottom of the box, which on a page of real photography
+          read as clipart. It is drawn as a tailor's drape now: soft form on the shoulder,
+          the chin casting onto the cloth, and the bust dissolving into the paper instead
+          of stopping at an edge. The skin is the only thing the swatch is allowed to
+          change, which is the point being made. -->
+     <svg viewBox="0 0 180 216" aria-hidden="true" focusable="false">
+      <defs>
+       <linearGradient id="rz-dr-sh" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity=".2"/>
+        <stop offset=".42" stop-color="#000" stop-opacity=".04"/>
+        <stop offset="1" stop-color="#000" stop-opacity="0"/>
+       </linearGradient>
+       <linearGradient id="rz-dr-side" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#000" stop-opacity=".12"/>
+        <stop offset=".34" stop-color="#000" stop-opacity="0"/>
+        <stop offset=".78" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="1" stop-color="#fff" stop-opacity=".09"/>
+       </linearGradient>
+       <linearGradient id="rz-dr-skin" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity=".16"/>
+        <stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="1" stop-color="#000" stop-opacity=".1"/>
+       </linearGradient>
+       <linearGradient id="rz-dr-fade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff"/>
+        <stop offset=".88" stop-color="#fff"/>
+        <stop offset="1" stop-color="#000"/>
+       </linearGradient>
+       <mask id="rz-dr-mask"><rect x="0" y="0" width="180" height="216" fill="url(#rz-dr-fade)"/></mask>
+      </defs>
+      <g mask="url(#rz-dr-mask)">
+       <path class="dr-skin" d="M79 108h22v24c0 6 4 10 10 12H69c6-2 10-6 10-12Z"/>
+       <path class="dr-shade" d="M79 108h22v24c0 6 4 10 10 12H69c6-2 10-6 10-12Z" opacity=".26"/>
+       <ellipse class="dr-cast" cx="90" cy="114" rx="15" ry="7" opacity=".14"/>
+       <path class="dr-cloth" d="M0 216v-26c0-18 11-29 30-35l26-8c9-3 14-7 15-13l1-6h36l1 6c1 6 6 10 15 13l26 8c19 6 30 17 30 35v26Z"/>
+       <path class="dr-cloth-sh" d="M0 216v-26c0-18 11-29 30-35l26-8c9-3 14-7 15-13l1-6h36l1 6c1 6 6 10 15 13l26 8c19 6 30 17 30 35v26Z"/>
+       <path class="dr-cloth-side" d="M0 216v-26c0-18 11-29 30-35l26-8c9-3 14-7 15-13l1-6h36l1 6c1 6 6 10 15 13l26 8c19 6 30 17 30 35v26Z"/>
+       <ellipse class="dr-cast" cx="90" cy="152" rx="27" ry="10"/>
+       <path class="dr-collar" d="M70 150c6-5 13-8 20-8s14 3 20 8"/>
+       <path class="dr-skin" d="M53 64c-7-1-10 5-9 12 1 8 6 12 11 11Zm74 0c7-1 10 5 9 12-1 8-6 12-11 11Z"/>
+       <path class="dr-skin" d="M90 14c-22 0-37 16-37 43 0 12 1 23 3 32 4 17 15 33 34 33s30-16 34-33c2-9 3-20 3-32 0-27-15-43-37-43Z"/>
+       <path class="dr-shade" d="M90 14c-22 0-37 16-37 43 0 12 1 23 3 32 4 17 15 33 34 33s30-16 34-33c2-9 3-20 3-32 0-27-15-43-37-43Z"/>
+       <path class="dr-hair" d="M90 11c-23 0-38 16-37 41 0 5 1 9 2 11 1 3 4 2 4-2 0-7 2-12 6-15 5-4 14-7 25-10 6-2 10-4 13-7 3 5 9 10 17 13 7 3 9 7 9 19 0 4 3 5 4 2 1-2 2-6 2-11 1-25-14-41-37-41Z"/>
+       <path class="dr-dull" d="M90 14c-22 0-37 16-37 43 0 12 1 23 3 32 4 17 15 33 34 33s30-16 34-33c2-9 3-20 3-32 0-27-15-43-37-43Z"/>
+       <path class="dr-dull" d="M79 108h22v24c0 6 4 10 10 12H69c6-2 10-6 10-12Z"/>
+      </g>
      </svg>
     </div>
     <div class="dr-verd" id="drv" aria-live="polite">
@@ -206,7 +247,7 @@
     </div>
    </div>
    <div class="dr-rail" id="drrail" role="radiogroup" aria-label="Drape a colour"></div>
-   <p class="dr-hint">Tap any of them. <b>Same man, same light.</b> Yours are not these. <b>Yours come off the scan.</b> Then you never guess again.</p>
+   <p class="dr-hint">Pick any of them. <b>Same man, same light.</b> Yours are not these. <b>Yours come off the scan.</b> Then you never guess again.</p>
   </div>
   <p class="ch-p" id="chp2">You walk past a rail and know in one second. That one&#8217;s mine. That one isn&#8217;t.</p>
 
@@ -472,9 +513,6 @@
   <span class="eyeb" id="cl-eyeb">Here&#8217;s what to do next</span>
   <h2 id="cl-h">What have you got coming in the next thirty days?</h2>
   <p class="body mt3" id="cl-b1">A pitch. A dinner. Somewhere you actually want something out of. It&#8217;s happening whether you book this or not. Whoever&#8217;s in there makes their mind up the moment you walk in.</p>
-  <div class="doors">
-   <p class="b">Only one of the two below comes with your money back.</p>
-  </div>
   <p class="costq" id="costq" hidden></p>
   <div class="fork" id="fork">
    <p class="fk-q" id="fk-q">From here there are two of you.</p>
@@ -490,16 +528,16 @@
   </div>
 
   <ol class="next" id="next">
-   <li><span><b>Tap the button and put your details in.</b> Two minutes. Off your list for good.</span></li>
+   <li><span><b>Press the button and put your details in.</b> Two minutes. Off your list for good.</span></li>
    <li><span><b>I send you the scan.</b> You stand in front of your phone, fully dressed. Turn round once. That is the whole of it. Done forever.</span></li>
-   <li><span><b>Forty-five minutes, one to one.</b> You hang up and it&#8217;s done. Next morning you reach without thinking.</span></li>
+   <li><span><b>One call, one to one.</b> You hang up and it&#8217;s done. Next morning you reach without thinking.</span></li>
   </ol>
   <div class="cta" id="cta5">
    <a class="btn" href="#book" data-book id="book"><span class="l1">Book Your Style Solve Call</span><span class="l2" aria-hidden="true">You decide afterwards if it was worth it.</span></a>
    <p class="promise">You decide if it was worth it. <b>If not, every penny back</b> and you keep everything.</p>
    <p class="pace-line" id="pace-line" hidden></p>
   </div>
-  <p class="ps"><b>P.S.</b> <span id="ps-line">Everyone else can see you. You&#8217;re the only one who can&#8217;t.</span> Skipped to the bottom? We scan you once. Your numbers and your colours are set for good. Forty-five minutes runs everything you own through the four cuts. Once. Nothing after it. <a href="#book" data-book>Let&#8217;s fix it.</a></p>
+  <p class="ps"><b>P.S.</b> <span id="ps-line">Everyone else can see you. You&#8217;re the only one who can&#8217;t.</span> Skipped to the bottom? We scan you once. Your numbers and your colours are set for good. One call runs everything you own through the four cuts. Nothing after it. <a href="#book" data-book>Let&#8217;s fix it.</a></p>
  </div>
 </section>
 

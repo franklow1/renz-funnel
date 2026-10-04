@@ -1322,7 +1322,7 @@
      deals:  {n:'close the deal',         who:'a man worth listening to'},
      respect:{n:'get taken seriously',    who:'the senior man in the room'},
      dates:  {n:'get the second look',    who:'a man who has it together'},
-     easy:   {n:'stop thinking about it', who:'a man it comes easy to'}
+     easy:   {n:'stop thinking about it', who:'a man who makes it look easy'}
     };
     var PACEWORD={0:'whenever it happens',1:'over the next few months',2:'within the month',3:'as soon as possible'};
 
@@ -2606,7 +2606,7 @@
     var first='';
 
     var goal=qp('goal')||st.goal||'';
-    var GOAL={run:'the man who runs it',easy:'the man it comes easy to',best:'the best of you'};
+    var GOAL={run:'the man who runs it',easy:'the man who makes it look easy',best:'the best of you'};
 
     /* =====================================================================
        THE FITTING. every answer he gave the quiz is written back into this
@@ -2689,7 +2689,7 @@
     /* ---------- the four worlds. what he said he wanted decides the argument ---------- */
     var WORLD={
      deals:{
-      fps:['And Walk In Already Believed','And Stop Guessing At The Rail','And Own The Room Before You Speak','And Never Get It Wrong Again','And Be The Man They Expected','And Look The Part In Every Meeting','And Settle It In Forty Five Minutes'],
+      fps:['And walk in already believed','And stop guessing at the rail','And own the room before you speak','And never get it wrong again','And be the man they expected','And look the part in every meeting','And settle it in forty-five minutes'],
       vlabel:'Why they decide before the pitch starts',
       trial:'If you walked into that pitch and they already had you down as safe hands, would that be worth forty-five minutes?',
       blame:'And none of that is a taste problem. The jacket that pulls across your back was cut for a fit model in a factory. The shirt you keep reaching for was chosen in a shop by a man paid to move stock. Every one of those calls was made for you, by someone who had never once looked at you.',
@@ -2702,7 +2702,7 @@
       dkrh:'Waiting until the next one closes?',
       dkrp:'Count the pitches between now and then. <b>Which of them are you happy to walk into as you are?</b>',
       dkaft:'After this, every one of those mornings ends with you walking in already believed.',
-      cta:'Believed before you speak. That is the whole of it.', fp:'And Look The Part In Every Meeting',
+      cta:'Believed before you speak. That is the whole of it.', fp:'And look the part in every meeting',
       forkDo:'And whoever is in the next room decides what you are worth before you have sat down.',
       forkBk:'Then every room you walk into gets the man they were hoping would walk in.',
       naRoom:'The next pitch',
@@ -2716,7 +2716,6 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'What\u2019s the next thing you\u2019re pitching for?',
       clb1:'It is already in the diary. The people across that table make their mind up before you get a word out.',
-      cldoors:'So you have two. Walk into that one as you are. It costs you nothing today. It costs you a bit of every room after. Or forty-five minutes, once. Then you walk in already read correctly.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Tables that made their mind up before you spoke.',
       ifall:'Say it did nothing except stop one table deciding what you were worth before you spoke. <b>Worth ninety-nine pounds?</b>',
       notfor:'If you actually enjoy the shopping, this is not for you. It is for the man who wants the result and has no interest in the process.',
@@ -2725,7 +2724,7 @@
       who:'a man worth listening to', win:'being believed the first time'
      },
      respect:{
-      fps:['And Be Taken Seriously From The Start','And Stop Guessing At The Rail','And Get The Benefit Of The Doubt','And Never Get It Wrong Again','And Be Read The Way You Meant','And Be Taken Seriously From The Start','And Settle It In Forty Five Minutes'],
+      fps:['And be taken seriously from the start','And stop guessing at the rail','And get the benefit of the doubt','And never get it wrong again','And be read the way you meant','And be taken seriously from the start','And settle it in forty-five minutes'],
       vlabel:'Why they read your age before they read your work',
       trial:'If forty-five minutes meant you never had to prove you belong again, would you give it the forty-five minutes?',
       blame:'And none of that is a taste problem. Clothes cut for a body that is not yours always read as borrowed. Borrowed reads as young. Nobody ever handed you the numbers that fix it, so you have been guessing at it for years.',
@@ -2738,7 +2737,7 @@
       dkrh:'Waiting until you\u2019re more established?',
       dkrp:'Count the rooms between now and then. <b>Which of them are you happy to be read wrong in?</b>',
       dkaft:'After this, every one of those mornings ends with you read as the senior man before you open your mouth.',
-      cta:'Taken seriously, before you say anything worth taking seriously.', fp:'And Be Taken Seriously From The Start',
+      cta:'Taken seriously, before you say anything worth taking seriously.', fp:'And be taken seriously from the start',
       forkDo:'And whoever is in the next room decides how seriously to take you before you open your mouth.',
       forkBk:'Then they read you as the senior man in every room, before you say anything senior.',
       naRoom:'The next room',
@@ -2752,7 +2751,6 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'What\u2019s the next room you\u2019d rather walk into already taken seriously?',
       clb1:'It is already in the diary. Everyone in it makes their mind up about you before you say a word.',
-      cldoors:'So you have two. Walk into that room as you are. It costs you nothing today. It costs you the first twenty minutes of every room after. Or forty-five minutes, once. Then you stop starting from behind.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Rooms where you had to win back ground you never should have lost.',
       ifall:'Say it did nothing except stop one table reading you as the junior man before you spoke. <b>Worth ninety-nine pounds?</b>',
       notfor:'If being read correctly on the way in does not matter to you, this is not for you. It is for the man who is tired of proving it twice.',
@@ -2761,7 +2759,7 @@
       who:'the senior man in the room', win:'being taken seriously'
      },
      dates:{
-      fps:['And Get The Second Look On Purpose','And Stop Guessing At The Rail','And Be The One They Remember','And Never Get It Wrong Again','And Turn Up As The Best Of You','And Be The One People Notice','And Settle It In Forty Five Minutes'],
+      fps:['And get the second look on purpose','And stop guessing at the rail','And be the one they remember','And never get it wrong again','And turn up as the best of you','And be the one people notice','And settle it in forty-five minutes'],
       vlabel:'Why one shirt gets the second look and the next one doesn\u2019t',
       trial:'If you knew which colours make you look your best, for good, would you wear them?',
       blame:'And none of that is taste. It is your colouring. It was decided before you had a say in it. Nobody has ever told you what it is. So you pick in shop light, in front of a mirror that is kind to everyone.',
@@ -2774,7 +2772,7 @@
       dkrh:'Waiting until you\u2019ve sorted a few other things first?',
       dkrp:'Count the nights out between now and then. <b>Which of them are you happy to be forgotten after?</b>',
       dkaft:'After this, every one of those mornings ends with you being the one they look at twice.',
-      cta:'The second look, on purpose, every time.', fp:'And Be The One People Notice',
+      cta:'The second look, on purpose, every time.', fp:'And be the one people notice',
       forkDo:'And the next one looks past you for the same reason the last one did.',
       forkBk:'Then you are the one they look at twice, on purpose, every time.',
       naRoom:'The next night out',
@@ -2788,7 +2786,6 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'Where are you going this month that you\u2019d rather not turn up to guessing?',
       clb1:'It is already in the diary. The first thing anyone there gets of you is the three seconds before you say hello.',
-      cldoors:'So you have two. Turn up exactly as you are and hope it was the right shirt, which is what you have been doing. Or forty-five minutes, once. Then you stop hoping.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Whole evenings where you were the same man in the wrong shirt.',
       ifall:'Say it did nothing except make you the one they looked at twice on one evening out. <b>Worth ninety-nine pounds?</b>',
       notfor:'If you like the guessing, this is not for you. It is for the man who would rather know.',
@@ -2797,7 +2794,7 @@
       who:'a man who has it together', win:'the second look'
      },
      easy:{
-      fps:['And Never Think About It Again','And Stop Guessing At The Rail','And Reach In Without Looking','And Get It Right Without Trying','And Never Get It Wrong Again','And Never Think About It Again','And Settle It In Forty Five Minutes'],
+      fps:['And never think about it again','And stop guessing at the rail','And reach in without looking','And get it right without trying','And never get it wrong again','And never think about it again','And settle it in forty-five minutes'],
       vlabel:'Why a full rail still leaves you with nothing to wear',
       trial:'If getting dressed stopped being a decision, for good, in forty-five minutes, would you give it the forty-five minutes?',
       blame:'And it is not that you own nothing. Nothing in there was picked to go with anything else. So every morning you start the same puzzle again, with the same pieces missing. That is not a discipline problem. It is a missing-information problem.',
@@ -2810,7 +2807,7 @@
       dkrh:'Waiting until you\u2019ve got a quiet week?',
       dkrp:'Count the mornings between now and then. <b>How many of those do you want to spend deciding?</b>',
       dkaft:'After this, not one of those mornings costs you a thought.',
-      cta:'Off your list. It stays off it.', fp:'And Never Think About It Again',
+      cta:'Off your list. It stays off it.', fp:'And never think about it again',
       forkDo:'And every one of those mornings ends the same way it ended today, with you not quite sure.',
       forkBk:'Then you reach in without looking. It is off your list for good.',
       naRoom:'Tomorrow morning',
@@ -2824,13 +2821,12 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'How many more mornings do you want to spend deciding?',
       clb1:'Another month of mornings ahead of you. Every one is another go at the same puzzle.',
-      cldoors:'So you have two. Keep deciding every morning. It costs you nothing today. It costs you a bit of sureness every day after. Or forty-five minutes, once. Then it is closed.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Mornings you walked out of not knowing.',
       ifall:'Say it did nothing except take the guessing out of every morning you have left. <b>Worth ninety-nine pounds?</b>',
       notfor:'If clothes are a hobby of yours, this is not for you. It is for the man who wants the question closed, not opened.',
       trial2:'That handful is the reason the rest is just weight on a rail. Forty-five minutes and there is nothing left in there to get wrong. Give it the forty-five?',
       ps:'You\u2019ve spent years on a question that takes forty-five minutes to close.',
-      who:'a man it comes easy to', win:'never thinking about it'
+      who:'a man who makes it look easy', win:'never thinking about it'
      }
     };
 
@@ -2853,7 +2849,7 @@
              line:'So chapter two below is yours. Nobody has ever handed you your own colouring, which is why you have been guessing at it in shop light.'},
       goes :{row:'nothing goes together', ch:3, faq:4,
              lead:'Your things don\u2019t go together.',
-             line:'So the third cut is the one that decides your closet. The twelve pieces on this page are the same thing, smaller. Tap any one of them and watch how few of the others it goes with.'},
+             line:'So the third cut is the one that decides your closet. The twelve pieces on this page are the same thing, smaller. Pick any one of them and watch how few of the others it goes with.'},
       buy  :{row:'nowhere obvious to buy', ch:1, faq:3,
              lead:'You wouldn\u2019t know where to buy.',
              line:'Which is a sizing problem wearing a shopping problem\u2019s coat. Once you know your own numbers the shops sort themselves out, because most of them stop applying.'},
@@ -3158,10 +3154,10 @@
       /* he said he cannot open the doors and know what to reach for. so the grid is his. */
       if(YOU.reach==='0'){
        txt('mg-h','You can\u2019t open those doors and know what to reach for.');
-       txt('mg-r','This is why. Tap any piece and watch how few of the others it actually goes with. Four of these twelve are doing nothing at all.');
+       txt('mg-r','This is why. Pick any piece and watch how few of the others it actually goes with. Four of these twelve are doing nothing at all.');
       } else if(YOU.reach==='1'){
        txt('mg-h','You know what to reach for. Let\u2019s put a number on it.');
-       txt('mg-r','Tap any piece and see how many outfits it is really part of. Most men who know what to reach for are reaching for the same four things.');
+       txt('mg-r','Pick any piece and see how many outfits it is really part of. Most men who know what to reach for are reaching for the same four things.');
       }
 
       /* whether or not he can read a room, it is the one place he cannot see himself. */
@@ -3246,7 +3242,7 @@
       try{
        var dh=RZ.one('.dr-hint');
        if(dh&&(YOU.block==='suits'||YOU.worst==='suits')){
-        dh.innerHTML='Tap any of them. <b>Same man, same light.</b> This is the cut you came here about. Yours are not on this rail. <b>Yours come off the scan.</b> Then you never guess again.';
+        dh.innerHTML='Pick any of them. <b>Same man, same light.</b> This is the cut you came here about. Yours are not on this rail. <b>Yours come off the scan.</b> Then you never guess again.';
        }
       }catch(e){}
 
@@ -3684,17 +3680,6 @@
        return '<button type="button" class="dr-sw" role="radio" aria-checked="false" tabindex="'+(i?-1:0)+
         '" style="--c:'+x.c+'" data-i="'+i+'" aria-label="'+esc(x.n)+'"></button>'; }).join('');
       var sws=[].slice.call(rail.children);
-      /* lift the fade once there is nothing left to scroll to, and keep it lifted on any
-         screen wide enough to show all eight at once */
-      function railEnd(){
-        try{
-          var done=rail.scrollLeft+rail.clientWidth>=rail.scrollWidth-2;
-          rail.classList.toggle('rail-end',done);
-        }catch(e){}
-      }
-      rail.addEventListener('scroll',railEnd,{passive:true});
-      window.addEventListener('resize',railEnd,{passive:true});
-      railEnd();
       function paint(x){ nm.textContent=x.n; wd.textContent=x.ok?'This one works.':'This one fights you.'; rs.textContent=x.r; }
       function pick(i,focus){
        if(i===cur) return; var x=SW[i];
@@ -4111,7 +4096,7 @@
       var dn=$('fk-do'), bk=$('fk-bk');
       if(W2&&dn&&bk){
         var lead = (YOU.days!=null&&YOU.days<=18)
-          ? 'The next thirty mornings go the way the last thirty went. '+YOU.days+' of them yours, the rest of them hoping.'
+          ? 'The next month goes the way the last one went. '+YOU.days+' mornings yours, the rest of them hoping.'
           : (YOU.reach==='0'
             ? 'Tomorrow you open those doors and nothing in there is an obvious yes, same as this morning.'
             : 'Tomorrow goes the way this morning went. So does the one after it.');

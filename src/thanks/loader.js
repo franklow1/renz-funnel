@@ -532,13 +532,13 @@
         var hh=d.getHours(), mm=d.getMinutes();
         var t=((hh%12)||12)+(mm?':'+('0'+mm).slice(-2):'')+(hh<12?'am':'pm');
         $('slot-val').innerHTML=DAY[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()]+
-          '<em>'+t+' &middot; forty five minutes, one to one</em>';
+          '<em>'+t+' &middot; forty-five minutes, one to one</em>';
         /* a real calendar file, built in his browser, no server needed */
         var end=new Date(d.getTime()+45*60000);
         function z(n){ return ('0'+n).slice(-2); }
         function ics(x){ return x.getUTCFullYear()+z(x.getUTCMonth()+1)+z(x.getUTCDate())+'T'+z(x.getUTCHours())+z(x.getUTCMinutes())+'00Z'; }
         var TITLE='The Style Solve with Lorenzo';
-        var NOTE='Forty five minutes, one to one. Somewhere quiet, camera on, and near your closet if you can.';
+        var NOTE='Forty-five minutes, one to one. Somewhere quiet, camera on, and near your closet if you can.';
         var gcal='https://calendar.google.com/calendar/render?action=TEMPLATE'+
           '&text='+encodeURIComponent(TITLE)+
           '&dates='+ics(d)+'/'+ics(end)+
