@@ -296,11 +296,34 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d6 .card svg{max-height:10vh}
 #rz-quiz .sc.d4 .gwrap{min-height:84px}
 #rz-quiz .sc.d5 .gwrap,#rz-quiz .sc.d6 .gwrap{min-height:56px;padding:6px 0}
+/* ---------- who is asking. only on the first screen, and it shrinks with the ladder ---------- */
+#rz-quiz .brandmark{display:flex;flex-direction:column;align-items:center;gap:9px;
+ margin:0 auto 16px;flex:0 0 auto}
+#rz-quiz .bm-face{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:50% 26%;
+ box-shadow:0 0 0 1px rgba(8,8,11,.12)}
+#rz-quiz .bm-sig{width:112px;height:auto;opacity:.9}
+#rz-quiz .sc.d1 .brandmark{gap:7px;margin-bottom:12px}
+#rz-quiz .sc.d1 .bm-face{width:54px;height:54px} #rz-quiz .sc.d1 .bm-sig{width:100px}
+#rz-quiz .sc.d2 .brandmark{gap:6px;margin-bottom:10px}
+#rz-quiz .sc.d2 .bm-face{width:48px;height:48px} #rz-quiz .sc.d2 .bm-sig{width:90px}
+#rz-quiz .sc.d3 .brandmark{gap:5px;margin-bottom:9px}
+#rz-quiz .sc.d3 .bm-face{width:42px;height:42px} #rz-quiz .sc.d3 .bm-sig{width:80px}
+#rz-quiz .sc.d4 .brandmark{gap:4px;margin-bottom:7px}
+#rz-quiz .sc.d4 .bm-face{width:36px;height:36px} #rz-quiz .sc.d4 .bm-sig{width:68px}
+#rz-quiz .sc.d5 .brandmark,#rz-quiz .sc.d6 .brandmark{gap:4px;margin-bottom:6px}
+#rz-quiz .sc.d5 .bm-face,#rz-quiz .sc.d6 .bm-face{width:30px;height:30px}
+#rz-quiz .sc.d5 .bm-sig,#rz-quiz .sc.d6 .bm-sig{width:56px}
 #rz-quiz .fld{width:100%;background:var(--fill);border:0;border-radius:16px;padding:19px 18px;font:inherit;
  font-size:var(--f6);font-weight:600;color:var(--ink);
  -webkit-user-select:text;user-select:text}
 #rz-quiz .fld:focus{outline:2px solid var(--ink);outline-offset:-2px}
 #rz-quiz .fld::placeholder{color:var(--ink3);font-weight:400}
+/* an address that cannot work says so. a button that is simply grey reads as a broken page. */
+#rz-quiz .fld.bad{box-shadow:inset 0 0 0 2px #B2342C}
+#rz-quiz .fld.bad:focus{outline-color:#B2342C}
+#rz-quiz .eml-err{margin-top:10px;font-size:var(--f2);line-height:1.45;color:#B2342C;
+ font-weight:600;text-wrap:pretty;text-align:center}
+#rz-quiz .eml-err[hidden]{display:none!important}
 #rz-quiz .slab{text-align:center;font-size:var(--f1);color:var(--ink3);font-weight:700;
  letter-spacing:var(--trk-caps);text-transform:uppercase}
 #rz-quiz .sval{text-align:center;font-size:54px;font-weight:800;letter-spacing:-.045em;line-height:1.05;
@@ -480,11 +503,13 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .o.on,#rz-quiz .chk.on i,#rz-quiz .emo span.on,#rz-quiz .grid.s2 .cell.g{transform:none!important}}
 /* The sticky bar slides on transform. Give it its own layer so the slide is composited,
    not repainted over a twenty thousand pixel page. */
-/* NO STICKY BAR. Frank's call: a bar that slides itself over the page as he scrolls is
-   the thing that judders, and the page already carries nine places to book. It is hidden
-   rather than cut out of the markup so nothing else that references it can break, and the
-   observers that drove it never start, so scrolling does no work on its behalf at all. */
-#rz-page .stick{display:none!important}
+/* THE STICKY BAR, back at Lorenzo's request and rebuilt so it cannot judder.
+   It was killed because it slid in and out continuously: the old rule hid it whenever
+   any of the nine buttons OR any full screen scene was on screen, which on this page is
+   most of the time, so it flickered the whole way down. It now latches on once, the
+   first time he scrolls past the first button, and only steps aside while a real button
+   is actually in front of him. Nothing drives it but two observers and a transform. */
+#rz-page .stick{will-change:transform;contain:layout paint}
 
 /* ---------------------------------------------------------------- the paper
    The page's paper texture is painted on #rz-page. While the funnel is floating that
@@ -528,6 +553,34 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 .order-bump-container .bump-headline:after{
   content:var(--rz-bump-price,"");margin-left:9px;color:#8A6A3B!important;
   font-weight:700!important;white-space:nowrap}
+/* Typography only, never layout. The builder's own grid stays exactly as it is: the
+   checkout is the one thing on this page we cannot afford to break, so nothing here
+   moves a box, it only recolours and re-letters what is already in it. */
+.container-order-form-two-step,.c-order,[id^="one-step-order-"]{
+  font-family:"Cabin","Gill Sans","Gill Sans MT",system-ui,sans-serif!important}
+.container-order-form-two-step .form-heading,
+[id^="one-step-order-"] .form-heading{
+  font-family:"Newsreader","Libre Caslon Text",Georgia,serif!important;
+  letter-spacing:-.012em!important}
+.container-order-form-two-step label,[id^="one-step-order-"] label{
+  color:#4A4843!important;font-weight:600!important;letter-spacing:.01em!important}
+.container-order-form-two-step input[type="text"],
+.container-order-form-two-step input[type="email"],
+.container-order-form-two-step input[type="tel"],
+[id^="one-step-order-"] input[type="text"],
+[id^="one-step-order-"] input[type="email"],
+[id^="one-step-order-"] input[type="tel"]{
+  border-radius:3px!important;border-color:#D8D2C4!important;
+  background:#FBF9F4!important;color:#20211F!important}
+.container-order-form-two-step input:focus,[id^="one-step-order-"] input:focus{
+  border-color:#8A6A3B!important;outline:none!important;
+  box-shadow:0 0 0 2px rgba(138,106,59,.18)!important}
+/* the one button that takes his money wears the same ink as every other button here */
+[id^="one-step-order-"] .form-btn,.container-order-form-two-step .form-btn{
+  background:#15130F!important;border-color:#15130F!important;border-radius:0!important;
+  font-family:"Newsreader","Libre Caslon Text",Georgia,serif!important;
+  font-weight:600!important;letter-spacing:-.01em!important}
+
 /* and the rest of the builder's checkout arrives in a stock blue that fights every
    other colour on a page built out of warm paper and brass */
 .container-order-form-two-step .form-heading{color:#20211F!important;font-weight:700!important}
@@ -942,6 +995,20 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .foot a{color:var(--graphite);text-decoration:none}
 #rz-page a:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
 #rz-page .dark a:focus-visible{outline-color:var(--brass-ink)}
+
+/* ---------- Lorenzo: the portrait, and his own hand at the end of the letter ---------- */
+#rz-page .port{margin:var(--s4) 0 0;padding:0}
+#rz-page .port img{display:block;width:100%;max-width:290px;height:auto;margin:0 auto;
+ border:1px solid var(--rule2)}
+#rz-page .port figcaption{margin-top:10px;text-align:center;
+ font:600 9px/1.6 var(--micro);letter-spacing:.2em;text-transform:uppercase;color:var(--pencil)}
+#rz-page .sign{display:block;width:100%;max-width:170px;height:auto;margin:var(--s4) 0 0;
+ opacity:.88}
+#rz-page .dark .sign{filter:invert(1);opacity:.8}
+@media(min-width:760px){
+ #rz-page .port img{max-width:330px}
+ #rz-page .sign{max-width:195px}
+}
 #rz-page .q{padding:var(--s4) 0;border-top:1px solid var(--hairline)}
 #rz-page .q:last-child{border-bottom:1px solid var(--hairline)}
 #rz-page .stick{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--chalk);border-top:1px solid var(--ink);
@@ -985,9 +1052,11 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .dr-verd .r{display:block;margin-top:var(--s2);font:400 15px/24px var(--text);color:var(--graphite);max-width:22ch}
 #rz-page .dr-verd .w,#rz-page .dr-verd .r{transition:opacity var(--t2) var(--ez)}
 #rz-page .dr-verd.swap .w,#rz-page .dr-verd.swap .r{opacity:0}
-#rz-page .dr-rail{display:flex;gap:7px;margin:var(--s4) 0 0;padding:6px 0 var(--s1);overflow-x:auto;scrollbar-width:none}
+#rz-page .dr-rail{display:flex;gap:7px;margin:var(--s4) 0 0;padding:6px 14px var(--s1) 0;overflow-x:auto;
+ scrollbar-width:none;overscroll-behavior-x:contain}
 #rz-page .dr-rail::-webkit-scrollbar{display:none}
 #rz-page .dr-rail{-webkit-mask-image:linear-gradient(90deg,#000 0 84%,transparent 100%);mask-image:linear-gradient(90deg,#000 0 84%,transparent 100%)}
+#rz-page .dr-rail.rail-end{-webkit-mask-image:none;mask-image:none}
 #rz-page .dr-sw{flex:0 0 auto;position:relative;width:44px;height:56px;border:0;padding:0;cursor:pointer;
  background:var(--c);transform:translate3d(0,0,0);transition:transform .28s var(--ezp);touch-action:manipulation}
 #rz-page .dr-sw:after{content:"";position:absolute;inset:-4px;border:1px solid var(--brass);
@@ -1259,7 +1328,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .sw-h{font:600 10px/1.5 var(--micro);letter-spacing:.2em;text-transform:uppercase;color:var(--brass-ink);
  margin-bottom:var(--s3)}
 #rz-page .sw-tabs{position:relative;display:flex;border-bottom:1px solid var(--ink-rule)}
-#rz-page .sw-tabs button{flex:1 1 0;background:none;border:0;cursor:pointer;padding:11px 4px 13px;
+#rz-page .sw-tabs button{flex:1 1 0;background:none;border:0;cursor:pointer;padding:13px 4px 15px;min-height:44px;
  font:600 12px/1.3 var(--micro);letter-spacing:.12em;text-transform:uppercase;color:var(--chalk-soft);
  transition:color .32s var(--ez)}
 #rz-page .sw-tabs button[aria-selected="true"]{color:var(--chalk)}

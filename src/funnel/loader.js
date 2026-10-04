@@ -18,6 +18,17 @@
   window[FLAG] = true;
 
   var MOUNT_ID = "rz-mount";
+  /* Images live beside this file. Deriving the folder from the script's own URL means the
+     same build works on GitHub Pages, in a local preview and anywhere this is ever moved,
+     instead of pointing at one hardcoded host that is wrong in two of those three places.
+     currentScript is only readable while the file is being parsed, so it is read now. */
+  var ASSETS = (function(){
+    try{
+      var sc = document.currentScript;
+      if (sc && sc.src) return sc.src.replace(/[^/]*$/, '') + 'img/';
+    }catch(e){}
+    return 'https://franklow1.github.io/renz-funnel/img/';
+  })();
   var CSS  = /*@CSS@*/;
   var HTML = /*@HTML@*/;
 
@@ -95,6 +106,61 @@
     }catch(e){}
   }
 
+  /* ---------------------------------------------------------------- the head
+     The builder leaves its own name in the tab and its own favicon on the page, which is
+     the first thing a man sees and the last thing anyone remembers to change. These are
+     set here rather than in the builder so the three pages cannot drift apart, and every
+     one of them is written only if the page has not been given a real one already. */
+  var HEAD = {
+    title: 'The Style Solve · Renz Tailors',
+    desc : 'Forty five minutes, one to one. What fits you, which colours are yours and '
+         + 'what to wear to what. Settled once.',
+    image: ASSETS + 'lorenzo.jpg'
+  };
+  function meta(sel, make){
+    var el=null;
+    try{ el=document.head.querySelector(sel); }catch(e){}
+    if(!el){ el=make(); try{ document.head.appendChild(el); }catch(e){ return null; } }
+    return el;
+  }
+  function setHead(){
+    try{
+      /* a builder's default title is never the page's real one */
+      if(!document.title || /^(untitled|new page|funnel|home)/i.test(document.title)
+         || /highlevel|gohighlevel/i.test(document.title)) document.title = HEAD.title;
+
+      var d = meta('meta[name="description"]', function(){
+        var m=document.createElement('meta'); m.setAttribute('name','description'); return m; });
+      if(d && !(d.getAttribute('content')||'').trim()) d.setAttribute('content', HEAD.desc);
+
+      [['og:title',HEAD.title],['og:description',HEAD.desc],['og:image',HEAD.image],
+       ['og:type','website']].forEach(function(pair){
+        var m=meta('meta[property="'+pair[0]+'"]', function(){
+          var x=document.createElement('meta'); x.setAttribute('property',pair[0]); return x; });
+        if(m && !(m.getAttribute('content')||'').trim()) m.setAttribute('content', pair[1]);
+      });
+      [['twitter:card','summary_large_image'],['twitter:title',HEAD.title],
+       ['twitter:description',HEAD.desc],['twitter:image',HEAD.image]].forEach(function(pair){
+        var m=meta('meta[name="'+pair[0]+'"]', function(){
+          var x=document.createElement('meta'); x.setAttribute('name',pair[0]); return x; });
+        if(m && !(m.getAttribute('content')||'').trim()) m.setAttribute('content', pair[1]);
+      });
+
+      /* the builder's own favicon is replaced outright: it is theirs, not his */
+      [].forEach.call(document.head.querySelectorAll('link[rel~="icon"]'), function(l){
+        if(l.parentNode) l.parentNode.removeChild(l); });
+      var ic=document.createElement('link');
+      ic.setAttribute('rel','icon');
+      ic.setAttribute('type','image/svg+xml');
+      ic.setAttribute('href',"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 44'>"
+        + "<g fill='none' stroke='%239A7B4F' stroke-width='3'><path d='M20 2 V8'/>"
+        + "<path d='M20 8 C 10 8, 6 17, 6 27 C 6 30, 4 31, 4 33 H36 C36 31, 34 30, 34 27 C 34 17, 30 8, 20 8 Z'/>"
+        + "<path d='M20 33 C 17 33, 16 35, 16 36.5 C 16 38.5, 18 40, 20 40 C 22 40, 24 38.5, 24 36.5 C 24 35, 23 33, 20 33 Z'/>"
+        + "</g></svg>");
+      document.head.appendChild(ic);
+    }catch(e){}
+  }
+
   function paint(){
     try{
       var st = document.createElement('style');
@@ -121,7 +187,9 @@
           else (document.body || document.documentElement).appendChild(host);
         }
       }
-      host.innerHTML = HTML;
+      /* the markup carries {{ASSETS}} where an image folder goes, so the same string
+         works wherever this file is served from */
+      host.innerHTML = HTML.split('{{ASSETS}}').join(ASSETS);
     }catch(e){
       if (window.console && console.error) console.error('[RZ] could not paint the funnel', e);
       return false;
@@ -185,6 +253,7 @@
   window.__rzHandover = handover;
 
   function start(){
+    setHead();
     if (!paint()) return;
     /* the funnel's own code, verbatim, with the markup already on the page */
     /* =====================================================================
@@ -563,16 +632,101 @@
         }catch(e){}
         return n;
       };
+      /* ---------------------------------------------------------------- the checkout fields
+         He has already given his name and his email to get his score. Asking for both a
+         second time, on the screen where he is deciding whether to pay, is the one place
+         on this page where friction costs real money.
+
+         Only ever fills a field that is empty, only before he has typed anything himself,
+         and always through real input and change events, because the builder's form is a
+         Vue app and setting .value alone leaves its model empty: the form would look
+         filled in and submit blank. */
+      RZ._typed = false;
+      try{
+        document.addEventListener('input', function(ev){
+          if(!ev.isTrusted) return;
+          var t=ev.target;
+          try{ if(t && t.matches && t.matches('input,textarea') && !t.closest('#rz-funnel')) RZ._typed=true; }catch(e){}
+        }, true);
+      }catch(e){}
+
+      RZ.who = function(){
+        var d={};
+        try{ d=JSON.parse(localStorage.getItem('renz_you')||localStorage.getItem('renz_score')||'{}')||{}; }catch(e){}
+        var who=null; try{ who=JSON.parse(localStorage.getItem('renz_who')||'null'); }catch(e){}
+        var first=(who&&who.f)||d.first||(d.name||'').split(' ')[0]||'';
+        var last =(who&&who.l)||d.last ||(d.name||'').split(' ').slice(1).join(' ')||'';
+        return {first:first, last:last, name:((first+' '+last).trim()||d.name||''), email:d.email||''};
+      };
+
+      function setField(el,val){
+        if(!el || !val) return false;
+        if(el.value && el.value.trim()) return false;      /* never overwrite him */
+        try{
+          var proto = el.tagName==='TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+          var setter = Object.getOwnPropertyDescriptor(proto,'value').set;
+          setter.call(el,val);                              /* past Vue's own value hook */
+          el.dispatchEvent(new Event('input',{bubbles:true}));
+          el.dispatchEvent(new Event('change',{bubbles:true}));
+        }catch(e){ try{ el.value=val; }catch(e2){ return false; } }
+        return true;
+      }
+
+      RZ.fillCheckout = function(){
+        if(RZ._typed || RZ._filled) return 0;
+        var w=RZ.who(); if(!w.name && !w.email) return 0;
+        var root=null;
+        try{ root=document.querySelector('.c-order, [id^="one-step-order-"]'); }catch(e){}
+        if(!root) return 0;
+        function pick(){
+          for(var i=0;i<arguments.length;i++){
+            var el=null; try{ el=root.querySelector(arguments[i]); }catch(e){}
+            if(el && el.offsetParent!==null) return el;
+          }
+          return null;
+        }
+        var n=0;
+        n+=setField(pick('input[name="email"]','input[type="email"]',
+                         'input[name*="mail" i]','input[placeholder*="mail" i]'), w.email)?1:0;
+        var full=pick('input[name="full_name"]','input[name="name"]','input[placeholder*="full name" i]');
+        if(full){ n+=setField(full,w.name)?1:0; }
+        else {
+          n+=setField(pick('input[name="first_name"]','input[name*="first" i]',
+                           'input[placeholder*="first" i]'), w.first)?1:0;
+          n+=setField(pick('input[name="last_name"]','input[name*="last" i]',
+                           'input[placeholder*="last" i]'), w.last)?1:0;
+        }
+        if(n) RZ._filled=true;
+        return n;
+      };
+
+      /* The builder's own bump heading is "Upgrade Your Order & Save!", which promises a
+         saving nobody has quantified and shouts in a page that never shouts. */
+      RZ.BUMP_HEADING = 'Add to your call';
+      RZ.fixBumpHeading = function(){
+        var n=0;
+        try{
+          [].forEach.call(document.querySelectorAll(
+            '.order-bump-container .main-section .headline, .order-bump-container .headline'), function(h){
+            var t=(h.textContent||'').trim();
+            if(!t || t===RZ.BUMP_HEADING) return;
+            if(!/upgrade|save/i.test(t)) return;            /* only the builder's stock line */
+            h.textContent=RZ.BUMP_HEADING; n++;
+          });
+        }catch(e){}
+        return n;
+      };
+
       RZ.watchBumps = function(){
         var t0=Date.now();
         var iv=setInterval(function(){
-          if(RZ.checkoutLive()){ RZ.untickBumps(); RZ.priceBumps(); }
+          if(RZ.checkoutLive()){ RZ.untickBumps(); RZ.priceBumps(); RZ.fillCheckout(); RZ.fixBumpHeading(); }
           if(Date.now()-t0>25000) clearInterval(iv);
         }, 150);
         /* a slower second pair of eyes, for a form the host redraws late on a tired connection */
         var iv2=setInterval(function(){
           if(RZ._userTouched || Date.now()-t0>75000){ clearInterval(iv2); return; }
-          if(RZ.checkoutLive()){ RZ.untickBumps(); RZ.priceBumps(); }
+          if(RZ.checkoutLive()){ RZ.untickBumps(); RZ.priceBumps(); RZ.fillCheckout(); RZ.fixBumpHeading(); }
         }, 900);
       };
 
@@ -685,16 +839,23 @@
          rather than made to answer everything a second time. */
       RZ.resume = function(S){
         if(!S) return false;
-        var d=RZ.readMark();
-        if(!d) return false;
-        var n=0,k;
-        for(k in d.a) if(Object.prototype.hasOwnProperty.call(d.a,k)) n++;
-        if(!n) return false;
-        S.a=d.a;
+        /* The name is restored on its own, before anything else. It used to ride along
+           with the answers, so a refresh on question one, where nothing is answered yet,
+           dropped him back on the name screen with the field empty. */
         var who=null;
         try{ who=JSON.parse(localStorage.getItem('renz_who')||'null'); }catch(e){}
-        if(who&&who.f){                     /* same browser: he is already named, go straight back */
-          S.first=who.f; S.last=who.l||''; S.name=(S.first+' '+S.last).trim();
+        var named=!!(who&&who.f);
+        if(named){ S.first=who.f; S.last=who.l||''; S.name=(S.first+' '+S.last).trim(); }
+
+        var d=RZ.readMark();
+        if(!d){ return named; }
+        var n=0,k;
+        for(k in d.a) if(Object.prototype.hasOwnProperty.call(d.a,k)) n++;
+        /* no answers yet is still a place to come back to, as long as he had moved off
+           the first screen. without this a refresh on question one lost his place. */
+        if(!n && !(d.i>0)) return named;
+        S.a=d.a;
+        if(named){                          /* same browser: he is already named, go straight back */
           S.i=Math.max(0,d.i|0);
         } else {                            /* new browser: name first, then back to his place */
           RZ.resumeTo=Math.max(0,d.i|0);
@@ -950,6 +1111,9 @@
     function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
     function attr(s){ return esc(s).replace(/"/g,'&quot;'); }
     function num(x){ return (Math.round(x*10)/10).toString().replace(/\.0$/,''); }
+    /* every count on these screens comes from his own answers, so any of them can
+       legitimately come back as one. the copy has to survive that. */
+    function pl(n,one,many){ return n===1?one:many; }
 
     /* he has done this once already. send him straight to the page that knows him.
        ?restart=1 puts him back at question one, for testing and for a second go. */
@@ -1048,7 +1212,7 @@
      o:[['\uD83D\uDCBC','More deals closed','Walk in and be believed before I speak','deals'],
         ['\uD83C\uDF96\uFE0F','To be taken seriously','Stop being read as the youngest man in the room','respect'],
         ['\uD83C\uDF77','More attention from women','Be the one who gets looked at twice','dates'],
-        ['\uD83E\uDDE0','To stop thinking about it','No decision to make, and never wrong','easy']]},
+        ['\uD83E\uDDE0','To stop thinking about it','No decision to make. Never wrong','easy']]},
 
     /* not asked. counted, from every answer he has already given. */
     {t:'days',bar:1},
@@ -1094,7 +1258,7 @@
      suits:'chosen for your shape and your colouring',
      goes: 'built so every piece works with every other piece',
      buy:  'already decided, with nothing left to go and find',
-     time: 'done once, and then it stays done',
+     time: 'done once, then it stays done',
      none: 'chosen on purpose, with nothing left to chance'
     };
     var WANTS={
@@ -1280,6 +1444,19 @@
         buzz(); onclick();
       };
     }
+    /* A single choice question has nothing left to decide once he has tapped, so the
+   Continue button is a second tap for no reason. The pause is long enough for the
+   selected state to land, and short enough that it never feels like waiting.
+   Only a pointer triggers it: arrow keys move the radio selection, and advancing
+   on those would make the question impossible to work through on a keyboard.
+   The timer goes through later(), so a screen change cancels any pending advance. */
+    function autoNext(){
+      later(function(){
+        var g=ft.querySelector('#go');
+        if(g && !g.disabled && g.offsetParent!==null) g.click();
+      }, RM?0:300);
+    }
+
     function enterGo(inp){ inp.addEventListener('keydown',function(e){
       if(e.key==='Enter'){ e.preventDefault(); inp.blur();
         var g=ft.querySelector('#go'); if(g&&!g.disabled) g.click(); } }); }
@@ -1290,8 +1467,17 @@
        a middling set of answers lands on four. */
     function goodDays(){
       var R=calc();
-      var d=Math.round(30*Math.pow(Math.max(0,R.total)/10,1.6));
-      return Math.max(0,Math.min(30,d));
+      /* the exponent was 1.6, which squashed every middling answer onto two or
+         three and made the count read as rigged rather than as arithmetic. 1.35
+         keeps it unkind and gives the middle somewhere to sit. */
+      var d=Math.round(30*Math.pow(Math.max(0,R.total)/10,1.35));
+      return Math.max(3,Math.min(30,d));
+    }
+
+    /* nobody owning a closet has one thing in it that works. the floor moves with
+       how much he owns, so a big closet is never reduced to a single piece. */
+    function workFloor(own,worn){
+      return Math.min(worn,Math.max(3,Math.round(own*0.05)));
     }
     function closet(){
       var own=(S.a.own&&S.a.own.v)||70;
@@ -1301,7 +1487,7 @@
          who said almost nothing does, so the two counts stay consistent with each other. */
       var f=(S.a.fitn&&S.a.fitn.v);
       var rate = f===0.70 ? 0.45 : f===0.40 ? 0.22 : f===0.12 ? 0.10 : 0.20;
-      var work=Math.max(1,Math.min(worn,Math.round(worn*rate)));
+      var work=Math.max(workFloor(own,worn),Math.min(worn,Math.round(worn*rate)));
       return {own:own,worn:worn,work:work};
     }
 
@@ -1368,7 +1554,15 @@
       if(Q.t==='name'){
         sc=newsc();
         sc.innerHTML='<div class="gap"></div>'+
-          '<h1>Answer this quick 2 minute questionnaire and get your outfit score out of 10, and how to improve it.</h1>'+
+          /* the first screen is the only one with nothing of his own on it yet, so it is
+             the one place the brand has to say who is asking */
+          '<div class="brandmark">'+
+            '<img class="bm-face" src="'+ASSETS+'lorenzo-face.jpg" alt="" '+
+            'width="360" height="360" fetchpriority="high" decoding="async">'+
+            '<img class="bm-sig" src="'+ASSETS+'lorenzo-signature.png" '+
+            'alt="Lorenzo, Renz Tailors" width="1000" height="467" decoding="async">'+
+          '</div>'+
+          '<h1>Answer this quick 2 minute questionnaire and get your outfit score out of 10 and how to improve it.</h1>'+
           '<p class="sub mt2">Your name to begin.</p>'+
           '<input class="fld mt3" id="nm" type="text" autocomplete="given-name" autocapitalize="words" '+
           'autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="First name" '+
@@ -1472,7 +1666,7 @@
           });
         }
         obs.forEach(function(b,i){
-          b.onclick=function(){ MULTI ? toggle(b) : pickOne(b); };
+          b.onclick=function(){ if(MULTI){ toggle(b); } else { pickOne(b); autoNext(); } };
           b.onkeydown=function(e){
             var k=e.key;
             if(MULTI && (k===' '||k==='Enter')){ e.preventDefault(); toggle(b); return; }
@@ -1522,7 +1716,7 @@
             ybs.forEach(function(x){x.tabIndex=-1;}); pre.tabIndex=0; }
         }
         ybs.forEach(function(b,i){
-          b.onclick=function(){ pickYN(b); };
+          b.onclick=function(){ pickYN(b); autoNext(); };
           b.onkeydown=function(e){
             var k=e.key, d=(k==='ArrowDown'||k==='ArrowRight')?1:(k==='ArrowUp'||k==='ArrowLeft')?-1:0;
             if(!d) return; e.preventDefault();
@@ -1582,7 +1776,7 @@
         var L2=['Open enough closets and the same thing shows up.',
                 'Men use about 30% of what they own. Out of your '+C.own+', that\'s about '+C.worn+'.'];
         var L3=['And of those, only a fifth actually fit the man wearing them.',
-                'His body, his life, and how he wants to be read. Yours comes out at '+C.work+'.'];
+                'His body, his life and how he wants to be read. Yours comes out at '+C.work+'.'];
         /* reserve the tallest of the three states so the grid box never moves */
         function lockHead(){   /* measure a detached clone, so nothing is announced twice */
           var probe=rhead.cloneNode(true), ph=probe.querySelector('#rh'), ps=probe.querySelector('#rs');
@@ -1727,7 +1921,8 @@
         var M1=['A month is thirty days.','Let\'s count the good ones.'];
         var M2=['Your answers say '+D+' of them.',
                 D===0 ? 'Not one day a month where you walk out sure of yourself.'
-                      : D+' days a month you walk out certain of yourself.'];
+                      : D+pl(D,' day a month you walk out certain of yourself.',
+                                ' days a month you walk out certain of yourself.')];
         function lockD(){   /* measure a detached clone, so nothing is announced twice */
           var probe=dhead.cloneNode(true), ph=probe.querySelector('#dh'), ps=probe.querySelector('#ds');
           probe.removeAttribute('id'); ph.removeAttribute('id'); ps.removeAttribute('id');
@@ -1745,7 +1940,7 @@
         lockD();
 
         footer('Continue',true,function(){
-          S.a.days={v:D,label:D+' good days a month',derived:true};
+          S.a.days={v:D,label:D+pl(D,' good day a month',' good days a month'),derived:true};
           track('answer_days',{sid:'days',value:D,derived:1,dwell_ms:dwell()});
           go(S.i+1,'fwd');
         });
@@ -2067,8 +2262,10 @@
           'inputmode="email" autocomplete="email" autocapitalize="none" autocorrect="off" '+
           'spellcheck="false" enterkeyhint="go" aria-label="Email address" placeholder="Email address" '+
           'value="'+attr(S.email)+'">'+
+          '<p class="eml-err" id="emerr" role="alert" hidden>That address does not look right. '+
+          'Check for a typo in the part after the @.</p>'+
           '<p class="cap rise mt2" style="animation-delay:.66s">Your score and the video that '+
-          'explains it. Nothing else, and you can unsubscribe at any time.</p>'+
+          'explains it. You can unsubscribe at any time.</p>'+
           '<div class="gap"></div>';
         var onVsl=scoreOnVsl();
         footer(onVsl?'See my score':'Show my score',
@@ -2085,10 +2282,32 @@
           RZ.lead(leadPayload('vsl_click'));   /* the contact, into GHL */
           RZ.toPage();
         });
-        var ef=sc.querySelector('#em'),gb3=ft.querySelector('#go');
+        var ef=sc.querySelector('#em'),gb3=ft.querySelector('#go'),
+            eerr=sc.querySelector('#emerr'),EMOK=/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
+        /* A disabled button with no reason beside it reads as a broken page. The message
+           waits until he has stopped typing, so it never argues with a half typed address. */
+        function emShow(on){
+          if(!eerr) return;
+          eerr.hidden=!on;
+          ef.classList.toggle('bad',!!on);
+          ef.setAttribute('aria-invalid',on?'true':'false');
+        }
         ef.addEventListener('input',function(){
-          gb3.disabled=!/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(ef.value.trim()); });
+          var ok=EMOK.test(ef.value.trim());
+          gb3.disabled=!ok;
+          if(ok||!ef.value.trim()) emShow(false);
+        });
+        ef.addEventListener('blur',function(){
+          var v=ef.value.trim();
+          emShow(!!v && !EMOK.test(v));
+        });
         enterGo(ef);
+        /* Enter on an address that cannot work says so, rather than doing nothing */
+        ef.addEventListener('keydown',function(e){
+          if(e.key!=='Enter') return;
+          var v=ef.value.trim();
+          if(v && !EMOK.test(v)){ emShow(true); }
+        });
         fit(sc); return;
       }
 
@@ -2109,7 +2328,9 @@
       var b=(S.a.block&&S.a.block.v)||'';
       if(DRAG[b] && m[b]<2.5) worst=b;   /* what he told us outranks a tie break */
       var top=(m.fit===2.5&&m.goes===2.5&&m.room===2.5&&m.suits===2.5);
-      var n=Math.max(1,top?Math.min(10,Math.floor(total)):Math.min(5,Math.floor(total)));
+      /* the floor is two, not one. a man who owns clothes and gets told he is a one
+         out of ten stops reading, and the number stops sounding measured. */
+      var n=Math.max(2,top?Math.min(10,Math.floor(total)):Math.min(5,Math.floor(total)));
       return {n:n,total:total,lo:lo,m:m,worst:worst};
     }
 
@@ -2118,7 +2339,7 @@
       var R=calc(), C=closet(), first=(S.name||'').trim().split(' ')[0];
       /* the working count has to move with his answers, or a nine out of ten
          gets the same verdict as a two and stops believing the number */
-      var work=Math.max(1,Math.min(C.worn,Math.round(C.own*0.06*(R.total/4))));
+      var work=Math.max(workFloor(C.own,C.worn),Math.min(C.worn,Math.round(C.own*0.06*(R.total/4))));
       var days=(S.a.days&&S.a.days.v);
       var w=WANTS[(S.a.want&&S.a.want.v)||'respect'];
       var paceW=PACEWORD[(S.a.pace&&S.a.pace.v)!==undefined?S.a.pace.v:2];
@@ -2430,7 +2651,7 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'What\u2019s the next thing you\u2019re pitching for?',
       clb1:'It is already in the diary. The people across that table make their mind up before you get a word out.',
-      cldoors:'So you have two. Walk into that one as you are. It costs you nothing today. It costs you a bit of every room after. Or forty five minutes, once, and you walk in already read correctly.',
+      cldoors:'So you have two. Walk into that one as you are. It costs you nothing today. It costs you a bit of every room after. Or forty five minutes, once. Then you walk in already read correctly.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Tables that made their mind up before you spoke.',
       ifall:'Say it did nothing except stop one table deciding what you were worth before you spoke. <b>Worth ninety nine pounds?</b>',
       notfor:'If you actually enjoy the shopping, this is not for you. It is for the man who wants the result and has no interest in the process.',
@@ -2442,7 +2663,7 @@
       fps:['And Be Taken Seriously From The Start','And Stop Guessing At The Rail','And Get The Benefit Of The Doubt','And Never Get It Wrong Again','And Be Read The Way You Meant','And Be Taken Seriously From The Start','And Settle It In Forty Five Minutes'],
       vlabel:'Why they read your age before they read your work',
       trial:'If forty five minutes meant you never had to prove you belong again, would you give it the forty five minutes?',
-      blame:'And none of that is a taste problem. Clothes cut for a body that is not yours always read as borrowed, and borrowed reads as young. Nobody ever handed you the numbers that fix it, so you have been guessing at it for years.',
+      blame:'And none of that is a taste problem. Clothes cut for a body that is not yours always read as borrowed. Borrowed reads as young. Nobody ever handed you the numbers that fix it, so you have been guessing at it for years.',
       dkeyeb:'What it\u2019s actually for',
       dkh:'You don\u2019t look good. You look senior. And you know it before you\u2019re out the front door.',
       dkb1:'You walk into the room. Nobody talks over you and nobody waits for somebody else to answer. Your sentences finish.',
@@ -2466,7 +2687,7 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'What\u2019s the next room you\u2019d rather walk into already taken seriously?',
       clb1:'It is already in the diary. Everyone in it makes their mind up about you before you say a word.',
-      cldoors:'So you have two. Walk into that room as you are. It costs you nothing today. It costs you the first twenty minutes of every room after. Or forty five minutes, once, and you stop starting from behind.',
+      cldoors:'So you have two. Walk into that room as you are. It costs you nothing today. It costs you the first twenty minutes of every room after. Or forty five minutes, once. Then you stop starting from behind.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Rooms where you had to win back ground you never should have lost.',
       ifall:'Say it did nothing except stop one table reading you as the junior man before you spoke. <b>Worth ninety nine pounds?</b>',
       notfor:'If being read correctly on the way in does not matter to you, this is not for you. It is for the man who is tired of proving it twice.',
@@ -2478,7 +2699,7 @@
       fps:['And Get The Second Look On Purpose','And Stop Guessing At The Rail','And Be The One They Remember','And Never Get It Wrong Again','And Turn Up As The Best Of You','And Be The One People Notice','And Settle It In Forty Five Minutes'],
       vlabel:'Why one shirt gets the second look and the next one doesn\u2019t',
       trial:'If you knew which colours make you look your best, for good, would you wear them?',
-      blame:'And none of that is taste. It is your colouring, and it was decided before you had a say in it. Nobody has ever told you what it is. So you pick in shop light, in front of a mirror that is kind to everyone.',
+      blame:'And none of that is taste. It is your colouring. It was decided before you had a say in it. Nobody has ever told you what it is. So you pick in shop light, in front of a mirror that is kind to everyone.',
       dkeyeb:'What it\u2019s actually for',
       dkh:'You don\u2019t look good. You look like you were always going to look like that.',
       dkb1:'You walk in on a Friday. The colour agrees with your face. Nothing about it is trying.',
@@ -2492,17 +2713,17 @@
       forkDo:'And the next one looks past you for the same reason the last one did.',
       forkBk:'Then you are the one they look at twice, on purpose, every time.',
       naRoom:'The next night out',
-      naNow:['You get a look, or you do not, and you have never once known which shirt did it.',
+      naNow:['You get a look, or you do not. You have never once known which shirt did it.',
              'Half your closet flattens your face and you cannot tell which half.',
              'You dress for the occasion, which everyone in the room can spot.'],
       naAft:['You walk in in a colour that agrees with your face, every time, on purpose.',
              'You look like a man who dresses like this, not one who got ready.',
-             'They look twice, and you never find out it was the shirt.'],
+             'They look twice. You never find out it was the shirt.'],
       sec3:'By the time you are through the door, they have decided whether to look twice.',
       cleyeb:'Here\u2019s what to do next',
       clh:'Where are you going this month that you\u2019d rather not turn up to guessing?',
       clb1:'It is already in the diary. The first thing anyone there gets of you is the three seconds before you say hello.',
-      cldoors:'So you have two. Turn up exactly as you are and hope it was the right shirt, which is what you have been doing. Or forty five minutes, once, and you stop hoping.',
+      cldoors:'So you have two. Turn up exactly as you are and hope it was the right shirt, which is what you have been doing. Or forty five minutes, once. Then you stop hoping.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Whole evenings where you were the same man in the wrong shirt.',
       ifall:'Say it did nothing except make you the one they looked at twice on one evening out. <b>Worth ninety nine pounds?</b>',
       notfor:'If you like the guessing, this is not for you. It is for the man who would rather know.',
@@ -2513,7 +2734,7 @@
      easy:{
       fps:['And Never Think About It Again','And Stop Guessing At The Rail','And Reach In Without Looking','And Get It Right Without Trying','And Have Your Mornings Back','And Never Think About It Again','And Settle It In Forty Five Minutes'],
       vlabel:'Why a full rail still leaves you with nothing to wear',
-      trial:'If getting dressed stopped being a decision, for good, and it took forty five minutes, would you give it the forty five minutes?',
+      trial:'If getting dressed stopped being a decision, for good, in forty five minutes, would you give it the forty five minutes?',
       blame:'And it is not that you own nothing. Nothing in there was picked to go with anything else. So every morning you start the same puzzle again, with the same pieces missing. That is not a discipline problem. It is a missing-information problem.',
       dkeyeb:'What it\u2019s actually for',
       dkh:'You don\u2019t look good. You look right. And it cost you nothing to get there.',
@@ -2524,21 +2745,21 @@
       dkrh:'Waiting until you\u2019ve got a quiet week?',
       dkrp:'Count the mornings between now and then. <b>How many of those do you want to spend deciding?</b>',
       dkaft:'After this, not one of those mornings costs you a thought.',
-      cta:'Off your list, and it stays off it.', fp:'And Never Think About It Again',
+      cta:'Off your list. It stays off it.', fp:'And Never Think About It Again',
       forkDo:'And every one of those mornings costs you the same ten minutes it has always cost you.',
-      forkBk:'Then you reach in without looking, and it is off your list for good.',
+      forkBk:'Then you reach in without looking. It is off your list for good.',
       naRoom:'Tomorrow morning',
       naNow:['You stand there and solve the same puzzle you solved yesterday.',
              'You leave in something that will do, which is not the same as right.',
              'A full rail in there and you are picking from the same four.'],
-      naAft:['You get dressed out of whatever is nearest to your hand, and it is right.',
+      naAft:['You get dressed out of whatever is nearest to your hand. It is right.',
              'There is no decision left in it, so there is nothing to get wrong.',
              'You stop thinking about clothes, which was the whole point.'],
-      sec3:'By the time you are through the door it is settled, and you never got a say in it.',
+      sec3:'By the time you are through the door it is settled. You never got a say in it.',
       cleyeb:'Here\u2019s what to do next',
       clh:'How many more mornings do you want to spend deciding?',
       clb1:'Another month of mornings ahead of you. Every one is another go at the same puzzle.',
-      cldoors:'So you have two. Keep deciding every morning. It costs you nothing today. It costs you a few minutes and a bit of sureness every day after. Or forty five minutes, once, and it is closed.',
+      cldoors:'So you have two. Keep deciding every morning. It costs you nothing today. It costs you a few minutes and a bit of sureness every day after. Or forty five minutes, once. Then it is closed.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Mornings you are never getting back.',
       ifall:'Say it did nothing except hand you back every morning you have spent standing in front of that closet. <b>Worth ninety nine pounds?</b>',
       notfor:'If clothes are a hobby of yours, this is not for you. It is for the man who wants the question closed, not opened.',
@@ -2573,33 +2794,33 @@
              line:'Which is a sizing problem wearing a shopping problem\u2019s coat. Once you know your own numbers the shops sort themselves out, because most of them stop applying.'},
       time :{row:'no time for it', ch:1, faq:5,
              lead:'You haven\u2019t got the time.',
-             line:'Then take the short version. We scan you once, you give me forty five minutes once, and it is off your list permanently. That is the entire ask, and everything below this is only the proof of it.'},
+             line:'Then take the short version. We scan you once, you give me forty five minutes once. It is off your list permanently. That is the entire ask. Everything below this is only the proof of it.'},
       none :{row:'nothing major, just sharper', ch:2, faq:1,
              lead:'Nothing major. You just want it sharper than it is.',
              line:'Then it is chapter two you want. Sharper almost always turns out to be colour, because fit you can feel and colour you cannot.'}
      },
      fitn:{
-      '0.7' :{row:'nearly all of it', say:'Nearly everything in there fits you well enough. Well enough is the whole problem, and nobody has ever handed you the numbers that close it.'},
+      '0.7' :{row:'nearly all of it', say:'Nearly everything in there fits you well enough. Well enough is the whole problem. Nobody has ever handed you the numbers that close it.'},
       '0.4' :{row:'about half of it',  say:'About half of what is in there fits you. Which means every morning you are picking from half a closet and paying rent on the rest.'},
       '0.12':{row:'a few pieces',  say:'Only a few of the things in there actually fit you. You already know. What you have never had is the numbers to do anything about it.'}
      },
      /* line two of the before and after comes from his weakest cut, not from what he wants */
      /* the three payoff lines belong to him, not to a generic man */
-     chp1:{'0.7' :'You order at eleven at night, in your own numbers, and you already know to the quarter inch.',
+     chp1:{'0.7' :'You order at eleven at night, in your own numbers. You already know to the quarter inch.',
             '0.4' :'The half of that closet that was only close enough stops being close enough.',
-            '0.12':'You stop buying things that were never going to fit you, and you never guess at a size again.'},
+            '0.12':'You stop buying things that were never going to fit you. You never guess at a size again.'},
      chp2:{deals  :'You walk past a rail and know in one second which one gets you believed.',
             respect:'You walk past a rail and know in one second which one gets you taken seriously.',
             dates  :'You walk past a rail and know in one second which one gets you looked at twice.',
             easy   :'You walk past a rail and know in one second. That one is mine. That one is not.'},
-     chp3:{deals  :'You get dressed without thinking, and walk in already read as the safe pair of hands.',
-            respect:'You get dressed without thinking, and walk in as the senior man in the room.',
-            dates  :'You get dressed without thinking, and you are the one they look at twice.',
-            easy   :'You reach in without looking, and whatever comes out goes with whatever comes out next.'},
+     chp3:{deals  :'You get dressed without thinking and walk in already read as the safe pair of hands.',
+            respect:'You get dressed without thinking and walk in as the senior man in the room.',
+            dates  :'You get dressed without thinking. You are the one they look at twice.',
+            easy   :'You reach in without looking. Whatever comes out goes with whatever comes out next.'},
      rw:{
       fit  :{now:'What you have on was cut for a body close to yours. Not yours. People see that before they see you.',
-             aft:'Because everything on you is cut to your actual measurements, and that reads from across a room.'},
-      suits:{now:'The colour you put on this morning is doing half the talking, and nobody has ever told you what it says.',
+             aft:'Because everything on you is cut to your actual measurements. That reads from across a room.'},
+      suits:{now:'The colour you put on this morning is doing half the talking. Nobody has ever told you what it says.',
              aft:'Because the colour on you was chosen against your own colouring, not guessed at under shop lights.'},
       goes :{now:'And nothing you own quite agrees with anything else, so whatever you put together is an argument.',
              aft:'Because everything still hanging in there agrees with everything else. There is nothing left to get wrong.'},
@@ -2612,7 +2833,7 @@
              q:function(y){ return y.days===0; }},
       few  :{now:'Some mornings you walk out sure. Most of them you walk out hoping.',
              q:function(y){ return y.days!=null&&y.days<=8; }},
-      half :{now:'Half the month you get it right, and you could not tell me why it was those days.',
+      half :{now:'Half the month you get it right. You could not tell me why it was those days.',
              q:function(y){ return y.days!=null&&y.days<=18; }},
       all  :{now:'You get it right nearly every morning and you still could not tell me how you do it.',
              q:function(y){ return y.days!=null&&y.days>=25&&y.reach!=='0'; }},
@@ -2629,9 +2850,9 @@
      },
      worst:{
       fit  :'The points you dropped were fit. That is not taste. That is a measurement nobody has ever taken.',
-      suits:'The points you dropped were what suits you. That is not taste either. It is your colouring, and it is set.',
+      suits:'The points you dropped were what suits you. That is not taste either. It is your colouring. It is set.',
       goes :'The points you dropped were what goes together. Not one of those things is a taste problem.',
-      room :'The points you dropped were how you get read. Which is the one that costs you, and the one you can\u2019t see from inside.'
+      room :'The points you dropped were how you get read. Which is the one that costs you and the one you can\u2019t see from inside.'
      },
      adv:{
       ig     :'No one you follow on Instagram has ever seen the inside of your closet.',
@@ -2716,7 +2937,7 @@
                 suits:'What this is not, before we go anywhere near your colouring.',
                 goes:'What this is not, before we open the doors.',
                 buy:'What this is not, before we talk about what to buy.',
-                time:'What this is not, and none of it will cost you a weekend.',
+                time:'What this is not. None of it will cost you a weekend.',
                 none:'What this is not, before you go any further.'};
         var nh=$('nots-h'); if(nh&&NH[YOU.block]) nh.textContent=NH[YOU.block];
       }
@@ -2746,7 +2967,7 @@
           set('dk-rp',W.dkrp);
         } else if(YOU.pace===3){
           txt('dk-rh','Wanting it done now is the easy part.');
-          set('dk-rp','The only thing between you and it being done is a time in a diary. Forty five minutes, and a two minute scan before it. <b>Take the first slot that works.</b>');
+          set('dk-rp','The only thing between you and it being done is a time in a diary. Forty five minutes, with a two minute scan before it. <b>Take the first slot that works.</b>');
         } else { txt('dk-rh',W.dkrh); set('dk-rp',W.dkrp); }
         /* the four beats that were written for him and had nowhere to go */
         var show=function(id,str){ var e=$(id); if(e&&str){ e.innerHTML=str; e.hidden=false; } };
@@ -2817,7 +3038,7 @@
       if(YOU.fitn!=null){
         var say=RZ.all('#sc-fit .say>p');
         if(say[2]) say[2].textContent=SAYS.fitn[String(YOU.fitn)].say;
-        var OPEN={'0.7':['Most of what you own fits you.','Fits, and close enough, and nobody has ever shown you which is which.'],
+        var OPEN={'0.7':['Most of what you own fits you.','Fits and close enough. Nobody has ever shown you which is which.'],
                   '0.4':['Half of it pulls somewhere.','The other half hangs off you.'],
                   '0.12':['The medium pulls across the chest.','The large hangs off you like your dad\u2019s.']}[String(YOU.fitn)];
         if(OPEN){ if(say[0]) say[0].textContent=OPEN[0]; if(say[1]) say[1].textContent=OPEN[1]; }
@@ -2830,17 +3051,17 @@
         if(asub){ asub.textContent='Watch what happens when all four cuts run against them, one at a time.'; asub.hidden=false; }
         var nl=$('notlist');
         if(nl&&YOU.work&&YOU.worn&&YOU.worn>YOU.work) nl.innerHTML='So you own '+YOU.own+' things. You touch about '+YOU.worn+'. '+
-        'Of those, '+YOU.work+' actually work. <b>That is not a loss.</b> '+
+        'Of those, '+YOU.work+pl(YOU.work,' actually works.',' actually work.')+' <b>That is not a loss.</b> '+
         'The rest were never doing anything for you anyway. You just did not know which ones were carrying you.';
-      else if(nl&&YOU.work) nl.innerHTML='So you own '+YOU.own+' things and '+YOU.work+' of them work. '+
-          'That is not a loss. <b>The other '+(YOU.own-YOU.work)+' were never doing anything for you anyway.</b> '+
+      else if(nl&&YOU.work) nl.innerHTML='So you own '+YOU.own+' things and '+YOU.work+pl(YOU.work,' of them works. ',' of them work. ')+
+          'That is not a loss. <b>The other '+(YOU.own-YOU.work)+pl(YOU.own-YOU.work,' was',' were')+' never doing anything for you anyway.</b> '+
           'You just did not know which ones were carrying you.';
       }
 
       /* his score, and what the dropped points actually were */
       if(YOU.n!=null&&YOU.n>=10){
         var sd10=RZ.one('.sc .d');
-        if(sd10) sd10.textContent='You dropped nothing. What is left is the part you cannot see from inside: your own numbers, and your own colours.';
+        if(sd10) sd10.textContent='You dropped nothing. What is left is the part you cannot see from inside: your own numbers and your own colours.';
       } else if(YOU.worst||YOU.verdict){
         var sd=RZ.one('.sc .d');
         if(sd) sd.textContent = YOU.verdict
@@ -2913,12 +3134,12 @@
            ? 'The reason almost nothing in there fits is that nobody has ever taken these five numbers. <b>Your measurements and your cuts, in writing.</b>'
            : YOU.fitn===0.4
            ? 'The half of that closet that was only close enough stops being a guess. <b>Your measurements and your cuts, in writing.</b>'
-           : 'Close enough has been costing you more than you think, and it is the hardest gap to see from inside. <b>Your measurements and your cuts, in writing.</b>';
+           : 'Close enough has been costing you more than you think. It is the hardest gap to see from inside. <b>Your measurements and your cuts, in writing.</b>';
         }
         var v2=RZ.one('#val li[data-p="209"] p');
         if(v2){
          v2.innerHTML = (YOU.block==='suits'||YOU.worst==='suits')
-           ? 'The question you came here with, closed. <b>Which colours are yours, written down, and which ones have been working against your face.</b>'
+           ? 'The question you came here with, closed. <b>Which colours are yours, written down. Which ones have been working against your face.</b>'
            : YOU.want==='dates'
            ? 'Why you get looked at twice in some shirts and walked past in others. <b>Yours, written down.</b>'
            : 'You stop wondering why you look rested in some shirts and rough in others. <b>Yours, written down.</b>';
@@ -2947,13 +3168,13 @@
       }catch(e){}
 
       /* the forty five minutes counts his own closet */
-      if(YOU.own) txt('ch-d','Forty five minutes, one to one. All '+YOU.own+' of them go through the four cuts, one at a time. Then what to buy next, and what to wear to what.');
+      if(YOU.own) txt('ch-d','Forty five minutes, one to one. All '+YOU.own+' of them go through the four cuts, one at a time. Then what to buy next and what to wear to what.');
 
       /* the colour rail says why his are not on it */
       try{
        var dh=RZ.one('.dr-hint');
        if(dh&&(YOU.block==='suits'||YOU.worst==='suits')){
-        dh.innerHTML='Tap any of them. <b>Same man, same light.</b> This is the cut you came here about, and yours are not on this rail. <b>Yours come off the scan</b>, and then you never guess again.';
+        dh.innerHTML='Tap any of them. <b>Same man, same light.</b> This is the cut you came here about. Yours are not on this rail. <b>Yours come off the scan.</b> Then you never guess again.';
        }
       }catch(e){}
 
@@ -2978,11 +3199,11 @@
        var gt=RZ.one('.gtee .txt');
        var GT={fit:'what fits you, to the quarter inch',
                suits:'which colours are yours and which ones have been working against you',
-               goes:'what in there goes with what, and what you are wearing to the next thing in your diary',
+               goes:'what in there goes with what and what you are wearing to the next thing in your diary',
                buy:'what to buy next and where it comes from',
                time:'what fits you, which colours are yours and what you are wearing to the next thing in your diary',
                none:'which colours are yours and what you are wearing to the next thing in your diary'}[YOU.block];
-       if(gt&&GT) gt.innerHTML='<b>Then decide.</b> If you come off that call and still can\u2019t tell me '+GT+', I haven\u2019t done my job. <b>Say so.</b> It all goes back, no argument, and you keep every bit of it.';
+       if(gt&&GT) gt.innerHTML='<b>Then decide.</b> If you come off that call and still can\u2019t tell me '+GT+', I haven\u2019t done my job. <b>Say so.</b> It all goes back, no argument. You keep every bit of it.';
       }
 
       /* P1-12 the waiting answer belongs to the world he is in, not to one of the four */
@@ -3003,7 +3224,7 @@
                             : {fit:0,suits:1,goes:2,room:3}[YOU.worst];
        var fl2=RZ.all('#failed li');
        if(FIDX!=null&&fl2[FIDX]){ fl2[FIDX].classList.add('mine');
-         var fb=fl2[FIDX].querySelector('b'); if(fb) fb.textContent='every closet, and likely yours'; }
+         var fb=fl2[FIDX].querySelector('b'); if(fb) fb.textContent='every closet, likely yours'; }
       }
 
       /* his objection is the one already open when he gets to the answers */
@@ -3115,7 +3336,7 @@
              which contradicted the score for most men, and a number that does not add up
              costs more than it buys. */
           scn.textContent = n>=4 ? 'Here\u2019s how you get it to ten.'
-          : 'Here\u2019s how you get it to ten, and none of it is about taste.';
+          : 'Here\u2019s how you get it to ten. None of it is about taste.';
                scn.hidden=false; }
       var el=$('sc-n');
       if(RM){ el.textContent=shown; }
@@ -3247,7 +3468,9 @@
         var ce=$('cutend'); if(ce){
           var W=['','One','Two','Three','Four','Five','Six'];
           ce.innerHTML = mine
-            ? '<b>'+end+' left.</b> Out of '+total+'. '+(end<=8
+            ? '<b>'+end+' left.</b> Out of '+total+'. '+(end===1
+                ? 'That is the one piece that has been doing the work all year.'
+                : end<=8
                 ? 'That is the handful that has been doing the work all year.'
                 : 'That is what has been doing the work all year. Everything else in there has been keeping it company.')
             : (W[end]||end)+' left. That\u2019s what you\u2019ve actually been wearing all year.';
@@ -3304,7 +3527,7 @@
               if(!YOU.work||YOU.work>YOU.worn) YOU.work=Math.max(1,Math.round(YOU.worn*0.20));
               if($('ask-h')) $('ask-h').textContent='Open the doors. There are about '+v+' things in there.';
               if($('ask-sub')){ $('ask-sub').textContent='Watch what happens when all four cuts run against them, one at a time.'; $('ask-sub').hidden=false; }
-              if($('ch-d')) $('ch-d').textContent='Forty five minutes, one to one. All '+v+' of them go through the four cuts, one at a time. Then what to buy next, and what to wear to what.';
+              if($('ch-d')) $('ch-d').textContent='Forty five minutes, one to one. All '+v+' of them go through the four cuts, one at a time. Then what to buy next and what to wear to what.';
               var nl2=$('notlist');
               if(nl2) nl2.innerHTML='So you own '+v+' things. You touch about '+YOU.worn+'. Of those, '+YOU.work+
                 ' actually work. <b>That is not a loss.</b> The rest were never doing anything for you anyway. '+
@@ -3360,15 +3583,26 @@
        {c:'#C9CFD4',n:'Ice grey',ok:0,r:'Pulls the blood out of your face. People ask if you are sleeping.'},
        {c:'#6B6A4B',n:'Olive drab',ok:1,r:'Your eyes go from brown to something worth looking at.'},
        {c:'#8E1F3C',n:'Claret',ok:0,r:'The shirt walks in first. Nobody gets to your face.'},
-       {c:'#A9917A',n:'Camel',ok:1,r:'Reads expensive on you, and it is the cheapest thing on the rail.'},
+       {c:'#A9917A',n:'Camel',ok:1,r:'Reads expensive on you. It is the cheapest thing on the rail.'},
        {c:'#F2E7A8',n:'Pale lemon',ok:0,r:'Flattens you out. Same face, half the person.'},
-       {c:'#33322D',n:'Charcoal',ok:1,r:'Quiet, and it makes the jaw do the work.'}
+       {c:'#33322D',n:'Charcoal',ok:1,r:'Quiet. It makes the jaw do the work.'}
       ];
       var rail=$('drrail'),vd=$('drv'),nm=$('drn'),wd=$('drw'),rs=$('drr'),cur=-1,touched=false,swapT=0;
       rail.innerHTML=SW.map(function(x,i){
        return '<button type="button" class="dr-sw" role="radio" aria-checked="false" tabindex="'+(i?-1:0)+
         '" style="--c:'+x.c+'" data-i="'+i+'" aria-label="'+esc(x.n)+'"></button>'; }).join('');
       var sws=[].slice.call(rail.children);
+      /* lift the fade once there is nothing left to scroll to, and keep it lifted on any
+         screen wide enough to show all eight at once */
+      function railEnd(){
+        try{
+          var done=rail.scrollLeft+rail.clientWidth>=rail.scrollWidth-2;
+          rail.classList.toggle('rail-end',done);
+        }catch(e){}
+      }
+      rail.addEventListener('scroll',railEnd,{passive:true});
+      window.addEventListener('resize',railEnd,{passive:true});
+      railEnd();
       function paint(x){ nm.textContent=x.n; wd.textContent=x.ok?'This one works.':'This one fights you.'; rs.textContent=x.r; }
       function pick(i,focus){
        if(i===cur) return; var x=SW[i];
@@ -3557,13 +3791,13 @@
               ? 'Why some of them sit right and the rest are only close, settled in a single number.'
               : 'Why the medium pulls and the large swamps you, settled in a single number.'],
             ['Waist','not taken','The gap between this and your chest is the entire reason off the rack keeps failing you.'],
-            ['Arm','not taken','Why your cuffs sit where they sit, and why you have got into the habit of rolling them.'],
+            ['Arm','not taken','Why your cuffs sit where they sit and why you have got into the habit of rolling them.'],
             ['Leg','not taken','The number that decides whether trousers break once, cleanly, or three times.'],
             ['Your colours','never read', (YOU.block==='suits'||YOU.worst==='suits')
-              ? 'The question you came here with. Which shirts make you look rested, and which ones make people ask if you slept.'
+              ? 'The question you came here with. Which shirts make you look rested and which ones make people ask if you slept.'
               : YOU.want==='dates'
-              ? 'Which shirts get the second look, and which ones make people ask if you slept.'
-              : 'Which shirts make you look rested, and which ones make people ask if you slept.'],
+              ? 'Which shirts get the second look and which ones make people ask if you slept.'
+              : 'Which shirts make you look rested and which ones make people ask if you slept.'],
             ['What suits your face','never read','Collar shape, lapel width, how big a pattern can go. All of it decided by a face nobody has read.'],
             ['Cuts built for you','never listed', YOU.block==='buy'
               ? 'The short list of shapes that work on your body, which is also the answer to where you buy. Most shops stop applying.'
@@ -3583,10 +3817,10 @@
       var K1=known.length, T=known.length+gaps.length;
       $('gc-k').textContent=K1; $('gc-t').textContent=T;
       $('gc-x').textContent = YOU.has
-        ? 'The rest is your own body, and nobody has ever written it down.'
+        ? 'The rest is your own body. Nobody has ever written it down.'
         : 'The rest of it nobody has ever taken.';
       var cap=$('patcap');
-      if(cap&&YOU.has) cap.innerHTML='Everything above that line, anybody could tell you. <b>Everything below it is a fact about your own body that has never once been written down.</b> Forty five minutes fills in the rest, and it stays filled in.';
+      if(cap&&YOU.has) cap.innerHTML='Everything above that line, anybody could tell you. <b>Everything below it is a fact about your own body that has never once been written down.</b> Forty five minutes fills in the rest. It stays filled in.';
       function run(){
         card.classList.add('gc-in');
         var lis=rows.children;
@@ -3788,7 +4022,7 @@
           ? 'The next thirty mornings go the way the last thirty went. '+YOU.days+' of them yours, the rest of them hoping.'
           : (YOU.reach==='0'
             ? 'Tomorrow you open those doors and nothing in there is an obvious yes, same as this morning.'
-            : 'Tomorrow goes the way this morning went, and so does the one after it.');
+            : 'Tomorrow goes the way this morning went. So does the one after it.');
         dn.innerHTML=lead+' <b>'+W2.forkDo+'</b>';
         bk.innerHTML='Forty five minutes, once. <b>'+W2.forkBk+'</b>';
       }
@@ -3913,34 +4147,34 @@
 
     /* ---------- sticky bar: appears once, stays ---------- */
     try{(function(){
-      return;   /* the sticky bar is gone: see the note in the stylesheet */
       var stick=$('stick'), first_cta=$('cta1'); if(!stick||!first_cta) return;
       if(!('IntersectionObserver' in window)) return;
-      var past=false, inScene=0, ctaOn=0;
-      function sync(){ stick.classList.toggle('on', past && !inScene && !ctaOn); }
+      /* latched: once he is past the first button it stays armed for the rest of the
+         page. The old version unlatched every time that button came back into view,
+         which is half the reason it flickered. */
+      var armed=false, ctaOn=0, pend=0;
+      function sync(){
+        if(pend) return;                 /* one paint per frame, never one per observer */
+        pend=requestAnimationFrame(function(){
+          pend=0;
+          stick.classList.toggle('on', armed && ctaOn===0);
+        });
+      }
       new IntersectionObserver(function(e){
-        if(!e[0].isIntersecting && e[0].boundingClientRect.top<0) past=true;
-        else if(e[0].isIntersecting) past=false;
-        sync();
+        if(!e[0].isIntersecting && e[0].boundingClientRect.top<0){ armed=true; sync(); }
       },{threshold:0}).observe(first_cta);
+      /* it only steps aside for a button he can actually see and press. scenes used to
+         hide it too, and on a page built out of scenes that meant hiding it constantly. */
       var cio=new IntersectionObserver(function(es){
         es.forEach(function(e){
           var was=e.target.getAttribute('data-cv')==='1';
           if(was===e.isIntersecting) return;
           e.target.setAttribute('data-cv',e.isIntersecting?'1':'0');
           ctaOn+=e.isIntersecting?1:-1; });
+        if(ctaOn<0) ctaOn=0;
         sync();
       },{threshold:.35});
       [].forEach.call(RZ.all('.cta'),function(c){ cio.observe(c); });
-      var io=new IntersectionObserver(function(es){
-        es.forEach(function(e){
-          var was=e.target.getAttribute('data-vis')==='1';
-          if(was===e.isIntersecting) return;
-          e.target.setAttribute('data-vis',e.isIntersecting?'1':'0');
-          inScene+=e.isIntersecting?1:-1; });
-        sync();
-      },{threshold:0});
-      [].forEach.call(RZ.all('.scene'),function(sc){ io.observe(sc); });
     })();}catch(e){}
 
     /* ---------- the film ----------
