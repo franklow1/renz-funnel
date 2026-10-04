@@ -132,7 +132,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.outR{animation:rzq-outR .18s cubic-bezier(.45,0,.85,.6) both}
 @keyframes rzq-rise{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:none}}
 #rz-quiz .rise{animation:rzq-rise .52s var(--ezs) both}
-#rz-quiz h1,#rz-quiz h2{font-size:var(--f11);line-height:1.14;letter-spacing:-.033em;font-weight:800;
+#rz-quiz h1,#rz-quiz h2{font-size:var(--f11);line-height:1.2;letter-spacing:-.022em;font-weight:500;
  text-wrap:balance;margin-bottom:9px}
 #rz-quiz .sub{color:var(--ink2);font-size:var(--f5);line-height:1.48;text-wrap:pretty}
 #rz-quiz .sub.mid{max-width:330px;margin-left:auto;margin-right:auto}
@@ -155,7 +155,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .o.on{background:var(--sel);color:#fff;box-shadow:inset 4px 0 0 var(--gold)}
 #rz-quiz .o .ic{width:25px;flex:0 0 auto;font-size:var(--f7);line-height:1;text-align:center}
 #rz-quiz .o .tx{flex:1;min-width:0;display:block}
-#rz-quiz .o .t1{display:block;font-size:var(--f5);font-weight:650;line-height:1.26}
+#rz-quiz .o .t1{display:block;font-size:var(--f5);font-weight:550;line-height:1.3}
 #rz-quiz .o .t2{display:block;font-size:var(--f1);color:var(--ink2);margin-top:2px;line-height:1.3;text-wrap:pretty}
 #rz-quiz .o.on .t2{color:rgba(255,255,255,.72)}
 #rz-quiz .o:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
@@ -328,7 +328,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .eml-err[hidden]{display:none!important}
 #rz-quiz .slab{text-align:center;font-size:var(--f1);color:var(--ink3);font-weight:700;
  letter-spacing:var(--trk-caps);text-transform:uppercase}
-#rz-quiz .sval{text-align:center;font-size:54px;font-weight:800;letter-spacing:-.045em;line-height:1.05;
+#rz-quiz .sval{text-align:center;font-size:54px;font-weight:600;letter-spacing:-.045em;line-height:1.05;
  color:var(--goldt);
  margin-top:8px;font-variant-numeric:tabular-nums}
 #rz-quiz .sval.txt{font-size:var(--f10);letter-spacing:-.03em;line-height:1.24;min-height:68px;
@@ -401,7 +401,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .pill.k-own.now{box-shadow:0 0 0 3px #fff,0 0 0 5px #B6B6C2}
 #rz-quiz .pill.k-used.now{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--worn)}
 #rz-quiz .pill.k-work.now{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--gold)}
-#rz-quiz .punch{font-size:var(--f9);font-weight:800;letter-spacing:-.03em;line-height:1.24;text-align:center;
+#rz-quiz .punch{font-size:var(--f9);font-weight:600;letter-spacing:-.03em;line-height:1.24;text-align:center;
  margin-top:14px;margin-bottom:6px;text-wrap:balance;opacity:0;
  transition:opacity .45s var(--ez),transform .45s var(--ezs);transform:translateY(10px)}
 #rz-quiz .punch.show{opacity:1;transform:none}
@@ -430,7 +430,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d5 .cr,#rz-quiz .sc.d6 .cr{padding:4px 2px;font-size:var(--fh)}
 #rz-quiz .sc.d5 .cr .ci,#rz-quiz .sc.d6 .cr .ci{width:19px;font-size:var(--f2)}
 #rz-quiz .sc.d5 .cr .cv,#rz-quiz .sc.d6 .cr .cv{font-size:var(--f0)}
-#rz-quiz .pctbig{font-size:48px;font-weight:800;letter-spacing:-.04em;text-align:center;
+#rz-quiz .pctbig{font-size:48px;font-weight:600;letter-spacing:-.04em;text-align:center;
  font-variant-numeric:tabular-nums;line-height:1}
 #rz-quiz .loadline{height:5px;border-radius:99px;background:var(--fill2);overflow:hidden;margin:20px 0 12px}
 #rz-quiz .loadline i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
@@ -448,10 +448,10 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .dial{position:relative;width:min(46vw,168px);aspect-ratio:1;margin:1.4vh auto 0;flex:0 0 auto}
 #rz-quiz .dial svg{width:100%;height:100%;transform:rotate(-90deg)}
 #rz-quiz .dial .lb{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
-#rz-quiz .dial .n{font-size:min(15vw,60px);font-weight:800;letter-spacing:-.045em;line-height:1;
+#rz-quiz .dial .n{font-size:min(15vw,60px);font-weight:600;letter-spacing:-.045em;line-height:1;
  font-variant-numeric:tabular-nums}
 #rz-quiz .dial .d{font-size:var(--f0);color:var(--ink3);font-weight:700;letter-spacing:var(--trk-caps);margin-top:2px}
-#rz-quiz .verd{text-align:center;font-size:var(--f8);font-weight:800;letter-spacing:-.025em;
+#rz-quiz .verd{text-align:center;font-size:var(--f8);font-weight:600;letter-spacing:-.025em;
  line-height:1.24;margin-top:2.4vh;text-wrap:balance;position:relative;padding-top:2.2vh}
 #rz-quiz .verd:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
  width:38px;height:3px;border-radius:99px;background:var(--gold)}
@@ -459,7 +459,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .pers{text-align:center;font-size:var(--f4);line-height:1.55;color:var(--ink2);margin-top:2vh;
  text-wrap:pretty;max-width:340px;margin-left:auto;margin-right:auto}
 #rz-quiz .pers b{color:var(--goldt);font-weight:700}
-#rz-quiz .cta2{text-align:center;font-size:var(--f7);font-weight:800;letter-spacing:-.02em;margin-top:1.4vh;
+#rz-quiz .cta2{text-align:center;font-size:var(--f7);font-weight:600;letter-spacing:-.02em;margin-top:1.4vh;
  color:var(--goldt);
  text-wrap:balance}
 #rz-quiz .ft{flex:0 0 auto;padding:0 var(--pad) max(18px,env(safe-area-inset-bottom));background:var(--bg);
@@ -468,7 +468,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
  background:linear-gradient(180deg,rgba(8,8,11,0) 0%,rgba(8,8,11,0) 52%,
   rgba(8,8,11,.055) 90%,rgba(8,8,11,.028) 100%)}
 #rz-quiz .btn{width:100%;background:var(--sel);color:#fff;border:0;border-radius:4px;padding:19px;
- font:inherit;font-size:var(--f6);font-weight:700;cursor:pointer;
+ font:inherit;font-size:var(--f3);font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;
  transition:transform .32s var(--ezp),background .3s var(--ez)}
 #rz-quiz .btn:active{transform:scale(.965);transition-duration:.07s,.3s}
 #rz-quiz .btn[disabled]{background:var(--off);color:#fff;pointer-events:none}
@@ -476,6 +476,10 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .legal{font-size:var(--f0);line-height:1.45;color:var(--ink3);text-align:center;padding:8px 8px 0;
  text-wrap:pretty}
 @media (min-width:700px){#rz-quiz{background:#EFECE4}
+/* the mark was sized for a phone screen and disappeared in a 720px card */
+#rz-quiz .bm-sig{width:150px}
+#rz-quiz .bm-rule{width:38px;margin:15px 0 11px}
+#rz-quiz .brandmark{margin-bottom:26px}
 #rz-phone{width:min(640px,100%);margin-inline:auto;border-radius:22px;overflow:hidden;
       box-shadow:0 1px 0 rgba(8,8,11,.05),0 30px 70px -35px rgba(8,8,11,.3)}
 #rz-quiz{--pad:40px;
