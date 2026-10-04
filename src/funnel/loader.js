@@ -369,11 +369,19 @@
            nothing, because GHL cannot map fields out of it. So there is no beacon path any
            more: every post is JSON over fetch, with keepalive so it survives an unload. The
            endpoint answers the preflight with allow-origin:* so a browser may send it. */
+        /* The promise was created and then dropped on the floor, so a 4xx, a 5xx or a
+           dead network all looked exactly like a delivered lead. Worse, nothing ever
+           rejected, so the retry that parks the payload for the next page load could
+           never fire. It is observed now: a non-OK status is a failure like any other,
+           and the caller is handed a promise it can park on. */
         try{
-          fetch(RZ.WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},
-            body:body,keepalive:!!keepalive});
-          return true;
-        }catch(e){ return false; }
+          return fetch(RZ.WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},
+            body:body,keepalive:!!keepalive})
+            .then(function(r){
+              if(!r || !r.ok) throw new Error('webhook HTTP '+(r?r.status:'?'));
+              return true;
+            });
+        }catch(e){ return Promise.reject(e); }
       };
 
       /* the contact, flat and in plain English, because a raw code in a smart list column
@@ -433,7 +441,7 @@
         /* The CRM only hears about him once he has given an email. An abandon carries a
            name and nothing to match on, and a CRM full of names with nothing on them is
            worse than useless. The sheet still gets it, marked abandon, for drop-off counts. */
-        if(flat.email) RZ.post(flat, !!keepalive || p.event==='vsl_click' || p.event==='abandon');
+        if(flat.email) return RZ.post(flat, !!keepalive || p.event==='vsl_click' || p.event==='abandon');
         RZ.sheet(flat);
       };
 
@@ -735,6 +743,11 @@
         function stop(){ try{ if(obs) obs.disconnect(); }catch(e){} if(tick) clearInterval(tick); }
         function pass(){
           if(Date.now()-t0>BUDGET){ stop(); return; }
+          /* most pages carrying this file have no checkout on them. one cheap query
+             before any of the rest, so a page with nothing to fill does nothing. */
+          var root=null;
+          try{ root=document.querySelector('.c-order, [id^="one-step-order-"]'); }catch(e){}
+          if(!root) return;
           try{ RZ.fillCheckout(); RZ.fixBumpHeading(); }catch(e){}
           if(done()) stop();
         }
@@ -2506,8 +2519,13 @@
     }
     function crmPark(b){ try{localStorage.setItem('renz_crm_pending',b);}catch(e){} }
     function crmSend(p,unloading){
-      /* one sender for every event, so GHL sees one shape it can map once */
-      try{ RZ.lead(p,!!unloading); }catch(e){ try{ crmPark(JSON.stringify(p)); }catch(e2){} }
+      /* One sender for every event, so GHL sees one shape it can map once. A failed
+         post is parked for the next page load: RZ.post used to resolve whatever
+         happened, so this retry existed and could never run. */
+      try{
+        var r=RZ.lead(p,!!unloading);
+        if(r && r['catch']) r['catch'](function(){ try{ crmPark(JSON.stringify(p)); }catch(e){} });
+      }catch(e){ try{ crmPark(JSON.stringify(p)); }catch(e2){} }
     }
     (function(){
       /* a post parked by an earlier failed visit, retried the next time he lands */
@@ -3054,6 +3072,9 @@
         /* every button says the same thing: the future he said he wanted, as already true */
         /* every ask future paces what he wants, and no two of them say the same thing */
         var L2=['#cta1 .l2','#cta2 .l2','#cta3 .l2','#cta4 .l2','#cta5 .l2','.stick .l2','#cta-mid .l2'];
+      /* the second line is reinforcement, never part of the button's name: a screen
+         reader was announcing both sentences glued together as one label */
+      try{ [].forEach.call(RZ.all('.btn .l2'),function(e){ e.setAttribute('aria-hidden','true'); }); }catch(e){}
         for(var li=0;li<L2.length;li++){
           var le=RZ.one(L2[li]);
           if(le) le.textContent = (W.fps&&W.fps[li]) || W.fp;
@@ -3446,6 +3467,19 @@
     /* ---------- scene one: being measured ---------- */
     if(RM){ try{ [].forEach.call(RZ.all('#sc-fit .mrow li'),function(li){
       li.style.setProperty('--o','1'); li.lastElementChild.textContent='taken'; }); }catch(e){} }
+    /* the scan is 1.3MB and it is a long way down the page: it is not fetched until
+       the scene that uses it is within a screen of him */
+    try{(function(){
+      var v=RZ.one('.scanvid'), sec=RZ.one('#sc-fit');
+      if(!v||!sec||!('IntersectionObserver' in window)){ if(v) v.preload='auto'; return; }
+      var io=new IntersectionObserver(function(es){
+        if(!es[0].isIntersecting) return;
+        v.preload='auto'; try{ v.load(); }catch(e){}
+        io.disconnect();
+      },{rootMargin:'900px 0px'});
+      io.observe(sec);
+    })();}catch(e){}
+
     try{ scene('#sc-fit',function(sc,p){
       var c=sc._c||(sc._c={vid:sc.querySelector('.scanvid'),
         row:sc.querySelectorAll('.mrow li'),say:sc.querySelectorAll('.say>p'),cap:sc.querySelector('.mcap')});

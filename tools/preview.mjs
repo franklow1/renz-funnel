@@ -44,7 +44,18 @@ for (const [name, p] of Object.entries(PAGES)) {
 <style id="rz-veil-css">html,body{background:${p.bg}!important}#rz-veil{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2147483000;background:${p.bg}}</style>
 <div id="rz-veil"></div>
 <div id="${p.mount}"></div>
-<script src="./${p.js}" defer></script>
+<script id="rz-src" src="./${p.js}" defer></script>
+<script>
+(function(){
+  function lift(){
+    var v=document.getElementById('rz-veil'); if(v&&v.parentNode) v.parentNode.removeChild(v);
+    var c=document.getElementById('rz-veil-css'); if(c&&c.parentNode) c.parentNode.removeChild(c);
+  }
+  var s=document.getElementById('rz-src');
+  if(s) s.addEventListener('error', lift);
+  setTimeout(function(){ if(!window.__rzSettled && !document.getElementById('rz-funnel')) lift(); }, 12000);
+})();
+</script>
 
 </body></html>`;
   writeFileSync('preview/' + name + '.html', page);

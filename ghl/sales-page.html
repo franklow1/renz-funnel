@@ -8,4 +8,19 @@
 <style id="rz-veil-css">html,body{background:#EFECE4!important}#rz-veil{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2147483000;background:#EFECE4}</style>
 <div id="rz-veil"></div>
 <div id="rz-mount"></div>
-<script src="https://franklow1.github.io/renz-funnel/funnel.js" defer></script>
+<script id="rz-src" src="https://franklow1.github.io/renz-funnel/funnel.js" defer></script>
+<script>
+/* If the file never arrives, the sheet of paper over the page must still come off,
+   or the visitor is left looking at a blank rectangle with the builder's own page
+   hidden underneath it. Both the error handler and the timeout below do the same
+   one job, because a script that 404s fires onerror and a script that hangs does not. */
+(function(){
+  function lift(){
+    var v=document.getElementById('rz-veil'); if(v&&v.parentNode) v.parentNode.removeChild(v);
+    var c=document.getElementById('rz-veil-css'); if(c&&c.parentNode) c.parentNode.removeChild(c);
+  }
+  var s=document.getElementById('rz-src');
+  if(s) s.addEventListener('error', lift);
+  setTimeout(function(){ if(!window.__rzSettled && !document.getElementById('rz-funnel')) lift(); }, 12000);
+})();
+</script>
