@@ -1098,7 +1098,11 @@
              every window height, so it reads as a considered panel rather than a slab wedged
              between two edges. Below that width it simply fills, which is right on a phone. */
           var wide = window.innerWidth >= 700;
-          var cap  = wide ? Math.min(940, h - 80) : h;
+          /* 940 was the whole of most windows, so a three option question sat in the middle
+             of an 820px card with a hundred and fifty pixels of nothing above it and the
+             same below. The card is sized to the work instead. The screens that carry more
+             than a question still fit themselves into whatever they are given. */
+          var cap  = wide ? Math.min(window.innerWidth >= 1100 ? 724 : 688, h - 72) : h;
           var ph_h = Math.max(480, Math.min(h, cap)) + 'px';
           if(ph.style.height !== ph_h) ph.style.height = ph_h;
         }
