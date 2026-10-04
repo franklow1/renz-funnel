@@ -181,3 +181,17 @@ body:has(#rz-upsell) *:has(#rz-upsell){background:#F4F1EA!important}
  text-decoration:none!important;font-size:17px!important;line-height:1.35!important;
  margin:0 0 11px!important;font-weight:700!important}
 .order-bump-container .bump--flashing-arrow{display:none!important}
+
+/* =====================================================================
+   DESKTOP
+   Same ribbon of text down the middle of a laptop as the other two pages had.
+   ===================================================================== */
+@media(min-width:1024px){
+  #rz-upsell{--wrap:980px;--pad:40px}
+  #rz-upsell section{padding:var(--s8) 0}
+  #rz-upsell h1{font-size:clamp(44px,3.6vw,58px)}
+  #rz-upsell h2{font-size:32px;line-height:39px}
+  #rz-upsell .body,#rz-upsell .lede{max-width:38ch}
+  #rz-upsell .vid{max-width:720px;margin-left:auto;margin-right:auto}
+  #rz-upsell .btn{max-width:540px}
+}

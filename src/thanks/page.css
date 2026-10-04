@@ -230,3 +230,32 @@ body:has(#rz-thanks) *:has(#rz-thanks){background:#F4F1EA!important}
   font-size:clamp(17px,2.4vw,21px);line-height:1.5;color:var(--graphite);max-width:34ch}
 #rz-thanks .tick-head .lede b{color:var(--ink);font-weight:600}
 #rz-thanks .tick-head .sub{margin-top:var(--s2);font-size:15px;line-height:23px;color:var(--pencil);max-width:38ch}
+/* =====================================================================
+   DESKTOP
+   This page was a 620px column centred in whatever window it was opened in,
+   which on a laptop is a narrow ribbon of text with the work ticket, the film
+   and the calendar stacked one under another down the middle of it.
+   ===================================================================== */
+@media(min-width:1024px){
+  #rz-thanks{--wrap:1000px;--pad:40px}
+  #rz-thanks section{padding:var(--s8) 0}
+  #rz-thanks h1{font-size:clamp(42px,3.4vw,54px);max-width:16ch}
+  #rz-thanks h2{font-size:32px;line-height:39px}
+  #rz-thanks .sub,#rz-thanks .body{max-width:40ch}
+
+  /* the head: what he has to do on the left, the film and his slot on the right */
+  #rz-thanks .tick-head .wrap{display:grid;grid-template-columns:minmax(0,1fr) 440px;
+   column-gap:var(--s7);align-items:start}
+  #rz-thanks .tick-head .ticket{grid-column:1 / -1}
+  #rz-thanks .tick-head h1,#rz-thanks .tick-head .sub{grid-column:1}
+  #rz-thanks .tick-head .slot{grid-column:1;margin-top:var(--s5)}
+  #rz-thanks .tick-head .vid{grid-column:2;grid-row:2 / span 3;max-width:100%;margin:0}
+  /* the calendar is the whole job of this page, so it gets the whole width under them */
+  #rz-thanks .tick-head .cal{grid-column:1 / -1;margin-top:var(--s6)}
+
+  /* the three jobs read as a worklist, not as a column of paragraphs */
+  #rz-thanks .job-in{max-width:52ch}
+  #rz-thanks .leave li{font-size:19px}
+  #rz-thanks .doc{max-width:760px;margin-left:auto;margin-right:auto}
+}
+@media(min-width:1360px){ #rz-thanks{--wrap:1100px} }
