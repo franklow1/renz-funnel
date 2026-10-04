@@ -1399,6 +1399,8 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
  transition:transform .44s cubic-bezier(.3,0,.2,1)}
 #rz-page .sw-tabs.aft .sw-ink{transform:translateX(100%)}
 #rz-page .sw-list{list-style:none;margin:var(--s4) 0 0;min-height:9.4em}
+/* the wide screen version of this section: both halves at once, no tabs */
+#rz-page .sw-pair{display:none}
 #rz-page .sw-list li{position:relative;padding:0 0 var(--s3) 22px;font:400 16px/26px var(--text);
  color:var(--chalk-soft);opacity:0;transform:translateY(var(--lift));
  transition:opacity var(--t3) var(--ez),transform var(--t3) var(--ez)}
@@ -1745,6 +1747,33 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   /* the count is the headline of its own scene, so it is sized like one */
   #rz-page .counter .n{font-size:108px}
   #rz-page .counter .lab{font-size:11px;max-width:12ch}
+
+  /* THE PULL QUOTE. An italic line set at 32ch under two full width rules left the
+     right half of the frame holding nothing. The quote and the answer to it are a
+     pair, so they are set as one. */
+  #rz-page .callout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);
+   column-gap:var(--s6);align-items:center;padding:var(--s5) 0}
+  #rz-page .callout p{font-size:21px;line-height:33px;max-width:40ch}
+  #rz-page .callout p.b{margin-top:0;font-size:23px;line-height:33px;max-width:22ch}
+
+  /* THE SAME ROOM, BEFORE AND AFTER. Two tabs across the full frame with the list
+     under the left one only read as a two column table that failed to fill. The
+     comparison is the whole argument, so on a wide screen both halves are shown. */
+  #rz-page .sw-tabs,#rz-page .sw-list{display:none}
+  #rz-page .sw-pair{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--s6);
+   margin-top:var(--s4);border-top:1px solid var(--ink-rule);padding-top:var(--s4)}
+  #rz-page .sw-col:first-child{padding-right:var(--s5);border-right:1px solid var(--ink-rule)}
+  #rz-page .sw-col:last-child{padding-left:var(--s5)}
+  #rz-page .sw-ch{display:block;margin-bottom:var(--s3);font:600 10px/1.5 var(--micro);
+   letter-spacing:.2em;text-transform:uppercase;color:var(--brass-ink)}
+  #rz-page .sw-col:last-child .sw-ch{color:var(--chalk)}
+  #rz-page .sw-pair ul{list-style:none;margin:0}
+  #rz-page .sw-pair li{position:relative;padding:0 0 var(--s3) 22px;font:400 17px/27px var(--text);
+   color:var(--chalk-soft);max-width:34ch}
+  #rz-page .sw-pair li:before{content:"";position:absolute;left:0;top:13px;width:12px;height:1px;
+   background:var(--ink-rule)}
+  #rz-page .sw-col:last-child li{color:var(--chalk)}
+  #rz-page .sw-col:last-child li:before{background:var(--brass-ink)}
 
   /* the three lines that still ran the full width of the frame. Everything else on
      this page keeps a measure; these did not, so they read as a wall. */

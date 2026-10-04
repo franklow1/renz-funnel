@@ -4123,6 +4123,21 @@
         if(RM) write(); else setTimeout(write,140);
       }
       btns.forEach(function(b){ b.addEventListener('click',function(){ paint(b.getAttribute('data-s')); }); });
+
+      /* On a phone this is a switch, because there is room for one column. On a wide
+         screen the two tabs sat side by side across the whole frame with the list under
+         the left one only, which reads as a two column table that failed to fill. The
+         comparison IS the argument, so on a wide screen both halves are simply shown.
+         Rendered once, here, and which of the two presentations a man gets is CSS. */
+      var pair=document.createElement('div');
+      pair.className='sw-pair';
+      pair.innerHTML=[['now','As you are now',LINES.now],['aft','After the call',LINES.aft]]
+        .map(function(c){
+          return '<div class="sw-col" data-s="'+c[0]+'"><span class="sw-ch">'+esc(c[1])+'</span>'+
+                 '<ul>'+c[2].map(function(r){ return '<li>'+esc(r)+'</li>'; }).join('')+'</ul></div>';
+        }).join('');
+      list.parentNode.insertBefore(pair, list.nextSibling);
+
       paint('now'); box.hidden=false;
       /* he does not have to tap. it turns itself over once, when he gets to it. */
       if(!RM&&'IntersectionObserver' in window){
