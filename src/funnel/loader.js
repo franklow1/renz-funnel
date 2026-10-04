@@ -1596,13 +1596,16 @@
         sc.innerHTML='<div class="gap"></div>'+
           /* the first screen is the only one with nothing of his own on it yet, so it is
              the one place the brand has to say who is asking */
+          /* His own documents put no photograph in the header, only the name and a
+             hairline. The circular crop fought the signature underneath it. */
           '<div class="brandmark">'+
-            '<img class="bm-face" src="'+ASSETS+'lorenzo-face.jpg" alt="" '+
-            'width="360" height="360" fetchpriority="high" decoding="async">'+
             '<img class="bm-sig" src="'+ASSETS+'lorenzo-signature.png" '+
-            'alt="Lorenzo, Renz Tailors" width="1000" height="467" decoding="async">'+
+            'alt="Lorenzo, Renz Tailors" width="1000" height="467" '+
+            'fetchpriority="high" decoding="async">'+
+            '<span class="bm-rule" aria-hidden="true"></span>'+
+            '<span class="bm-k">Renz Tailors</span>'+
           '</div>'+
-          '<h1>Answer this quick 2 minute questionnaire and get your outfit score out of 10 and how to improve it.</h1>'+
+          '<h1>Answer this quick 2 minute questionnaire and get your closet score out of 10 and how to improve it.</h1>'+
           '<p class="sub mt2">Your name to begin.</p>'+
           '<input class="fld mt3" id="nm" type="text" autocomplete="given-name" autocapitalize="words" '+
           'autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="First name" '+
@@ -2239,7 +2242,7 @@
           '<p class="sub mid rise mt3" style="animation-delay:1.9s;font-weight:700;color:#08080B">'+
             'All done</p>'+
           '<h2 class="mid rise mt1" style="animation-delay:2.14s">'+
-            'Time to work out your outfit score.</h2>'+
+            'Time to work out your closet score.</h2>'+
           '<p class="cap rise mt2" style="animation-delay:2.42s">'+
             'Your number comes with a free, short video that explains how to improve it.</p>'+
           '<div class="gap"></div>';
@@ -2296,7 +2299,7 @@
           '<div class="rise" style="width:46px;height:46px;border-radius:50%;background:#0B0B10;'+
           'color:#fff;display:grid;place-items:center;font-size:22px;margin:0 auto 18px" aria-hidden="true">&#10003;</div>'+
           '<h2 class="mid rise" style="animation-delay:.18s">'+
-          tok('{CAP}, your outfit score is ready')+'</h2>'+
+          tok('{CAP}, your closet score is ready')+'</h2>'+
           '<p class="sub mid rise mt1" style="animation-delay:.34s">Where should we send it?</p>'+
           '<input class="fld rise mt3" id="em" style="animation-delay:.5s" type="email" '+
           'inputmode="email" autocomplete="email" autocapitalize="none" autocorrect="off" '+
@@ -2416,7 +2419,7 @@
 
       sc.innerHTML=
        '<div class="gap topgap"></div>'+
-       '<p class="eyeb">'+(first?esc(first)+', your':'Your')+' outfit score is</p>'+
+       '<p class="eyeb">'+(first?esc(first)+', your':'Your')+' closet score is</p>'+
        '<div class="dial"><svg viewBox="0 0 196 196" aria-hidden="true">'+
          '<circle cx="98" cy="98" r="84" fill="none" stroke="#F4F4F7" stroke-width="15"/>'+
          '<circle id="arc" cx="98" cy="98" r="84" fill="none" stroke="#B8912A" stroke-width="15" '+
@@ -3436,14 +3439,21 @@
     if(RM){ try{ [].forEach.call(RZ.all('#sc-fit .mrow li'),function(li){
       li.style.setProperty('--o','1'); li.lastElementChild.textContent='taken'; }); }catch(e){} }
     try{ scene('#sc-fit',function(sc,p){
-      var c=sc._c||(sc._c={shirt:sc.querySelectorAll('.shirt'),dim:sc.querySelectorAll('.dim'),
-        lab:sc.querySelectorAll('.lab'),row:sc.querySelectorAll('.mrow li'),say:sc.querySelectorAll('.say>p'),cap:sc.querySelector('.mcap')});
-      var i,draw=seg(p,0,.08).toFixed(3);
-      for(i=0;i<c.shirt.length;i++) c.shirt[i].style.setProperty('--draw',draw);
-      for(i=0;i<c.dim.length;i++){ var a=.12+i*.088, o=outCubic(seg(p,a+.03,a+.09)).toFixed(3);
-        c.dim[i].style.setProperty('--d',seg(p,a,a+.07).toFixed(3));
-        c.lab[i].style.setProperty('--o',o);
-        if(c.row[i]){ c.row[i].style.setProperty('--o',o); if(+o>.5&&!c.row[i]._t){ c.row[i]._t=1; c.row[i].lastElementChild.textContent='taken'; } } }
+      var c=sc._c||(sc._c={vid:sc.querySelector('.scanvid'),
+        row:sc.querySelectorAll('.mrow li'),say:sc.querySelectorAll('.say>p'),cap:sc.querySelector('.mcap')});
+      var i;
+      /* The scan turns under his thumb. Every frame is a keyframe in this encode, so a
+         seek lands on the frame asked for rather than the nearest one before it. It is
+         never played: setting currentTime on a paused video needs no gesture, which is
+         what lets it work on a phone. */
+      if(c.vid && c.vid.readyState>0 && c.vid.duration){
+        var want=Math.max(0,Math.min(1,seg(p,0,.72)))*(c.vid.duration-0.05);
+        if(Math.abs(c.vid.currentTime-want)>0.03){ try{ c.vid.currentTime=want; }catch(e){} }
+      }
+      /* the numbers fill in behind it, one after another, as the bands land */
+      for(i=0;i<c.row.length;i++){ var a=.12+i*.088, o=outCubic(seg(p,a+.03,a+.09)).toFixed(3);
+        c.row[i].style.setProperty('--o',o);
+        if(+o>.5&&!c.row[i]._t){ c.row[i]._t=1; c.row[i].lastElementChild.textContent='taken'; } }
       /* The three sit in one grid cell, so while two of them are part way through a fade the
          man is reading both sentences printed over each other. That is fine for a fifteenth of
          a second while he is moving, but this is driven by his scroll, not by a clock, so he

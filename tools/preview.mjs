@@ -13,10 +13,18 @@
    about everything except the checkout itself: for the order form,
    the bumps and the money, test the live GHL page.
    ===================================================================== */
-import { writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
+import { writeFileSync, mkdirSync, copyFileSync, cpSync, rmSync, existsSync } from 'node:fs';
 import { PAGES, read } from './lib.mjs';
 
 mkdirSync('preview', { recursive: true });
+
+/* the images and the scan the pages reference, mirrored exactly as GitHub Pages
+   serves them. Removed first: copying a folder onto an existing one of the same
+   name nests it, and then every asset 404s while the page looks fine locally. */
+if (existsSync('img')) {
+  rmSync('preview/img', { recursive: true, force: true });
+  cpSync('img', 'preview/img', { recursive: true });
+}
 
 for (const [name, p] of Object.entries(PAGES)) {
   copyFileSync(p.js, 'preview/' + p.js);
@@ -62,4 +70,5 @@ writeFileSync('preview/index.html',
 ${Object.entries(PAGES).map(([n, p]) =>
  `<li><a href="./${n}.html"><b>${n}</b>${p.title}</a></li>`).join('\n')}
 </ul></body></html>`);
-console.log('preview/index.html');
+copyFileSync('preview/funnel.html', 'preview/index.html');
+console.log('preview/index.html  (funnel at the root)');

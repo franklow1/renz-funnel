@@ -297,23 +297,24 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d6 .card svg{max-height:10vh}
 #rz-quiz .sc.d4 .gwrap{min-height:84px}
 #rz-quiz .sc.d5 .gwrap,#rz-quiz .sc.d6 .gwrap{min-height:56px;padding:6px 0}
-/* ---------- who is asking. only on the first screen, and it shrinks with the ladder ---------- */
-#rz-quiz .brandmark{display:flex;flex-direction:column;align-items:center;gap:9px;
- margin:0 auto 16px;flex:0 0 auto}
-#rz-quiz .bm-face{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:50% 26%;
- box-shadow:0 0 0 1px rgba(8,8,11,.12)}
-#rz-quiz .bm-sig{width:112px;height:auto;opacity:.9}
-#rz-quiz .sc.d1 .brandmark{gap:7px;margin-bottom:12px}
-#rz-quiz .sc.d1 .bm-face{width:54px;height:54px} #rz-quiz .sc.d1 .bm-sig{width:100px}
-#rz-quiz .sc.d2 .brandmark{gap:6px;margin-bottom:10px}
-#rz-quiz .sc.d2 .bm-face{width:48px;height:48px} #rz-quiz .sc.d2 .bm-sig{width:90px}
-#rz-quiz .sc.d3 .brandmark{gap:5px;margin-bottom:9px}
-#rz-quiz .sc.d3 .bm-face{width:42px;height:42px} #rz-quiz .sc.d3 .bm-sig{width:80px}
-#rz-quiz .sc.d4 .brandmark{gap:4px;margin-bottom:7px}
-#rz-quiz .sc.d4 .bm-face{width:36px;height:36px} #rz-quiz .sc.d4 .bm-sig{width:68px}
-#rz-quiz .sc.d5 .brandmark,#rz-quiz .sc.d6 .brandmark{gap:4px;margin-bottom:6px}
-#rz-quiz .sc.d5 .bm-face,#rz-quiz .sc.d6 .bm-face{width:30px;height:30px}
-#rz-quiz .sc.d5 .bm-sig,#rz-quiz .sc.d6 .bm-sig{width:56px}
+/* ---------- who is asking. his own documents do this with a name and a hairline ---------- */
+#rz-quiz .brandmark{display:flex;flex-direction:column;align-items:center;gap:0;
+ margin:0 auto 20px;flex:0 0 auto}
+#rz-quiz .bm-sig{width:108px;height:auto;opacity:.92}
+#rz-quiz .bm-rule{display:block;width:30px;height:1px;background:var(--gold);margin:12px 0 9px}
+#rz-quiz .bm-k{font-size:var(--f0);letter-spacing:.22em;text-transform:uppercase;
+ color:var(--ink3);font-weight:600}
+#rz-quiz .sc.d1 .brandmark{margin-bottom:16px} #rz-quiz .sc.d1 .bm-sig{width:96px}
+#rz-quiz .sc.d2 .brandmark{margin-bottom:13px} #rz-quiz .sc.d2 .bm-sig{width:88px}
+#rz-quiz .sc.d2 .bm-rule{margin:9px 0 7px}
+#rz-quiz .sc.d3 .brandmark{margin-bottom:11px} #rz-quiz .sc.d3 .bm-sig{width:78px}
+#rz-quiz .sc.d3 .bm-rule{margin:7px 0 6px}
+#rz-quiz .sc.d4 .brandmark{margin-bottom:9px}  #rz-quiz .sc.d4 .bm-sig{width:68px}
+#rz-quiz .sc.d4 .bm-rule{margin:6px 0 5px} #rz-quiz .sc.d4 .bm-k{font-size:9px}
+#rz-quiz .sc.d5 .brandmark,#rz-quiz .sc.d6 .brandmark{margin-bottom:7px}
+#rz-quiz .sc.d5 .bm-sig,#rz-quiz .sc.d6 .bm-sig{width:58px}
+#rz-quiz .sc.d5 .bm-rule,#rz-quiz .sc.d6 .bm-rule{margin:5px 0 4px;width:22px}
+#rz-quiz .sc.d5 .bm-k,#rz-quiz .sc.d6 .bm-k{font-size:8px}
 #rz-quiz .fld{width:100%;background:var(--fill);border:0;border-radius:6px;padding:19px 18px;font:inherit;
  font-size:var(--f6);font-weight:600;color:var(--ink);
  -webkit-user-select:text;user-select:text}
@@ -618,9 +619,11 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
  --hairline:#D5CFC2; --rule2:#C6BEAC;
  --chalk:#F4F1EA; --canvas:#DFD6C0; --paper:#FBF9F3;
  --brass:#73572F; --brass-ink:#C79A5E; --brass-lift:#B58D57; --ink-rule:#3A352C; --chalk-soft:#CFC8B8;
- /* the scan draws in gold. brass is a brown at this weight and the measuring lines
-    disappeared into the paper. this is the one colour the documents and the page share. */
- --gold:#AE873A;
+ /* read out of his own file: the scan panel, its turntable, and the two curves every
+    draw and every fade in his deck is timed on. Gold is the turntable rim and nothing
+    else: his measurement lines are ink, and that is what makes them read. */
+ --gold:#AE873A; --scan-bg:#E6E1D7; --scan-plinth:#D8D2C4;
+ --ez-draw:cubic-bezier(.22,.61,.24,1); --ez-fade:cubic-bezier(.215,.61,.355,1);
  --display:"Newsreader","Libre Caslon Text",Georgia,serif;
  --text:"Libre Caslon Text","Times New Roman",Georgia,serif;
  --micro:"Cabin","Gill Sans","Gill Sans MT",system-ui,sans-serif;
@@ -794,14 +797,30 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .taperule.in span:nth-child(6){transition-delay:1s}
 #rz-page .taperule span{flex:1 1 0;min-width:0;padding-top:15px;font:400 9px/1 var(--micro);letter-spacing:.1em;color:var(--pencil);
  font-variant-numeric:tabular-nums lining-nums;transform:translateX(3px)}
-#rz-page .tape{margin:var(--s2) 0 0;padding-bottom:var(--s3);border-bottom:1px solid var(--hairline)}
-#rz-page .tape svg{width:100%;height:auto;display:block;margin:0 auto}
-#rz-page .tape .dim{fill:none;stroke:var(--gold);stroke-width:1.2;stroke-linecap:square;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
+#rz-page .tape{position:relative;margin:var(--s3) 0 0;padding:var(--s4) var(--s3) var(--s3);
+ background:var(--scan-bg);border-radius:6px}
+#rz-page .scan-k,#rz-page .scan-f{position:absolute;font:600 8px/1 var(--micro);
+ letter-spacing:.22em;text-transform:uppercase;color:var(--pencil);opacity:.8}
+#rz-page .scan-k{top:13px;left:15px}
+#rz-page .scan-f{right:15px;bottom:13px}
+/* a hairline of gold along the foot of the panel: the accent his scan pages carry,
+   without transplanting a turntable under a garment that does not stand on one. */
+#rz-page .tape:after{content:"";position:absolute;left:15px;right:15px;bottom:0;height:1px;
+ background:linear-gradient(90deg,transparent,var(--gold) 18%,var(--gold) 82%,transparent);
+ opacity:.55}
+/* Lorenzo's own scan, the one on the cover of the style guide, scrubbed by the
+   same thumb that drives every other scene on this page. A drawing of a shirt was
+   never going to show a man what the scan actually does. */
+#rz-page .scanvid{display:block;width:100%;max-width:320px;height:auto;margin:0 auto;
+ background:var(--scan-bg);mix-blend-mode:multiply}
+#rz-page .tape .dim{fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linecap:square;stroke-dasharray:1;
+ stroke-dashoffset:calc(1 - var(--d,0));transition:stroke-dashoffset 1s var(--ez-draw)}
 #rz-page .tape .shirt{fill:none;stroke:var(--rule2);stroke-width:1.3;stroke-dasharray:none;stroke-dashoffset:0;opacity:calc(.35 + .65 * var(--draw,1))}
-#rz-page .tape .lab{font:600 10px/1 var(--micro);letter-spacing:.16em;text-transform:uppercase;fill:var(--pencil);opacity:var(--o,0)}
-#rz-page .mrow{list-style:none;margin:var(--s3) 0 0}
+#rz-page .tape .lab{font:600 9px/1 var(--micro);letter-spacing:.22em;text-transform:uppercase;
+ fill:var(--pencil);opacity:var(--o,0);transition:opacity .6s var(--ez-fade) .6s}
+#rz-page .mrow{list-style:none;margin:var(--s4) 0 0}
 #rz-page .mrow li i{flex:1 1 auto;height:1px;border-bottom:1px dotted var(--rule2);transform:translateY(-3px)}
-#rz-page .mrow li b{flex:0 0 58px;text-align:right;font:italic 400 15px/1 var(--text);color:var(--gold);
+#rz-page .mrow li b{flex:0 0 58px;text-align:right;font:italic 400 15px/1 var(--text);color:var(--brass);
  letter-spacing:0;text-transform:none;opacity:var(--o,0);transform:translateY(calc(4px * (1 - var(--o,0))))}
 #rz-page .mrow li{display:flex;align-items:baseline;gap:8px;padding:17px 0;border-bottom:1px solid var(--hairline);
  font:600 10px/1 var(--micro);letter-spacing:.18em;text-transform:uppercase;color:var(--pencil);
@@ -1528,9 +1547,9 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .sign .stamp em{display:block;margin-top:4px;font:400 8px/1 var(--micro);letter-spacing:.18em;
  text-transform:uppercase;color:var(--brass-ink);font-style:normal}
 #rz-page .signed .sign .stamp{opacity:1;transform:rotate(-9deg) scale(1)}
-#rz-page .tape svg{max-width:400px;margin:0 auto}
+#rz-page .scanvid{max-width:360px}
 @media(max-height:740px){#rz-page .say{min-height:0}
-#rz-page .tape svg{max-width:230px}
+#rz-page .scanvid{max-width:230px}
 #rz-page .mrow li{padding:8px 0}}
 #rz-page .val li.his{border-left:2px solid var(--brass);padding-left:14px;margin-left:-16px}
 #rz-page .cutlist li .cnt{grid-column:2;grid-row:1;justify-self:end;align-self:start;min-width:4ch;text-align:right;font:600 10px/25px var(--micro);letter-spacing:.14em;

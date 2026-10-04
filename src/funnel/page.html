@@ -162,20 +162,17 @@
    <p>Neither one was cut for you.</p>
   </div>
   <div class="tape">
-   <svg viewBox="0 0 300 196" aria-hidden="true">
-    <path class="shirt" pathLength="1" d="M96 30 L120 18 L150 28 L180 18 L204 30 L222 58 L200 72 L200 174 L100 174 L100 72 L78 58 Z"/>
-    <path class="shirt" pathLength="1" d="M120 18 L150 42 L180 18"/>
-    <path class="dim" pathLength="1" d="M78 58 H222"/><text class="lab" x="150" y="52" text-anchor="middle">Shoulder</text>
-    <path class="dim" pathLength="1" d="M100 96 H200"/><text class="lab" x="150" y="90" text-anchor="middle">Chest</text>
-    <path class="dim" pathLength="1" d="M100 132 H200"/><text class="lab" x="150" y="126" text-anchor="middle">Waist</text>
-    <path class="dim" pathLength="1" d="M226 58 L216 164"/><text class="lab" x="258" y="114" text-anchor="middle">Arm</text>
-    <path class="dim" pathLength="1" d="M100 174 H200"/><text class="lab" x="150" y="168" text-anchor="middle">Hem</text>
-   </svg>
+   <span class="scan-k">Body scan</span>
+   <video class="scanvid" id="scanvid" muted playsinline preload="auto" disablepictureinpicture
+          poster="{{ASSETS}}scan-poster.jpg" width="600" height="750" aria-hidden="true">
+    <source src="{{ASSETS}}scan.mp4" type="video/mp4">
+   </video>
+   <span class="scan-f">Measured from your scan</span>
+   </div>
    <ul class="mrow">
     <li>Shoulder<i></i><b></b></li><li>Chest<i></i><b></b></li><li>Waist<i></i><b></b></li><li>Arm<i></i><b></b></li><li>Hem<i></i><b></b></li>
    </ul>
    <p class="mcap">You stand in front of your phone, fully dressed. Turn round once. <b>We scan you once. You stop guessing at a size.</b></p>
-  </div>
  </div></div>
 </section>
 
