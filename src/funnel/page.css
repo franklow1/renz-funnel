@@ -1708,7 +1708,10 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
      to touch the thing, so it carries the width. */
   #rz-page .dr-rail{grid-template-columns:repeat(8,1fr);gap:12px}
   #rz-page .dr-sw{height:80px}
-  #rz-page .dr-stage{grid-template-columns:230px minmax(0,1fr);gap:var(--s6);align-items:center}
+  #rz-page .dr-stage{grid-template-columns:240px minmax(0,1fr);gap:var(--s6);align-items:center}
+  /* the rail belongs to the card above it, so it keeps the card's measure
+     rather than running the full width of the page on its own */
+  #rz-page .dr-rail{max-width:720px}
   #rz-page .dr-verd .w{font-size:31px;line-height:38px}
   #rz-page .dr-verd .r{font-size:17px;line-height:27px;max-width:30ch}
   #rz-page .dr-hint{font-size:17px;line-height:27px;max-width:52ch}
