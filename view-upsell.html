@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>The Buyer &mdash; preview</title>
+</head><body>
+
+<!-- =====================================================================
+     A standalone, shareable copy of the upsell so it can be looked at on a
+     phone before it is a step in the funnel. It is the same paste snippet as
+     ghl/upsell-page.html, with the src pointing next door and nothing of the
+     page builder's around it, so there is no checkout and no way to pay here.
+     The real one is whatever URL GoHighLevel gives the upsell step.
+     ===================================================================== -->
+<style id="rz-veil-css">html,body{background:#F4F1EA!important}#rz-veil{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2147483000;background:#F4F1EA}</style>
+<div id="rz-veil"></div>
+<div id="rz-upsell-mount"></div>
+<script id="rz-src" src="./upsell.js" defer></script>
+<script>
+(function(){
+  function lift(){
+    var v=document.getElementById('rz-veil'); if(v&&v.parentNode) v.parentNode.removeChild(v);
+    var c=document.getElementById('rz-veil-css'); if(c&&c.parentNode) c.parentNode.removeChild(c);
+  }
+  var s=document.getElementById('rz-src');
+  if(s) s.addEventListener('error', lift);
+  setTimeout(function(){ if(!window.__rzSettled && !document.getElementById('rz-upsell')) lift(); }, 12000);
+})();
+</script>
+
+</body></html>
