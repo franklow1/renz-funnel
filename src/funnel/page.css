@@ -80,17 +80,18 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 /* ===================== STAGE ONE: THE QUIZ ===================== */
 #rz-quiz *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 #rz-quiz{
- --bg:#FFFFFF; --fill:#F4F4F7; --fill2:#E4E4EA;
- --ink:#08080B; --ink2:#63636B; --ink3:#6E6E77;
- --sel:#0B0B10; --off:#BDBCC2; --worn:#2C2C36;
- --gold:#B8912A; --goldt:#8A6A0F; --goldw:#EFE3BE; --goldb:#FBF7EC;
+ --bg:#FCFBF9; --fill:#F2EFEA; --fill2:#E4E1DC;
+ --ink:#1C1C1B; --ink2:#5F5B56; --ink3:#8E8982;
+ --sel:#1C1C1B; --off:#C9C4BC; --worn:#3A3733;
+ --gold:#AE873A; --goldt:#8A6A2A; --goldw:#E8DCC2; --goldb:#FAF6EE;
+ --quiz:"Outfit",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
  --pad:24px;
  
  --f0:10px; --fh:11px; --f1:12px; --f2:13px; --f3:14px; --f4:15px; --f5:16px;
  --f6:17px; --f7:18px; --f8:20px; --f9:22px; --f10:25px; --f11:29px;
  
  --d1:27px; --d2:32px; --d3:40px; --d4:48px; --d5:54px;
- --trk-caps:.06em;
+ --trk-caps:.16em;
  --ez:cubic-bezier(.22,.61,.16,1);      
  --ezs:cubic-bezier(.2,.72,.25,1);      
  --ezd:cubic-bezier(.42,.05,.58,.95);   
@@ -98,7 +99,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 }
 #rz-quiz{height:100%}
 #rz-phone{background:var(--bg);color:var(--ink);height:100vh;height:100dvh;overflow:hidden;
- font:400 var(--f5)/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ font:400 var(--f5)/1.45 var(--quiz);
  -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;
  padding-top:env(safe-area-inset-top);overscroll-behavior:none;user-select:none}
 #rz-quiz .hd{padding:14px var(--pad) 0;flex:0 0 auto}
@@ -146,7 +147,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .mt3{margin-top:22px}
 #rz-quiz .opts{display:flex;flex-direction:column;gap:10px;flex:1 1 auto;justify-content:center;padding:18px 0}
 #rz-quiz .opts+.gap{display:none}
-#rz-quiz .o{width:100%;text-align:left;background:var(--fill);border:0;border-radius:16px;
+#rz-quiz .o{width:100%;text-align:left;background:var(--fill);border:0;border-radius:6px;
  padding:14px 17px;font:inherit;color:var(--ink);cursor:pointer;min-height:60px;
  display:flex;align-items:center;gap:13px;
  transition:transform .32s var(--ezp),background .26s var(--ez),color .26s var(--ez)}
@@ -196,7 +197,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d5 h1,#rz-quiz .sc.d5 h2{font-size:var(--f6)}
 #rz-quiz .sc.d5 .sub{font-size:var(--f1);line-height:1.35}
 #rz-quiz .sc.d5 .opts{gap:5px;padding:4px 0}
-#rz-quiz .sc.d5 .o{min-height:38px;padding:5px 11px;border-radius:12px}
+#rz-quiz .sc.d5 .o{min-height:38px;padding:5px 11px;border-radius:5px}
 #rz-quiz .sc.d5 .o .t1{font-size:var(--f1)}
 #rz-quiz .sc.d5 .o .ic{width:18px;font-size:var(--f2)}
 #rz-quiz .sc.d3 .gap,#rz-quiz .sc.d4 .gap,#rz-quiz .sc.d5 .gap{min-height:0}
@@ -276,7 +277,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d6 h1,#rz-quiz .sc.d6 h2{font-size:var(--f4);line-height:1.18;margin-bottom:4px}
 #rz-quiz .sc.d6 .sub{font-size:var(--fh);line-height:1.3}
 #rz-quiz .sc.d6 .opts{gap:4px;padding:3px 0}
-#rz-quiz .sc.d6 .o{min-height:32px;padding:4px 10px;border-radius:10px}
+#rz-quiz .sc.d6 .o{min-height:32px;padding:4px 10px;border-radius:4px}
 #rz-quiz .sc.d6 .o .t1{font-size:var(--f1)}
 #rz-quiz .sc.d6 .o .t2{display:none}
 #rz-quiz .sc.d6 .o .ic{width:15px;font-size:var(--fh)}
@@ -313,7 +314,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d5 .brandmark,#rz-quiz .sc.d6 .brandmark{gap:4px;margin-bottom:6px}
 #rz-quiz .sc.d5 .bm-face,#rz-quiz .sc.d6 .bm-face{width:30px;height:30px}
 #rz-quiz .sc.d5 .bm-sig,#rz-quiz .sc.d6 .bm-sig{width:56px}
-#rz-quiz .fld{width:100%;background:var(--fill);border:0;border-radius:16px;padding:19px 18px;font:inherit;
+#rz-quiz .fld{width:100%;background:var(--fill);border:0;border-radius:6px;padding:19px 18px;font:inherit;
  font-size:var(--f6);font-weight:600;color:var(--ink);
  -webkit-user-select:text;user-select:text}
 #rz-quiz .fld:focus{outline:2px solid var(--ink);outline-offset:-2px}
@@ -344,11 +345,11 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
  box-shadow:0 2px 10px rgba(0,0,0,.26)}
 #rz-quiz input[type=range]:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:8px}
 #rz-quiz .ends{display:flex;justify-content:space-between;font-size:var(--f1);color:var(--ink3);font-weight:600}
-#rz-quiz .reco{margin-top:18px;border-radius:16px;padding:15px 18px;text-align:center;font-size:var(--f3);
+#rz-quiz .reco{margin-top:18px;border-radius:6px;padding:15px 18px;text-align:center;font-size:var(--f3);
  font-weight:600;line-height:1.42;color:var(--ink2);text-wrap:pretty;
  background:var(--goldb);min-height:74px;
  display:flex;align-items:center;justify-content:center}
-#rz-quiz .card{background:var(--fill);border-radius:20px;padding:18px}
+#rz-quiz .card{background:var(--fill);border-radius:6px;padding:18px}
 #rz-quiz .card .ct{font-size:var(--f2);font-weight:700;margin-bottom:2px}
 #rz-quiz .card .cs{font-size:var(--f1);color:var(--ink3);margin-bottom:12px;text-wrap:pretty}
 #rz-quiz .card svg{width:100%;max-height:min(18vh,132px)}
@@ -383,7 +384,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .tally{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:22px}
 #rz-quiz .sc.d3 .tally{margin-top:16px}
 #rz-quiz .sc.d4 .tally,#rz-quiz .sc.d5 .tally,#rz-quiz .sc.d6 .tally{margin-top:12px}
-#rz-quiz .pill{font-size:var(--f1);font-weight:700;padding:7px 14px;border-radius:99px;
+#rz-quiz .pill{font-size:var(--f1);font-weight:700;padding:7px 14px;border-radius:3px;
  border:1px solid transparent;opacity:0;
  transition:opacity .6s var(--ez),transform .45s var(--ezs),box-shadow .35s var(--ez);
  transform:translateY(4px)}
@@ -465,7 +466,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .ft:before{content:"";position:absolute;left:0;right:0;top:-96px;height:96px;pointer-events:none;
  background:linear-gradient(180deg,rgba(8,8,11,0) 0%,rgba(8,8,11,0) 52%,
   rgba(8,8,11,.055) 90%,rgba(8,8,11,.028) 100%)}
-#rz-quiz .btn{width:100%;background:var(--sel);color:#fff;border:0;border-radius:99px;padding:19px;
+#rz-quiz .btn{width:100%;background:var(--sel);color:#fff;border:0;border-radius:4px;padding:19px;
  font:inherit;font-size:var(--f6);font-weight:700;cursor:pointer;
  transition:transform .32s var(--ezp),background .3s var(--ez)}
 #rz-quiz .btn:active{transform:scale(.965);transition-duration:.07s,.3s}
@@ -617,6 +618,9 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
  --hairline:#D5CFC2; --rule2:#C6BEAC;
  --chalk:#F4F1EA; --canvas:#DFD6C0; --paper:#FBF9F3;
  --brass:#73572F; --brass-ink:#C79A5E; --brass-lift:#B58D57; --ink-rule:#3A352C; --chalk-soft:#CFC8B8;
+ /* the scan draws in gold. brass is a brown at this weight and the measuring lines
+    disappeared into the paper. this is the one colour the documents and the page share. */
+ --gold:#AE873A;
  --display:"Newsreader","Libre Caslon Text",Georgia,serif;
  --text:"Libre Caslon Text","Times New Roman",Georgia,serif;
  --micro:"Cabin","Gill Sans","Gill Sans MT",system-ui,sans-serif;
@@ -792,12 +796,12 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
  font-variant-numeric:tabular-nums lining-nums;transform:translateX(3px)}
 #rz-page .tape{margin:var(--s2) 0 0;padding-bottom:var(--s3);border-bottom:1px solid var(--hairline)}
 #rz-page .tape svg{width:100%;height:auto;display:block;margin:0 auto}
-#rz-page .tape .dim{fill:none;stroke:var(--brass);stroke-width:1;stroke-linecap:square;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
+#rz-page .tape .dim{fill:none;stroke:var(--gold);stroke-width:1.2;stroke-linecap:square;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
 #rz-page .tape .shirt{fill:none;stroke:var(--rule2);stroke-width:1.3;stroke-dasharray:none;stroke-dashoffset:0;opacity:calc(.35 + .65 * var(--draw,1))}
 #rz-page .tape .lab{font:600 10px/1 var(--micro);letter-spacing:.16em;text-transform:uppercase;fill:var(--pencil);opacity:var(--o,0)}
 #rz-page .mrow{list-style:none;margin:var(--s3) 0 0}
 #rz-page .mrow li i{flex:1 1 auto;height:1px;border-bottom:1px dotted var(--rule2);transform:translateY(-3px)}
-#rz-page .mrow li b{flex:0 0 58px;text-align:right;font:italic 400 15px/1 var(--text);color:var(--brass);
+#rz-page .mrow li b{flex:0 0 58px;text-align:right;font:italic 400 15px/1 var(--text);color:var(--gold);
  letter-spacing:0;text-transform:none;opacity:var(--o,0);transform:translateY(calc(4px * (1 - var(--o,0))))}
 #rz-page .mrow li{display:flex;align-items:baseline;gap:8px;padding:17px 0;border-bottom:1px solid var(--hairline);
  font:600 10px/1 var(--micro);letter-spacing:.18em;text-transform:uppercase;color:var(--pencil);
@@ -997,17 +1001,18 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .dark a:focus-visible{outline-color:var(--brass-ink)}
 
 /* ---------- Lorenzo: the portrait, and his own hand at the end of the letter ---------- */
-#rz-page .port{margin:var(--s4) 0 0;padding:0}
-#rz-page .port img{display:block;width:100%;max-width:290px;height:auto;margin:0 auto;
- border:1px solid var(--rule2)}
-#rz-page .port figcaption{margin-top:10px;text-align:center;
- font:600 9px/1.6 var(--micro);letter-spacing:.2em;text-transform:uppercase;color:var(--pencil)}
+#rz-page .port{margin:var(--s4) 0 0;padding:0;display:flex;align-items:flex-end;gap:var(--s3)}
+#rz-page .port img{display:block;width:150px;flex:0 0 auto;height:auto;
+ border:1px solid var(--hairline);background:var(--paper)}
+#rz-page .port figcaption{flex:1 1 auto;padding-bottom:4px;
+ font:600 9px/1.7 var(--micro);letter-spacing:.2em;text-transform:uppercase;color:var(--pencil);
+ border-bottom:1px solid var(--hairline)}
 #rz-page .sign{display:block;width:100%;max-width:170px;height:auto;margin:var(--s4) 0 0;
  opacity:.88}
 #rz-page .dark .sign{filter:invert(1);opacity:.8}
 @media(min-width:760px){
- #rz-page .port img{max-width:330px}
- #rz-page .sign{max-width:195px}
+ #rz-page .port img{width:178px}
+ #rz-page .sign{max-width:185px}
 }
 #rz-page .q{padding:var(--s4) 0;border-top:1px solid var(--hairline)}
 #rz-page .q:last-child{border-bottom:1px solid var(--hairline)}
