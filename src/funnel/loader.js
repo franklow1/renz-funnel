@@ -1695,7 +1695,7 @@
             '<span class="bm-rule" aria-hidden="true"></span>'+
             '<span class="bm-k">Renz Tailors</span>'+
           '</div>'+
-          '<h1>Answer this quick 2 minute questionnaire and get your closet score out of 10 and how to improve it.</h1>'+
+          '<h1>Two minutes. You get your closet score out of ten and what is taking the other points off it.</h1>'+
           '<p class="sub mt2">Your name to begin.</p>'+
           '<input class="fld mt3" id="nm" type="text" autocomplete="given-name" autocapitalize="words" '+
           'autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="First name" '+
