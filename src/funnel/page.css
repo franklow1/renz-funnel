@@ -1748,6 +1748,11 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page .counter .n{font-size:108px}
   #rz-page .counter .lab{font-size:11px;max-width:12ch}
 
+  /* the value stack's rows are a full width ledger, so what opens inside one of them
+     keeps the page's measure rather than a phone's */
+  #rz-page .val .v-body p{max-width:52ch}
+  #rz-page .val .src{max-width:46ch}
+
   /* THE PULL QUOTE. An italic line set at 32ch under two full width rules left the
      right half of the frame holding nothing. The quote and the answer to it are a
      pair, so they are set as one. */

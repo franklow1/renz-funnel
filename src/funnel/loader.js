@@ -3050,6 +3050,9 @@
         var cl=$('cutlist');
         if(cl&&CUT!=null&&cl.children[CUT]){
           var tag=document.createElement('em'); tag.className='mycut'; tag.textContent='yours';
+          /* a space before it, or the line reads back as one word to anything that is
+             listening rather than looking: "one of themyours" */
+          cl.children[CUT].appendChild(document.createTextNode(' '));
           cl.children[CUT].appendChild(tag);
           cl.children[CUT].classList.add('mine');
         }
@@ -3067,7 +3070,8 @@
           vl.firstElementChild.classList.add('his');
           var f=vl.firstElementChild.querySelector('h3');
           if(f&&!f.querySelector('.first')){ var fbadge=document.createElement('span');
-            fbadge.className='first'; fbadge.textContent='yours'; f.appendChild(fbadge); }
+            fbadge.className='first'; fbadge.textContent='yours';
+            f.appendChild(document.createTextNode(' ')); f.appendChild(fbadge); }
         }
       }
 
