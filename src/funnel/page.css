@@ -1746,6 +1746,10 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page .counter .n{font-size:108px}
   #rz-page .counter .lab{font-size:11px;max-width:12ch}
 
+  /* the three lines that still ran the full width of the frame. Everything else on
+     this page keeps a measure; these did not, so they read as a wall. */
+  #rz-page .sw-list li,#rz-page .ledger-cap{max-width:54ch}
+
   /* THE TWELVE PIECES. The grid was capped at 330px, which on a laptop is a postage
      stamp of the thing the whole section is about. */
   #rz-page .mg{display:grid;grid-template-columns:minmax(0,1fr) 420px;

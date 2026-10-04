@@ -36,6 +36,23 @@ await evl("[].forEach.call(document.querySelectorAll('.rise,.stag'),function(e){
 await sleep(600);
 const out=await evl(`(function(){
   var VW=window.innerWidth, res={vw:VW, overflow:[], wide:[], noDim:[], small:[], clipped:[]};
+  /* a link can carry its touch area on a pseudo element or on the row around it, so
+     measure what a thumb can actually hit rather than the text box */
+  function hitBox(e){
+    var r=e.getBoundingClientRect(), w=r.width, h=r.height;
+    try{
+      var af=getComputedStyle(e,'::after');
+      if(af && af.content && af.content!=='none'){
+        var ph=parseFloat(af.height); if(ph>h) h=ph;
+        var l=parseFloat(af.left), rr=parseFloat(af.right);
+        if(l<0) w+=-l; if(rr<0) w+=-rr;
+        if(af.position==='absolute' && (af.inset==='0px' || af.top==='0px')){
+          var par=e.offsetParent; if(par){ var pr=par.getBoundingClientRect(); if(pr.height>h) h=pr.height; if(pr.width>w) w=pr.width; }
+        }
+      }
+    }catch(err){}
+    return {w:w,h:h};
+  }
   var all=document.querySelectorAll('#rz-page *, #rz-quiz *');
   [].forEach.call(all,function(e){
     var r=e.getBoundingClientRect(); if(!r.width||!r.height) return;
@@ -54,9 +71,12 @@ const out=await evl(`(function(){
     }
     if(e.tagName==='IMG' && (!e.getAttribute('width')||!e.getAttribute('height')))
       res.noDim.push((e.className||e.src||'').toString().slice(0,50));
-    if(/^(A|BUTTON)$/.test(e.tagName) && cs.display!=='none' && (r.height<44||r.width<44)){
-      var lab=(e.textContent||e.getAttribute('aria-label')||'').trim().slice(0,26);
-      if(lab) res.small.push(Math.round(r.width)+'x'+Math.round(r.height)+' '+lab);
+    if(/^(A|BUTTON)$/.test(e.tagName) && cs.display!=='none'){
+      var hb=hitBox(e);
+      if(hb.height<44 || hb.width<44){
+        var lab=(e.textContent||e.getAttribute('aria-label')||'').trim().slice(0,26);
+        if(lab) res.small.push(Math.round(hb.width)+'x'+Math.round(hb.height)+' '+lab);
+      }
     }
     if(e.scrollHeight>e.clientHeight+3 && cs.overflowY==='hidden' && e.children.length===0)
       res.clipped.push((e.className||e.tagName).toString().slice(0,40));
