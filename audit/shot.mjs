@@ -8,7 +8,7 @@ import { spawn, execSync } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { rmSync, writeFileSync, mkdirSync } from 'node:fs';
 
-const URL_   = process.argv[2] || 'http://127.0.0.1:8744/funnel.html';
+const URL_   = process.argv[2] || 'http://127.0.0.1:8746/funnel.html';
 const W      = +(process.argv[3] || 1280);
 const H      = +(process.argv[4] || 900);
 const OUT    = process.argv[5] || 'audit/shots/shot.png';
