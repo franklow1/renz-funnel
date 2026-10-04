@@ -2855,9 +2855,9 @@
              line:'Then it is chapter two you want. Sharper almost always turns out to be colour, because fit you can feel and colour you cannot.'}
      },
      fitn:{
-      '0.7' :{row:'nearly all of it', say:'Nearly everything in there fits you well enough. Well enough is the whole problem. Nobody has ever handed you the numbers that close it.'},
-      '0.4' :{row:'about half of it',  say:'About half of what is in there fits you. Which means every morning you are picking from half a closet and paying rent on the rest.'},
-      '0.12':{row:'a few pieces',  say:'Only a few of the things in there actually fit you. You already know. What you have never had is the numbers to do anything about it.'}
+      '0.7' :{row:'nearly all of it', say:'Well enough is the problem.'},
+      '0.4' :{row:'about half of it',  say:'Half a closet fits you. You pay rent on the rest.'},
+      '0.12':{row:'a few pieces',  say:'A few things in there fit you. You already knew.'}
      },
      /* line two of the before and after comes from his weakest cut, not from what he wants */
      /* the three payoff lines belong to him, not to a generic man */
@@ -3098,6 +3098,7 @@
 
       /* his fit answer opens the measuring scene in his own words */
       if(YOU.fitn!=null){
+        /* the three beats share one grid cell, so they have to be the same length */
         var say=RZ.all('#sc-fit .say>p');
         if(say[2]) say[2].textContent=SAYS.fitn[String(YOU.fitn)].say;
         var OPEN={'0.7':['Most of what you own fits you.','Fits and close enough. Nobody has ever shown you which is which.'],

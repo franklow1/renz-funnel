@@ -772,8 +772,13 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .nots-early p:last-child{margin-bottom:0}
 #rz-page .nots-early b{color:var(--ink);font-weight:700}
 #rz-page .wall{margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--hairline)}
-#rz-page .wall .g{display:grid;grid-template-columns:repeat(25,1fr);gap:2px}
-#rz-page .wall i{display:block;aspect-ratio:7/9;background:var(--canvas);border:1px solid var(--hairline);
+/* Twenty five across read as a barcode on a phone and as a 440px slab of pale
+   rectangles on a monitor: too big to take in as a mass, too small to read as
+   documents. The block keeps its own measure instead of taking the page's. */
+#rz-page .wall .g{display:grid;grid-template-columns:repeat(18,1fr);gap:2px}
+@media(min-width:760px){#rz-page .wall .g{grid-template-columns:repeat(25,1fr);
+ max-width:580px;margin-inline:auto}}
+#rz-page .wall i{display:block;aspect-ratio:7/9;background:var(--canvas);border:1px solid var(--rule2);
  background-image:repeating-linear-gradient(90deg,rgba(21,19,15,.05) 0 1px,transparent 1px 3px);
  opacity:0;transform:scale(.6) rotate(var(--r,0deg));
  transition:opacity .22s linear,transform .26s var(--ezp)}
