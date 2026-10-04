@@ -145,9 +145,29 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .mt1{margin-top:8px}
 #rz-quiz .mt2{margin-top:14px}
 #rz-quiz .mt3{margin-top:22px}
+/* ---------- the options, in his document's language ----------
+   They were filled pills with an emoji in front of each one, which is the one thing
+   left here that reads as a template rather than as Renz. His own documents set a list
+   of choices as rows on hairlines with nothing in front of them. The emoji are still in
+   the markup and still in the data: deleting the first rule below brings them back. */
+#rz-quiz .o .ic{display:none}
+#rz-quiz .o{background:transparent!important;border-radius:0;padding:15px 2px;min-height:62px;
+ border-bottom:1px solid var(--fill2);gap:0;position:relative}
+#rz-quiz .o:first-child{border-top:1px solid var(--fill2)}
+#rz-quiz .o.on{color:var(--ink);box-shadow:none;border-bottom-color:var(--gold)}
+#rz-quiz .o.on .t1{color:var(--ink)}
+#rz-quiz .o.on .t2{color:var(--ink2)}
+/* the chosen one is marked by a rule and a gold tick, not by a block of colour */
+#rz-quiz .o:after{content:"";position:absolute;right:3px;top:50%;width:15px;height:8px;
+ margin-top:-6px;border-left:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);
+ transform:rotate(-45deg) scale(.5);opacity:0;
+ transition:opacity .18s linear,transform .28s var(--ezp)}
+#rz-quiz .o.on:after{opacity:1;transform:rotate(-45deg) scale(1)}
+#rz-quiz .o .tx{padding-right:26px}
 #rz-quiz .opts{display:flex;flex-direction:column;gap:10px;flex:1 1 auto;justify-content:center;padding:18px 0}
+#rz-quiz .opts{gap:0}
 #rz-quiz .opts+.gap{display:none}
-#rz-quiz .o{width:100%;text-align:left;background:var(--fill);border:0;border-radius:6px;
+#rz-quiz .o{width:100%;text-align:left;background:var(--fill);border:0;border-radius:0;
  padding:14px 17px;font:inherit;color:var(--ink);cursor:pointer;min-height:60px;
  display:flex;align-items:center;gap:13px;
  transition:transform .32s var(--ezp),background .26s var(--ez),color .26s var(--ez)}
@@ -162,14 +182,14 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d1 h1,#rz-quiz .sc.d1 h2{font-size:var(--f10)}
 #rz-quiz .sc.d1 .sub{font-size:var(--f4)}
 #rz-quiz .sc.d1 .opts{gap:8px;padding:14px 0}
-#rz-quiz .sc.d1 .o{min-height:54px;padding:11px 15px}
+#rz-quiz .sc.d1 .o{min-height:54px;padding:13px 2px}
 #rz-quiz .sc.d1 .o .ic{width:23px;font-size:var(--f6)}
 #rz-quiz .sc.d1 .mt3{margin-top:16px}
 #rz-quiz .sc.d1 .mt2{margin-top:11px}
 #rz-quiz .sc.d2 h1,#rz-quiz .sc.d2 h2{font-size:var(--f9)}
 #rz-quiz .sc.d2 .sub{font-size:var(--f3)}
 #rz-quiz .sc.d2 .opts{gap:7px;padding:11px 0}
-#rz-quiz .sc.d2 .o{min-height:48px;padding:9px 14px}
+#rz-quiz .sc.d2 .o{min-height:48px;padding:11px 2px}
 #rz-quiz .sc.d2 .o .t1{font-size:var(--f4)}
 #rz-quiz .sc.d2 .o .t2{font-size:var(--f1)}
 #rz-quiz .sc.d2 .o .ic{width:22px;font-size:var(--f5)}
@@ -179,7 +199,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d3 h1,#rz-quiz .sc.d3 h2{font-size:var(--f8)}
 #rz-quiz .sc.d3 .sub{font-size:var(--f2)}
 #rz-quiz .sc.d3 .opts{gap:6px;padding:8px 0}
-#rz-quiz .sc.d3 .o{min-height:46px;padding:8px 13px}
+#rz-quiz .sc.d3 .o{min-height:46px;padding:10px 2px}
 #rz-quiz .sc.d3 .o .t1{font-size:var(--f3)}
 #rz-quiz .sc.d3 .o .t2{font-size:var(--fh)}
 #rz-quiz .sc.d3 .o .ic{width:20px;font-size:var(--f4)}
@@ -190,14 +210,14 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d4 .sub{font-size:var(--f2)}
 #rz-quiz .sc.d4 .cap{font-size:var(--f1)}
 #rz-quiz .sc.d4 .opts{gap:6px;padding:5px 0}
-#rz-quiz .sc.d4 .o{min-height:44px;padding:6px 12px}
+#rz-quiz .sc.d4 .o{min-height:44px;padding:8px 2px}
 #rz-quiz .sc.d4 .o .t1{font-size:var(--f2)}
 #rz-quiz .sc.d4 .o .t2{display:none}
 #rz-quiz .sc.d4 .o .ic{width:19px;font-size:var(--f3)}
 #rz-quiz .sc.d5 h1,#rz-quiz .sc.d5 h2{font-size:var(--f6)}
 #rz-quiz .sc.d5 .sub{font-size:var(--f1);line-height:1.35}
 #rz-quiz .sc.d5 .opts{gap:5px;padding:4px 0}
-#rz-quiz .sc.d5 .o{min-height:38px;padding:5px 11px;border-radius:5px}
+#rz-quiz .sc.d5 .o{min-height:38px;padding:5px 2px}
 #rz-quiz .sc.d5 .o .t1{font-size:var(--f1)}
 #rz-quiz .sc.d5 .o .ic{width:18px;font-size:var(--f2)}
 #rz-quiz .sc.d3 .gap,#rz-quiz .sc.d4 .gap,#rz-quiz .sc.d5 .gap{min-height:0}
@@ -277,7 +297,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sc.d6 h1,#rz-quiz .sc.d6 h2{font-size:var(--f4);line-height:1.18;margin-bottom:4px}
 #rz-quiz .sc.d6 .sub{font-size:var(--fh);line-height:1.3}
 #rz-quiz .sc.d6 .opts{gap:4px;padding:3px 0}
-#rz-quiz .sc.d6 .o{min-height:32px;padding:4px 10px;border-radius:4px}
+#rz-quiz .sc.d6 .o{min-height:32px;padding:4px 2px}
 #rz-quiz .sc.d6 .o .t1{font-size:var(--f1)}
 #rz-quiz .sc.d6 .o .t2{display:none}
 #rz-quiz .sc.d6 .o .ic{width:15px;font-size:var(--fh)}
@@ -486,7 +506,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
    --f2:14px; --f3:15px; --f4:16px; --f5:17px; --f6:18px; --f7:20px;
    --f8:22px; --f9:24px; --f10:28px; --f11:34px;
    --d1:30px; --d2:36px; --d3:46px; --d4:56px; --d5:64px}
-#rz-quiz .o{min-height:66px;border-radius:18px;padding:16px 20px}
+#rz-quiz .o{min-height:66px;padding:17px 2px}
 #rz-quiz .hd{padding-top:22px}
 #rz-quiz .ft{padding-bottom:26px}
 #rz-quiz .ft:before{display:none}}
@@ -495,7 +515,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz{--pad:56px;
    --f8:23px; --f9:26px; --f10:30px; --f11:38px;
    --d3:50px; --d4:60px; --d5:72px}
-#rz-quiz .o{min-height:70px;padding:18px 22px}
+#rz-quiz .o{min-height:70px;padding:19px 2px}
 #rz-quiz .hd{padding-top:28px}
 #rz-quiz .ft{padding-bottom:32px}}
 #rz-quiz #rot{display:none}
