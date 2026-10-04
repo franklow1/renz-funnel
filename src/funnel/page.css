@@ -1710,6 +1710,20 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page .dr-verd .r{font-size:17px;line-height:27px;max-width:30ch}
   #rz-page .dr-hint{font-size:17px;line-height:27px;max-width:52ch}
 
+  /* THE FOUR CUTS. Four parallel sentences in a narrow column with the rest of the
+     screen empty beside them. They are four columns, the same as the three nots. */
+  #rz-page .cutlist{display:grid;grid-template-columns:repeat(4,1fr);column-gap:var(--s4);
+   margin-top:var(--s5)}
+  #rz-page .cutlist li{padding:var(--s3) 0 var(--s3) 12px;border-top:1px solid var(--hairline);
+   border-bottom:0!important;grid-template-columns:1fr;font-size:15px;line-height:24px}
+  #rz-page .cutlist li>b{display:block;margin-bottom:6px}
+  #rz-page .cutlist li .cnt{justify-self:start;margin-top:8px}
+  #rz-page .cutend{max-width:30ch;font-size:25px;line-height:35px}
+
+  /* the count is the headline of its own scene, so it is sized like one */
+  #rz-page .counter .n{font-size:108px}
+  #rz-page .counter .lab{font-size:11px;max-width:12ch}
+
   /* THE TWELVE PIECES. The grid was capped at 330px, which on a laptop is a postage
      stamp of the thing the whole section is about. */
   #rz-page .mg{display:grid;grid-template-columns:minmax(0,1fr) 420px;
