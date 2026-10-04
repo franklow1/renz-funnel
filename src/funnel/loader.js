@@ -2855,7 +2855,7 @@
              line:'Then it is chapter two you want. Sharper almost always turns out to be colour, because fit you can feel and colour you cannot.'}
      },
      fitn:{
-      '0.7' :{row:'nearly all of it', say:'Well enough is the problem.'},
+      '0.7' :{row:'nearly all of it', say:'Nobody has ever shown you which is which.'},
       '0.4' :{row:'about half of it',  say:'Half a closet fits you. You pay rent on the rest.'},
       '0.12':{row:'a few pieces',  say:'A few things in there fit you. You already knew.'}
      },
@@ -3101,7 +3101,7 @@
         /* the three beats share one grid cell, so they have to be the same length */
         var say=RZ.all('#sc-fit .say>p');
         if(say[2]) say[2].textContent=SAYS.fitn[String(YOU.fitn)].say;
-        var OPEN={'0.7':['Most of what you own fits you.','Fits and close enough. Nobody has ever shown you which is which.'],
+        var OPEN={'0.7':['Most of what you own fits you.','Close enough is not the same as fits.'],
                   '0.4':['Half of it pulls somewhere.','The other half hangs off you.'],
                   '0.12':['The medium pulls across the chest.','The large hangs off you like your dad\u2019s.']}[String(YOU.fitn)];
         if(OPEN){ if(say[0]) say[0].textContent=OPEN[0]; if(say[1]) say[1].textContent=OPEN[1]; }
