@@ -1700,10 +1700,25 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page .btn .l2{font-size:15px;line-height:20px}
   #rz-page .stick .in{max-width:620px}
 
-  /* the colour rail has room to show all eight without scrolling at all */
-  #rz-page .dr-rail{justify-content:flex-start;gap:10px}
-  #rz-page .dr-sw{width:54px;height:68px}
-  #rz-page .dr-stage{grid-template-columns:168px 1fr;gap:var(--s5)}
+  /* THE COLOUR SCENE. The man, the verdict and the rail took about a third of the
+     screen with the rest empty. This is one of the two places where he actually gets
+     to touch the thing, so it carries the width. */
+  #rz-page .dr-rail{justify-content:flex-start;gap:12px}
+  #rz-page .dr-sw{width:62px;height:80px}
+  #rz-page .dr-stage{grid-template-columns:230px minmax(0,1fr);gap:var(--s6);align-items:center}
+  #rz-page .dr-verd .w{font-size:31px;line-height:38px}
+  #rz-page .dr-verd .r{font-size:17px;line-height:27px;max-width:30ch}
+  #rz-page .dr-hint{font-size:17px;line-height:27px;max-width:52ch}
+
+  /* THE TWELVE PIECES. The grid was capped at 330px, which on a laptop is a postage
+     stamp of the thing the whole section is about. */
+  #rz-page .mg{display:grid;grid-template-columns:minmax(0,1fr) 420px;
+   column-gap:var(--s7);align-items:start}
+  #rz-page .mg-top{grid-column:1 / -1}
+  #rz-page .mg-num{font-size:60px}
+  #rz-page .mg-grid{grid-column:2;grid-row:2 / span 2;max-width:420px;gap:10px;margin-top:0}
+  #rz-page .mg-say{grid-column:1;grid-row:2;font-size:18px;line-height:29px;max-width:34ch}
+  #rz-page .mg-say .hd{font-size:23px;line-height:31px}
 }
 
 @media(min-width:1360px){
