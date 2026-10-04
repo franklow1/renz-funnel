@@ -214,6 +214,9 @@
     var THANKS_WISTIA = '<wistia-player media-id="7ehs06hu2p" aspect="1.5434083601286173"></wistia-player>';
     try{(function(){
       var raw=String(THANKS_WISTIA||'').trim(); if(!raw) return;
+      /* a stand in that was never his film: one of these is an unrelated tutorial that
+         played to anyone who got this far. A frame saying a video goes here is honest. */
+      if(/\b(wai638s3ie|7ehs06hu2p)\b/.test(raw)) return;
       var build=function(){
       var m=raw.match(/media-id=["']([A-Za-z0-9]+)["']/)
           || raw.match(/medias\/([A-Za-z0-9]+)/)

@@ -4234,6 +4234,14 @@
     try{(function(){
       var raw=String(RZ.WISTIA||'').trim();
       if(!raw) return;                                 /* nothing set, the placeholder stays */
+      /* These two ids are stand ins that were never Lorenzo's film: one of them is an
+         unrelated tutorial, and it played on the sales page to anyone who scrolled.
+         A frame saying a video goes here is honest. Someone else's video is not.
+         Paste the real media id over RZ.WISTIA and this gets out of the way. */
+      if(/\b(wai638s3ie|7ehs06hu2p)\b/.test(raw)){
+        if(window.console&&console.info) console.info('[RZ] placeholder media id, player not built:',raw);
+        return;
+      }
       var build=function(){
       var m=raw.match(/media-id=["']([A-Za-z0-9]+)["']/)
           || raw.match(/medias\/([A-Za-z0-9]+)/)
