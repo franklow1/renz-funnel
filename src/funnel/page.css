@@ -1664,6 +1664,16 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page .wrap:has(>.port) .body{max-width:46ch}
   #rz-page .sign{max-width:200px}
 
+  /* THREE THINGS IT IS NOT. Three parallel statements stacked in a narrow column with
+     two thirds of the screen empty beside them. They are a row. */
+  #rz-page .nots-early{display:grid;grid-template-columns:repeat(3,1fr);
+   column-gap:var(--s5);row-gap:0;align-items:start}
+  #rz-page .nots-early h3{grid-column:1 / -1;margin-bottom:var(--s4);font-size:22px;line-height:30px}
+  #rz-page .nots-early p{max-width:none;margin-bottom:0;padding-top:var(--s3);
+   border-top:1px solid var(--hairline)}
+  #rz-page .nots-early p b{display:block;margin-bottom:7px;font-size:17px}
+  #rz-page .nots-early p#adv-line{grid-column:1 / -1;border-top:0;padding-top:var(--s4)}
+
   /* the one button that matters is not a small dark rectangle adrift in beige */
   #rz-page .btn{max-width:540px;padding:22px var(--s4) 21px}
   #rz-page .btn .l1{font-size:19px;line-height:26px}
