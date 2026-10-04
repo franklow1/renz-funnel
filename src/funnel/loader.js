@@ -22,6 +22,13 @@
      same build works on GitHub Pages, in a local preview and anywhere this is ever moved,
      instead of pointing at one hardcoded host that is wrong in two of those three places.
      currentScript is only readable while the file is being parsed, so it is read now. */
+  /* Every count on these pages comes from his own answers, so any of them can
+     legitimately come back as one, and the copy has to survive that. It lives out
+     here because BOTH stages use it: it was defined inside the quiz and called from
+     the page, where it is out of scope, and the ReferenceError took about a dozen
+     personalised lines down with it without a word in the console. */
+  function pl(n,one,many){ return n===1?one:many; }
+
   var ASSETS = (function(){
     try{
       var sc = document.currentScript;
@@ -1151,9 +1158,6 @@
     function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
     function attr(s){ return esc(s).replace(/"/g,'&quot;'); }
     function num(x){ return (Math.round(x*10)/10).toString().replace(/\.0$/,''); }
-    /* every count on these screens comes from his own answers, so any of them can
-       legitimately come back as one. the copy has to survive that. */
-    function pl(n,one,many){ return n===1?one:many; }
 
     /* he has done this once already. send him straight to the page that knows him.
        ?restart=1 puts him back at question one, for testing and for a second go. */
@@ -2914,7 +2918,11 @@
      }
     };
 
-    /* ---------- write him into the page ---------- */
+    /* ---------- write him into the page ----------
+       One try around the whole of it, and it used to swallow whatever it caught. A
+       single throw anywhere in here silently drops every personalised line after it
+       and the page quietly serves the generic copy to everyone, which is exactly what
+       happened. It still never breaks the page, but it says so now. */
     try{(function(){
       var W = WORLD[YOU.want] || WORLD.respect;
       function set(id,html){ var el=$(id); if(el&&html) el.innerHTML=html; }
@@ -3278,7 +3286,7 @@
 
       /* the guarantee is addressed to him */
 
-    })();}catch(e){}
+    })();}catch(e){ if(window.console&&console.error) console.error('[RZ] personalisation stopped early:',e); }
 
     /* ---------- reveal first, in its own scope, so nothing can blank the page ---------- */
     try{
@@ -4162,9 +4170,9 @@
       vid.hidden=false;
       if(VIDEO.iframe){ ph.remove(); var f=document.createElement('iframe'); f.src=VIDEO.iframe;
         f.allow='autoplay; fullscreen; picture-in-picture'; f.setAttribute('allowfullscreen',''); f.title='The Style Solve'; vid.appendChild(f); }
-      else { ph.remove(); var pl=document.createElement('video'); pl.src=VIDEO.file; pl.controls=true;
-        pl.playsInline=true; pl.setAttribute('playsinline',''); pl.preload='metadata';
-        if(VIDEO.poster) pl.poster=VIDEO.poster; vid.appendChild(pl); }
+      else { ph.remove(); var vEl=document.createElement('video'); vEl.src=VIDEO.file; vEl.controls=true;
+        vEl.playsInline=true; vEl.setAttribute('playsinline',''); vEl.preload='metadata';
+        if(VIDEO.poster) vEl.poster=VIDEO.poster; vid.appendChild(vEl); }
     }
     }catch(e){}
 
@@ -4260,10 +4268,10 @@
         if(mod) t.type='module'; document.head.appendChild(t); }
       js('https://fast.wistia.com/player.js',false);
       js('https://fast.wistia.com/embed/'+id+'.js',true);
-      var pl=document.createElement('wistia-player');
-      pl.setAttribute('media-id',id);
-      if(aspect) pl.setAttribute('aspect',String(aspect));
-      vid.appendChild(pl);
+      var wEl=document.createElement('wistia-player');
+      wEl.setAttribute('media-id',id);
+      if(aspect) wEl.setAttribute('aspect',String(aspect));
+      vid.appendChild(wEl);
       };
       /* The loader may still be about to lift this whole stage into the page. A player wired
          up before that move loses the node it was wired to. */
