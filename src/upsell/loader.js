@@ -21,6 +21,30 @@
   var CSS  = /*@CSS@*/;
   var HTML = /*@HTML@*/;
 
+  /* The typefaces were linked from inside the markup this file injects, and that markup
+     lands in the body, so a browser could not even ask for them until the whole script
+     had arrived and painted. The links go into the head the moment this file is parsed,
+     and out of the string, so nothing is asked for twice. */
+  HTML = (function(html){
+    try{
+      var head = document.head || document.getElementsByTagName('head')[0];
+      if(!head) return html;
+      return html.replace(/<link\b[^>]*>\s*/gi, function(tag){
+        try{
+          var box = document.createElement('div');
+          box.innerHTML = tag;
+          var l = box.firstChild;
+          if(!l || !l.getAttribute) return '';
+          var href = l.getAttribute('href') || '';
+          if(href && head.querySelector('link[href="' + href.replace(/"/g,'\\"') + '"]')) return '';
+          head.appendChild(l);
+        }catch(e){}
+        return '';
+      });
+    }catch(e){}
+    return html;
+  })(HTML);
+
   /* ------------------------------------------------------------------
      WHERE THIS PAINTS, AND WHEN
 

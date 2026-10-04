@@ -46,6 +46,30 @@
   var CSS  = /*@CSS@*/;
   var HTML = /*@HTML@*/;
 
+  /* The typefaces were linked from inside the markup this file injects, and that markup
+     lands in the body, so a browser could not even ask for them until the whole script
+     had arrived and painted. The links go into the head the moment this file is parsed,
+     and out of the string, so nothing is asked for twice. */
+  HTML = (function(html){
+    try{
+      var head = document.head || document.getElementsByTagName('head')[0];
+      if(!head) return html;
+      return html.replace(/<link\b[^>]*>\s*/gi, function(tag){
+        try{
+          var box = document.createElement('div');
+          box.innerHTML = tag;
+          var l = box.firstChild;
+          if(!l || !l.getAttribute) return '';
+          var href = l.getAttribute('href') || '';
+          if(href && head.querySelector('link[href="' + href.replace(/"/g,'\\"') + '"]')) return '';
+          head.appendChild(l);
+        }catch(e){}
+        return '';
+      });
+    }catch(e){}
+    return html;
+  })(HTML);
+
   /* ------------------------------------------------------------------
      WHERE THIS PAINTS, AND WHEN
 
@@ -365,7 +389,21 @@
          fetch therefore sends real JSON in normal CORS mode, which also lets a failure be
          seen and retried. (An earlier build used a form-urlencoded beacon on unload; the
          published workflow accepted those and silently created no contact.) */
+      /* A local preview is a dress rehearsal, and it was creating real contacts in the
+         real CRM every time anyone walked the quiz. Nothing leaves a local host. */
+      RZ.isLocal = function(){
+        try{
+          var h = location.hostname || '';
+          return location.protocol === 'file:' || h === 'localhost' || h === '127.0.0.1' ||
+                 h === '[::1]' || h === '::1' || /\.localhost$/.test(h) || /\.test$/.test(h);
+        }catch(e){ return false; }
+      };
+
       RZ.post = function(payload,keepalive){
+        if(RZ.isLocal()){
+          if(window.console&&console.info) console.info('[RZ] local preview, payload NOT sent:',payload);
+          return false;
+        }
         if(!/^https?:\/\//.test(RZ.WEBHOOK||'')){
           if(window.console&&console.info) console.info('[RZ] no webhook set, payload not sent:',payload);
           return false;
@@ -455,6 +493,7 @@
       /* the spreadsheet. same row, sent alongside, so the marketing question
          "what do most men say" has somewhere to be answered. */
       RZ.sheet = function(flat){
+        if(RZ.isLocal()) return;
         if(!/^https?:\/\//.test(RZ.SHEET||'')) return;
         try{
           var body=JSON.stringify(flat);
@@ -530,10 +569,34 @@
         return u;
       };
 
+      /* The dialog called itself modal and was not one: everything behind it stayed in
+         the tab order and in the screen reader's document, so a man could tab straight
+         out of his own booking and back into the page that was still asking him to book.
+         Everything that is not the dialog goes inert while it is open. */
+      function veilBehind(on){
+        try{
+          var root = document.body || document.documentElement;
+          for(var i=0;i<root.children.length;i++){
+            var k = root.children[i];
+            if(k.id === 'rz-cal') continue;
+            if(on){
+              k.setAttribute('data-rz-inert','');
+              k.setAttribute('aria-hidden','true');
+              try{ if('inert' in k) k.inert = true; }catch(e){}
+            } else if(k.hasAttribute('data-rz-inert')){
+              k.removeAttribute('data-rz-inert');
+              k.removeAttribute('aria-hidden');
+              try{ if('inert' in k) k.inert = false; }catch(e){}
+            }
+          }
+        }catch(e){}
+      }
+
       RZ.closeCalendar = function(){
         var el = document.getElementById('rz-cal');
         if(!el || !el.classList.contains('on')) return false;
         el.classList.remove('on');
+        veilBehind(false);
         RZ.lock(false);
         try{ if(RZ._calFrom && RZ._calFrom.focus) RZ._calFrom.focus(); }catch(e){}
         return true;
@@ -564,7 +627,19 @@
           bd.addEventListener('click', RZ.closeCalendar);
           x.addEventListener('click', RZ.closeCalendar);
           document.addEventListener('keydown', function(e){
-            if(e.key === 'Escape' || e.keyCode === 27) RZ.closeCalendar();
+            if(e.key === 'Escape' || e.keyCode === 27){ RZ.closeCalendar(); return; }
+            if(e.key !== 'Tab' && e.keyCode !== 9) return;
+            var open = document.getElementById('rz-cal');
+            if(!open || !open.classList.contains('on')) return;
+            /* inert holds the page behind out of the tab order where it is supported.
+               This keeps the ring closed everywhere else, and keeps it closed on the
+               way backwards out of the close button too. */
+            var stops = [open.querySelector('.rz-cal-x'), open.querySelector('iframe')]
+                          .filter(function(n){ return n; });
+            if(!stops.length) return;
+            var at = stops.indexOf(document.activeElement);
+            if(e.shiftKey){ if(at <= 0){ e.preventDefault(); stops[stops.length-1].focus(); } }
+            else if(at === stops.length - 1 || at === -1){ e.preventDefault(); stops[0].focus(); }
           });
         }
         RZ._calFrom = from || null;
@@ -574,6 +649,8 @@
         el.classList.add('on');
         RZ.lock(true);
         try{ el.querySelector('.rz-cal-x').focus(); }catch(e){}
+        /* after focus has moved in, so nothing is hidden out from under it */
+        veilBehind(true);
         return true;
       };
 
@@ -2524,6 +2601,7 @@
     }
     (function(){
       /* a post parked by an earlier failed visit, retried the next time he lands */
+      if(RZ.isLocal()) return;
       if(!/^https?:\/\//.test(RZ.WEBHOOK||'')) return;
       var b; try{b=localStorage.getItem('renz_crm_pending');}catch(e){return;}
       if(!b) return; try{localStorage.removeItem('renz_crm_pending');}catch(e){}
@@ -2592,7 +2670,13 @@
     /* ===================================================================== */
     var $=function(id){ return RZ.id(id); };
     var esc=function(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
-    var RM=false; try{ RM=matchMedia('(prefers-reduced-motion:reduce)').matches; }catch(e){}
+    var RM=false, RMQ2=null;
+    try{ RMQ2=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)'); RM=!!(RMQ2&&RMQ2.matches); }catch(e){}
+    /* read once and never heard again: a man who turns motion off mid page kept every
+       scroll driven scene running until he reloaded */
+    try{ if(RMQ2){ var onRM2=function(){ RM=!!RMQ2.matches; };
+      if(RMQ2.addEventListener) RMQ2.addEventListener('change',onRM2);
+      else if(RMQ2.addListener) RMQ2.addListener(onRM2); } }catch(e){}
     function qp(k){ try{ return new URLSearchParams(location.search).get(k); }catch(e){ return null; } }
     var st={}; try{ st=JSON.parse(localStorage.getItem('renz_score')||'{}')||{}; }catch(e){ st={}; }
     if(!st.t || (Date.now()-st.t)>90*24*3600*1000) st={};

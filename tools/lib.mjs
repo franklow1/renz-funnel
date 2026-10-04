@@ -72,8 +72,10 @@ export function join(loader, css, html) {
   if (!loader.includes('/*@CSS@*/') || !loader.includes('/*@HTML@*/'))
     throw new Error('loader has lost its markers');
   return loader
-    .replace('/*@CSS@*/', writeLiteral(css))
-    .replace('/*@HTML@*/', writeLiteral(html));
+    /* function replacements: a $ in the CSS or the copy is a replacement pattern to
+       String.replace, and $& or $` would quietly eat part of the built file */
+    .replace('/*@CSS@*/', function(){ return writeLiteral(css); })
+    .replace('/*@HTML@*/', function(){ return writeLiteral(html); });
 }
 
 export const read = (p) => readFileSync(p, 'utf8');
