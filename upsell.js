@@ -184,8 +184,29 @@
   }
   window.__rzHandover = handover;
 
+  /* The builder's stock bump heading, "Upgrade Your Order & Save!", promises a saving
+     nobody has quantified and shouts on a page that never shouts. Guarded twice: it only
+     looks inside the builder's own bump container, and it only rewrites a line that
+     actually matches the stock wording, so on a step that does not carry one it does
+     nothing at all. Untested against the live upsell, which sits behind a payment. */
+  function fixBumpHeading(){
+    try{
+      [].forEach.call(document.querySelectorAll(
+        '.order-bump-container .main-section .headline, .order-bump-container .headline'), function(h){
+        var t=(h.textContent||'').trim();
+        if(!t || !/upgrade|save/i.test(t)) return;
+        h.textContent='Add to your order';
+      });
+    }catch(e){}
+  }
+
   function start(){
     if (!paint()) return;
+    try{
+      fixBumpHeading();
+      var bh=setInterval(fixBumpHeading, 800);
+      setTimeout(function(){ clearInterval(bh); }, 60000);
+    }catch(e){}
     /* the funnel's own code, verbatim, with the markup already on the page */
     (function(){
       'use strict';
