@@ -120,7 +120,7 @@
      one of them is written only if the page has not been given a real one already. */
   var HEAD = {
     title: 'The Style Solve · Renz Tailors',
-    desc : 'Forty five minutes, one to one. What fits you, which colours are yours and '
+    desc : 'Forty-five minutes, one to one. What fits you, which colours are yours and '
          + 'what to wear to what. Settled once.',
     image: ASSETS + 'lorenzo.jpg'
   };
@@ -1246,12 +1246,12 @@
     {t:'pace',id:'pace',bar:1},
 
     {t:'choice',id:'block',bar:1,dim:'suits',h:'{CAP}, what is the main thing in the way?',
-     s:'The closest one. Even if it\'s a small one.',
+     s:'The closest one. Even if it\u2019s a small one.',
      o:[['\uD83D\uDCCF','Nothing fits me properly','Shop sizes never quite work on me','fit',0.6],
-        ['\uD83E\uDD37','I can\'t tell what suits me','I don\'t know what works on my body','suits',0.2],
-        ['\uD83E\uDDE9','My things don\'t go together','Good pieces, no outfits','goes',0.6],
-        ['\uD83D\uDED2','I wouldn\'t know where to buy','Every shop looks the same to me','buy',0.6],
-        ['\u23F3','I haven\'t got the time','I\'m not spending weekends shopping','time',0.6],
+        ['\uD83E\uDD37','I can\u2019t tell what suits me','I don\u2019t know what works on my body','suits',0.2],
+        ['\uD83E\uDDE9','My things don\u2019t go together','Good pieces, no outfits','goes',0.6],
+        ['\uD83D\uDED2','I wouldn\u2019t know where to buy','Every shop looks the same to me','buy',0.6],
+        ['\u23F3','I haven\u2019t got the time','I\u2019m not spending weekends shopping','time',0.6],
         ['\u2B50','Nothing major','I just want it sharper than it is','none',2.5]]},
 
     {t:'choice',id:'advice',bar:1,multi:1,h:'Do you follow anyone for style advice?',
@@ -1286,7 +1286,7 @@
                                     m:'Too much of what you own is only close enough.'},
      suits:{k:'What suits you',     c:'You keep buying things that suit somebody else.',
                                     m:'You are guessing at what suits you more mornings than not.'},
-     goes: {k:'What goes together', c:'Your clothes don\'t go together.'},
+     goes: {k:'What goes together', c:'Your clothes don\u2019t go together.'},
      room: {k:'How you are read',   c:'You walk into rooms not knowing what they think.'}
     };
     /* the wording has to match how bad the answer actually was, not just which cut lost */
@@ -1299,16 +1299,16 @@
     var SAID={
      fit:  {'0.7':'nearly all of them fit you','0.4':'about half of them fit you','0.12':'only a few of them fit you'},
      goal: {run:'run the room',easy:'look like it costs you nothing',best:'look like the best version of you'},
-     block:{fit:'nothing fits you properly',suits:'you can\'t tell what suits you',
-            goes:'your things don\'t go together',buy:'you wouldn\'t know where to buy',
-            time:'you haven\'t got the time',none:'nothing major is in the way'},
+     block:{fit:'nothing fits you properly',suits:'you can\u2019t tell what suits you',
+            goes:'your things don\u2019t go together',buy:'you wouldn\u2019t know where to buy',
+            time:'you haven\u2019t got the time',none:'nothing major is in the way'},
      want: {deals:'close more deals',respect:'be taken seriously',
             dates:'get looked at twice',easy:'stop thinking about it'}
     };
     var GOALS={
-     run: 'Being read as <span class="gold">the man who runs the room</span> isn\'t hard at all.',
-     easy:'Looking like <span class="gold">it costs you nothing</span> isn\'t hard at all.',
-     best:'Looking like <span class="gold">the best version of you</span> isn\'t hard at all.'
+     run: 'Being read as <span class="gold">the man who runs the room</span> isn\u2019t hard at all.',
+     easy:'Looking like <span class="gold">it costs you nothing</span> isn\u2019t hard at all.',
+     best:'Looking like <span class="gold">the best version of you</span> isn\u2019t hard at all.'
     };
     var BLOCKS={
      fit:  'cut for your body',
@@ -1667,9 +1667,9 @@
         var paintN=function(){
           var v=+rg.value; sv.textContent=v+(v>=140?'+':'');
           rg.setAttribute('aria-valuetext',v+(v>=140?' or more':'')+' things');
-          rc.textContent = v<40 ? 'Fewer things than most men own.'
-                        : v<=85 ? 'About what most men own.'
-                        : 'More than most men own.';
+          rc.textContent = v<40 ? 'Fewer than most closets I open.'
+                        : v<=85 ? 'About what most closets hold.'
+                        : 'More than most closets I open.';
           if(v!==lastN){ lastN=v; buzz(3); }
         };
         rg.oninput=paintN; paintN();
@@ -1805,7 +1805,7 @@
             'Ten seconds in a mirror. One angle. Looking for what you expected to find.</p>'+
           '<p class="sub mid rise mt2" style="animation-delay:.5s">'+
             'They have you for hours, from every side. '+
-            '<b>They\'ve read things you\'ve never seen.</b></p>'+
+            '<b>They\u2019ve read things you\u2019ve never seen.</b></p>'+
           '<div class="gap"></div>';
         footer('Go on',false,function(){ go(S.i+1,'fwd'); });
         fit(sc); return;
@@ -1834,8 +1834,8 @@
 
         var L1=['This is your closet.', C.own+' things hanging up.'];
         var L2=['Open enough closets and the same thing shows up.',
-                'Men use about 30% of what they own. Out of your '+C.own+', that\'s about '+C.worn+'.'];
-        var L3=['And of those, only a fifth actually fit the man wearing them.',
+                'Men use about 30% of what they own. Out of your '+C.own+', that\u2019s about '+C.worn+'.'];
+        var L3=['And of those, far fewer actually fit the man wearing them.',
                 'His body, his life and how he wants to be read. Yours comes out at '+C.work+'.'];
         /* reserve the tallest of the three states so the grid box never moves */
         function lockHead(){   /* measure a detached clone, so nothing is announced twice */
@@ -1965,7 +1965,7 @@
         var D=goodDays(), BAD=30-D;
         sc.innerHTML='<div class="revhead" id="dhead">'+
             '<h2 id="dh" aria-live="polite">A month is thirty days.</h2>'+
-            '<p class="sub" id="ds" aria-live="polite">Let\'s count the good ones.</p>'+
+            '<p class="sub" id="ds" aria-live="polite">Let\u2019s count the good ones.</p>'+
           '</div>'+
           '<div class="gwrap"><div class="grid" id="dg" aria-hidden="true"></div></div>'+
           '<div class="tally" id="dt">'+
@@ -1978,7 +1978,7 @@
         var dg=sc.querySelector('#dg'),dh=sc.querySelector('#dh'),ds=sc.querySelector('#ds'),
             dp=sc.querySelector('#dp'),dgw=sc.querySelector('.gwrap'),dhead=sc.querySelector('#dhead');
 
-        var M1=['A month is thirty days.','Let\'s count the good ones.'];
+        var M1=['A month is thirty days.','Let\u2019s count the good ones.'];
         var M2=['Your answers say '+D+' of them.',
                 D===0 ? 'Not one day a month where you walk out sure of yourself.'
                       : D+pl(D,' day a month you walk out certain of yourself.',
@@ -2063,12 +2063,12 @@
         sc.innerHTML='<div class="gap"></div>'+
           '<h2 class="mid rise">'+g1+'</h2>'+
           '<p class="sub mid rise mt2" style="animation-delay:.25s">'+
-            (first?esc(first)+', you':'You')+(C1.own<25 ? ' don\'t need a bigger closet. '
-            : ' don\'t need more than the '+C1.own+' you already have. ')+
+            (first?esc(first)+', you':'You')+(C1.own<25 ? ' don\u2019t need a bigger closet. '
+            : ' don\u2019t need more than the '+C1.own+' you already have. ')+
             'You need a closet chosen on purpose, for your body and for the way you want to be read, '+
             'where every piece works with every other piece.</p>'+
           '<p class="sub mid rise mt2" style="animation-delay:.5s">'+
-            '<b>Hundreds of men have had exactly that built for them.</b></p>'+
+            '<b>Two hundred men have had exactly that built for them.</b></p>'+
           '<div class="gap"></div>';
         footer('Continue',false,function(){ go(S.i+1,'fwd'); });
         fit(sc); return;
@@ -2178,7 +2178,7 @@
         var adv=ADV[advKey]||ADV.none;
         void bw4;
         /* his own numbers, then a question he answers in his head. the conclusion stays his. */
-        var daysLine = hop==null ? '' : dys===0 ? ' You can\'t remember the last morning you walked out sure.'
+        var daysLine = hop==null ? '' : dys===0 ? ' You can\u2019t remember the last morning you walked out sure.'
                      : hop<=5 ? '' : ' And <b>'+hop+'</b> mornings a month you walk out hoping.';
         var qty=(fw4.match(/^(nearly all|about half|only a few)/)||[])[1];
         var fitLine = (qty&&C4.own) ? '<b>'+qty+'</b> of your <b>'+C4.own+'</b> things fit you' : fw4;
@@ -2420,7 +2420,7 @@
       var hoping=30-(days||0), hi=(R.n>=8);
       var lead = 'You want to '+gw2+'. '+(
           hi || hoping<=5 ? 'Most mornings you already do.'
-        : days===0        ? 'You can\'t remember the last morning you walked out sure of it.'
+        : days===0        ? 'You can\u2019t remember the last morning you walked out sure of it.'
                           : '<b>'+hoping+'</b> mornings a month you walk out hoping.');
       var mine = 'You own <b>'+C.own+'</b> things and '+fw+'. You told me '+bw+'.';
 
@@ -2691,7 +2691,7 @@
      deals:{
       fps:['And Walk In Already Believed','And Stop Guessing At The Rail','And Own The Room Before You Speak','And Never Get It Wrong Again','And Be The Man They Expected','And Look The Part In Every Meeting','And Settle It In Forty Five Minutes'],
       vlabel:'Why they decide before the pitch starts',
-      trial:'If you walked into that pitch and they already had you down as safe hands, would that be worth forty five minutes?',
+      trial:'If you walked into that pitch and they already had you down as safe hands, would that be worth forty-five minutes?',
       blame:'And none of that is a taste problem. The jacket that pulls across your back was cut for a fit model in a factory. The shirt you keep reaching for was chosen in a shop by a man paid to move stock. Every one of those calls was made for you, by someone who had never once looked at you.',
       dkeyeb:'What it\u2019s actually for',
       dkh:'You don\u2019t look good. You look like the man they were hoping would walk in.',
@@ -2706,28 +2706,28 @@
       forkDo:'And whoever is in the next room decides what you are worth before you have sat down.',
       forkBk:'Then every room you walk into gets the man they were hoping would walk in.',
       naRoom:'The next pitch',
-      naNow:['They work out how hard to push on your number before you have sat down.',
+      naNow:['They work out how much of your case you are going to have to prove, before you have sat down.',
              'You spend the first ten minutes earning back a room you never lost on merit.',
              'You leave not knowing which part of it was you and which part was the jacket.'],
       naAft:['They have you down as the safe pair of hands before you open your mouth.',
              'You start the meeting where you used to get to twenty minutes in.',
              'Nobody mentions your clothes. They just stop making their mind up before you speak.'],
-      sec3:'By the time you have sat down, they have decided how hard to push on your number.',
+      sec3:'By the time you have sat down, they have decided how much benefit of the doubt you get.',
       cleyeb:'Here\u2019s what to do next',
       clh:'What\u2019s the next thing you\u2019re pitching for?',
       clb1:'It is already in the diary. The people across that table make their mind up before you get a word out.',
-      cldoors:'So you have two. Walk into that one as you are. It costs you nothing today. It costs you a bit of every room after. Or forty five minutes, once. Then you walk in already read correctly.',
+      cldoors:'So you have two. Walk into that one as you are. It costs you nothing today. It costs you a bit of every room after. Or forty-five minutes, once. Then you walk in already read correctly.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Tables that made their mind up before you spoke.',
-      ifall:'Say it did nothing except stop one table deciding what you were worth before you spoke. <b>Worth ninety nine pounds?</b>',
+      ifall:'Say it did nothing except stop one table deciding what you were worth before you spoke. <b>Worth ninety-nine pounds?</b>',
       notfor:'If you actually enjoy the shopping, this is not for you. It is for the man who wants the result and has no interest in the process.',
-      trial2:'That handful has been carrying you into every room this year. Forty five minutes turns the rest into a list you can order from. Give it the forty five?',
+      trial2:'That handful has been carrying you into every room this year. Forty-five minutes turns the rest into a list you can order from. Give it the forty-five?',
       ps:'Everyone across that table can see you. You\u2019re the only one in the room who can\u2019t.',
       who:'a man worth listening to', win:'being believed the first time'
      },
      respect:{
       fps:['And Be Taken Seriously From The Start','And Stop Guessing At The Rail','And Get The Benefit Of The Doubt','And Never Get It Wrong Again','And Be Read The Way You Meant','And Be Taken Seriously From The Start','And Settle It In Forty Five Minutes'],
       vlabel:'Why they read your age before they read your work',
-      trial:'If forty five minutes meant you never had to prove you belong again, would you give it the forty five minutes?',
+      trial:'If forty-five minutes meant you never had to prove you belong again, would you give it the forty-five minutes?',
       blame:'And none of that is a taste problem. Clothes cut for a body that is not yours always read as borrowed. Borrowed reads as young. Nobody ever handed you the numbers that fix it, so you have been guessing at it for years.',
       dkeyeb:'What it\u2019s actually for',
       dkh:'You don\u2019t look good. You look senior. And you know it before you\u2019re out the front door.',
@@ -2752,11 +2752,11 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'What\u2019s the next room you\u2019d rather walk into already taken seriously?',
       clb1:'It is already in the diary. Everyone in it makes their mind up about you before you say a word.',
-      cldoors:'So you have two. Walk into that room as you are. It costs you nothing today. It costs you the first twenty minutes of every room after. Or forty five minutes, once. Then you stop starting from behind.',
+      cldoors:'So you have two. Walk into that room as you are. It costs you nothing today. It costs you the first twenty minutes of every room after. Or forty-five minutes, once. Then you stop starting from behind.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Rooms where you had to win back ground you never should have lost.',
-      ifall:'Say it did nothing except stop one table reading you as the junior man before you spoke. <b>Worth ninety nine pounds?</b>',
+      ifall:'Say it did nothing except stop one table reading you as the junior man before you spoke. <b>Worth ninety-nine pounds?</b>',
       notfor:'If being read correctly on the way in does not matter to you, this is not for you. It is for the man who is tired of proving it twice.',
-      trial2:'That handful is what you have been walking in with. Forty five minutes and the rest of them stop making the decision for you. Give it the forty five?',
+      trial2:'That handful is what you have been walking in with. Forty-five minutes and the rest of them stop making the decision for you. Give it the forty-five?',
       ps:'Everyone in that room can see you. You\u2019re the only one in there who can\u2019t.',
       who:'the senior man in the room', win:'being taken seriously'
      },
@@ -2788,18 +2788,18 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'Where are you going this month that you\u2019d rather not turn up to guessing?',
       clb1:'It is already in the diary. The first thing anyone there gets of you is the three seconds before you say hello.',
-      cldoors:'So you have two. Turn up exactly as you are and hope it was the right shirt, which is what you have been doing. Or forty five minutes, once. Then you stop hoping.',
+      cldoors:'So you have two. Turn up exactly as you are and hope it was the right shirt, which is what you have been doing. Or forty-five minutes, once. Then you stop hoping.',
       cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Whole evenings where you were the same man in the wrong shirt.',
-      ifall:'Say it did nothing except make you the one they looked at twice on one evening out. <b>Worth ninety nine pounds?</b>',
+      ifall:'Say it did nothing except make you the one they looked at twice on one evening out. <b>Worth ninety-nine pounds?</b>',
       notfor:'If you like the guessing, this is not for you. It is for the man who would rather know.',
-      trial2:'That handful is what anyone has ever actually seen you in. Forty five minutes and the rest of that rail starts working. Give it the forty five?',
+      trial2:'That handful is what anyone has ever actually seen you in. Forty-five minutes and the rest of that rail starts working. Give it the forty-five?',
       ps:'Everyone in that room got a look at you tonight. You\u2019re the only one who didn\u2019t.',
       who:'a man who has it together', win:'the second look'
      },
      easy:{
-      fps:['And Never Think About It Again','And Stop Guessing At The Rail','And Reach In Without Looking','And Get It Right Without Trying','And Have Your Mornings Back','And Never Think About It Again','And Settle It In Forty Five Minutes'],
+      fps:['And Never Think About It Again','And Stop Guessing At The Rail','And Reach In Without Looking','And Get It Right Without Trying','And Never Get It Wrong Again','And Never Think About It Again','And Settle It In Forty Five Minutes'],
       vlabel:'Why a full rail still leaves you with nothing to wear',
-      trial:'If getting dressed stopped being a decision, for good, in forty five minutes, would you give it the forty five minutes?',
+      trial:'If getting dressed stopped being a decision, for good, in forty-five minutes, would you give it the forty-five minutes?',
       blame:'And it is not that you own nothing. Nothing in there was picked to go with anything else. So every morning you start the same puzzle again, with the same pieces missing. That is not a discipline problem. It is a missing-information problem.',
       dkeyeb:'What it\u2019s actually for',
       dkh:'You don\u2019t look good. You look right. And it cost you nothing to get there.',
@@ -2811,7 +2811,7 @@
       dkrp:'Count the mornings between now and then. <b>How many of those do you want to spend deciding?</b>',
       dkaft:'After this, not one of those mornings costs you a thought.',
       cta:'Off your list. It stays off it.', fp:'And Never Think About It Again',
-      forkDo:'And every one of those mornings costs you the same ten minutes it has always cost you.',
+      forkDo:'And every one of those mornings ends the same way it ended today, with you not quite sure.',
       forkBk:'Then you reach in without looking. It is off your list for good.',
       naRoom:'Tomorrow morning',
       naNow:['You stand there and solve the same puzzle you solved yesterday.',
@@ -2824,12 +2824,12 @@
       cleyeb:'Here\u2019s what to do next',
       clh:'How many more mornings do you want to spend deciding?',
       clb1:'Another month of mornings ahead of you. Every one is another go at the same puzzle.',
-      cldoors:'So you have two. Keep deciding every morning. It costs you nothing today. It costs you a few minutes and a bit of sureness every day after. Or forty five minutes, once. Then it is closed.',
-      cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Mornings you are never getting back.',
-      ifall:'Say it did nothing except hand you back every morning you have spent standing in front of that closet. <b>Worth ninety nine pounds?</b>',
+      cldoors:'So you have two. Keep deciding every morning. It costs you nothing today. It costs you a bit of sureness every day after. Or forty-five minutes, once. Then it is closed.',
+      cost:'And the honest question was never what this costs. It is what putting it off has already cost you. Mornings you walked out of not knowing.',
+      ifall:'Say it did nothing except take the guessing out of every morning you have left. <b>Worth ninety-nine pounds?</b>',
       notfor:'If clothes are a hobby of yours, this is not for you. It is for the man who wants the question closed, not opened.',
-      trial2:'That handful is the reason the rest is just weight on a rail. Forty five minutes and there is nothing left in there to get wrong. Give it the forty five?',
-      ps:'You\u2019ve spent years on a question that takes forty five minutes to close.',
+      trial2:'That handful is the reason the rest is just weight on a rail. Forty-five minutes and there is nothing left in there to get wrong. Give it the forty-five?',
+      ps:'You\u2019ve spent years on a question that takes forty-five minutes to close.',
       who:'a man it comes easy to', win:'never thinking about it'
      }
     };
@@ -2846,7 +2846,7 @@
      },
      block:{
       fit  :{row:'nothing fits properly', ch:1, faq:3,
-             lead:'Nothing fits you properly.',
+             lead:'Fit is the one in your way.',
              line:'So start with chapter one below. It is the one that is just numbers, which is why it is the quickest to fix.'},
       suits:{row:'can\u2019t tell what suits', ch:2, faq:1,
              lead:'You can\u2019t tell what suits you.',
@@ -2859,7 +2859,7 @@
              line:'Which is a sizing problem wearing a shopping problem\u2019s coat. Once you know your own numbers the shops sort themselves out, because most of them stop applying.'},
       time :{row:'no time for it', ch:1, faq:5,
              lead:'You haven\u2019t got the time.',
-             line:'Then take the short version. We scan you once, you give me forty five minutes once. It is off your list permanently. That is the entire ask. Everything below this is only the proof of it.'},
+             line:'So here is all of it. We scan you once. You give me forty-five minutes once. Then it is settled. That is the entire ask. Everything below this is only the proof of it.'},
       none :{row:'nothing major, just sharper', ch:2, faq:1,
              lead:'Nothing major. You just want it sharper than it is.',
              line:'Then it is chapter two you want. Sharper almost always turns out to be colour, because fit you can feel and colour you cannot.'}
@@ -2872,7 +2872,7 @@
      /* line two of the before and after comes from his weakest cut, not from what he wants */
      /* the three payoff lines belong to him, not to a generic man */
      chp1:{'0.7' :'You order at eleven at night, in your own numbers. You already know to the quarter inch.',
-            '0.4' :'The half of that closet that was only close enough stops being close enough.',
+            '0.4' :'The half of that closet that was only close enough stops being a guess.',
             '0.12':'You stop buying things that were never going to fit you. You never guess at a size again.'},
      chp2:{deals  :'You walk past a rail and know in one second which one gets you believed.',
             respect:'You walk past a rail and know in one second which one gets you taken seriously.',
@@ -2929,10 +2929,10 @@
       none   :'You have been working it out on your own, which is why it has taken this long.'
      },
      pace:{
-      0:'It takes forty five minutes. It may as well be this week.',
-      1:'It takes forty five minutes. There is no version of this that needs a few months.',
-      2:'It takes forty five minutes. There is no reason it waits a month.',
-      3:'It takes forty five minutes. Start it now.'
+      0:'It takes forty-five minutes. It may as well be this week.',
+      1:'It takes forty-five minutes. There is no version of this that needs a few months.',
+      2:'It takes forty-five minutes. There is no reason it waits a month.',
+      3:'It takes forty-five minutes. Start it now.'
      }
     };
 
@@ -3006,7 +3006,7 @@
                 suits:'What this is not, before we go anywhere near your colouring.',
                 goes:'What this is not, before we open the doors.',
                 buy:'What this is not, before we talk about what to buy.',
-                time:'What this is not. None of it will cost you a weekend.',
+                time:'What this is not, before you give me forty-five minutes.',
                 none:'What this is not, before you go any further.'};
         var nh=$('nots-h'); if(nh&&NH[YOU.block]) nh.textContent=NH[YOU.block];
       }
@@ -3036,7 +3036,7 @@
           set('dk-rp',W.dkrp);
         } else if(YOU.pace===3){
           txt('dk-rh','Wanting it done now is the easy part.');
-          set('dk-rp','The only thing between you and it being done is a time in a diary. Forty five minutes, with a two minute scan before it. <b>Take the first slot that works.</b>');
+          set('dk-rp','The only thing between you and it being done is a time in a diary. Forty-five minutes, with a two minute scan before it. <b>Take the first slot that works.</b>');
         } else { txt('dk-rh',W.dkrh); set('dk-rp',W.dkrp); }
         /* the four beats that were written for him and had nowhere to go */
         var show=function(id,str){ var e=$(id); if(e&&str){ e.innerHTML=str; e.hidden=false; } };
@@ -3239,8 +3239,8 @@
        }
       }catch(e){}
 
-      /* the forty five minutes counts his own closet */
-      if(YOU.own) txt('ch-d','Forty five minutes, one to one. All '+YOU.own+' of them go through the four cuts, one at a time. Then what to buy next and what to wear to what.');
+      /* the forty-five minutes counts his own closet */
+      if(YOU.own) txt('ch-d','Forty-five minutes, one to one. All '+YOU.own+' of them go through the four cuts, one at a time. Then what to buy next and what to wear to what.');
 
       /* the colour rail says why his are not on it */
       try{
@@ -3260,7 +3260,7 @@
       try{
        if(W&&W.fp){
         var nx=RZ.all('#next li span');
-        if(nx[2]) nx[2].innerHTML='<b>Forty five minutes, one to one.</b> You hang up and it is done. '+
+        if(nx[2]) nx[2].innerHTML='<b>Forty-five minutes, one to one.</b> You hang up and it is done. '+
           (YOU.days!=null&&YOU.days<=18 ? 'The morning after that is the first of thirty you do not have to think about.'
                                         : 'The morning after that, you reach without thinking.');
        }
@@ -3619,7 +3619,7 @@
               if(!YOU.work||YOU.work>YOU.worn) YOU.work=Math.max(1,Math.round(YOU.worn*0.20));
               if($('ask-h')) $('ask-h').textContent='Open the doors. There are about '+v+' things in there.';
               if($('ask-sub')){ $('ask-sub').textContent='Watch what happens when all four cuts run against them, one at a time.'; $('ask-sub').hidden=false; }
-              if($('ch-d')) $('ch-d').textContent='Forty five minutes, one to one. All '+v+' of them go through the four cuts, one at a time. Then what to buy next and what to wear to what.';
+              if($('ch-d')) $('ch-d').textContent='Forty-five minutes, one to one. All '+v+' of them go through the four cuts, one at a time. Then what to buy next and what to wear to what.';
               var nl2=$('notlist');
               if(nl2) nl2.innerHTML='So you own '+v+' things. You touch about '+YOU.worn+'. Of those, '+YOU.work+
                 ' actually work. <b>That is not a loss.</b> The rest were never doing anything for you anyway. '+
@@ -3912,7 +3912,7 @@
         ? 'The rest is your own body. Nobody has ever written it down.'
         : 'The rest of it nobody has ever taken.';
       var cap=$('patcap');
-      if(cap&&YOU.has) cap.innerHTML='Everything above that line, anybody could tell you. <b>Everything below it is a fact about your own body that has never once been written down.</b> Forty five minutes fills in the rest. It stays filled in.';
+      if(cap&&YOU.has) cap.innerHTML='Everything above that line, anybody could tell you. <b>Everything below it is a fact about your own body that has never once been written down.</b> Forty-five minutes fills in the rest. It stays filled in.';
       function run(){
         card.classList.add('gc-in');
         var lis=rows.children;
@@ -4116,7 +4116,7 @@
             ? 'Tomorrow you open those doors and nothing in there is an obvious yes, same as this morning.'
             : 'Tomorrow goes the way this morning went. So does the one after it.');
         dn.innerHTML=lead+' <b>'+W2.forkDo+'</b>';
-        bk.innerHTML='Forty five minutes, once. <b>'+W2.forkBk+'</b>';
+        bk.innerHTML='Forty-five minutes, once. <b>'+W2.forkBk+'</b>';
       }
       if(RM||!('IntersectionObserver' in window)){ f.classList.add('in'); return; }
       new IntersectionObserver(function(es,o){
