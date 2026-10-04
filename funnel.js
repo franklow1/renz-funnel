@@ -29,6 +29,13 @@
      personalised lines down with it without a word in the console. */
   function pl(n,one,many){ return n===1?one:many; }
 
+  /* Set one of these and the hero video frame appears AND the quiz starts promising it.
+     It is out here because the quiz asks for his email on the strength of this video and
+     the quiz cannot see anything declared inside the page stage. While both are empty the
+     quiz promises him his number instead, which is the thing that actually exists. */
+  var VIDEO = { iframe:'', file:'', poster:'' };
+  function hasVideo(){ return !!(VIDEO.iframe || VIDEO.file); }
+
   var ASSETS = (function(){
     try{
       var sc = document.currentScript;
@@ -1172,35 +1179,16 @@
     function attr(s){ return esc(s).replace(/"/g,'&quot;'); }
     function num(x){ return (Math.round(x*10)/10).toString().replace(/\.0$/,''); }
 
-    /* he has done this once already. send him straight to the page that knows him.
-       ?restart=1 puts him back at question one, for testing and for a second go. */
+    /* He has done this once already: RZ decides where he lands, so nothing happens here.
+       ?restart=1 is the way back to question one, for a second go and for testing, and it
+       has to clear all three keys. Clearing only the score left renz_you and renz_who
+       behind, and the page read those and sent him straight back out again. */
     (function(){
       try{
-        if(/[?&]restart=1/.test(location.search)) { localStorage.removeItem('renz_score'); return; }
-        var d=JSON.parse(localStorage.getItem('renz_score')||'null');
-        if(!d||d.n==null||!d.t) return;
-        if(Date.now()-d.t > 90*24*3600*1000) return;          /* older than three months, start again */
-        return;                                               /* RZ decides where he lands */
-        var q=[];
-        q.push('score='+encodeURIComponent(d.n));
-        if(d.worst) q.push('worst='+encodeURIComponent(d.worst));
-        if(d.own!=null)  q.push('own='+encodeURIComponent(d.own));
-        if(d.worn!=null) q.push('worn='+encodeURIComponent(d.worn));
-        if(d.work!=null) q.push('work='+encodeURIComponent(d.work));
-        if(d.days!=null) q.push('days='+encodeURIComponent(d.days));
-        if(d.goal)  q.push('goal='+encodeURIComponent(d.goal));
-        if(d.want)  q.push('want='+encodeURIComponent(d.want));
-        if(d.block) q.push('block='+encodeURIComponent(d.block));
-        if(d.fitn!=null) q.push('fit='+encodeURIComponent(d.fitn));
-        if(d.pace!=null) q.push('pace='+encodeURIComponent(d.pace));
-        if(d.reach) q.push('reach='+encodeURIComponent(d.reach));
-        if(d.room)  q.push('room='+encodeURIComponent(d.room));
-        if(d.advice)q.push('advice='+encodeURIComponent(d.advice));
-        if(d.name)  q.push('fn='+encodeURIComponent(d.name));
-        if(d.lid)   q.push('lid='+encodeURIComponent(d.lid));
-        try{ q.push('src='+encodeURIComponent(SRC)); q.push('v='+encodeURIComponent(VAR)); }catch(e){}
-        q.push('back=1');
-        location.replace(VSL_URL+(VSL_URL.indexOf('?')>-1?'&':'?')+q.join('&'));
+        if(!/[?&]restart=1/.test(location.search)) return;
+        ['renz_score','renz_you','renz_who','renz_crm_pending'].forEach(function(k){
+          try{ localStorage.removeItem(k); }catch(e){}
+        });
       }catch(e){}
     })();
 
@@ -1215,19 +1203,19 @@
 
     {t:'name'},
 
-    {t:'count',id:'own',bar:1},
+    {t:'count',id:'own',bar:1,q:1},
 
-    {t:'choice',id:'fitn',bar:1,dim:'fit',h:'How many of those {N} fit you properly?',
+    {t:'choice',id:'fitn',bar:1,q:1,dim:'fit',h:'How many of those {N} fit you properly?',
      s:'Properly. Not close enough.',
      o:[['\uD83D\uDC54','Nearly all of them','I only buy what fits me',0.70,2.5],
         ['\u2696\uFE0F','About half','Some fit, the rest are close enough',0.40,0.6],
         ['\u26A0\uFE0F','Only a few','Close enough is most of my closet',0.12,0.2]]},
 
-    {t:'yn',id:'reach',bar:1,dim:'goes',
+    {t:'yn',id:'reach',bar:1,q:1,dim:'goes',
      h:'Can you open your closet in the morning and know exactly what to reach for, every time?',
      yes:2.5,no:0.6},
 
-    {t:'yn',id:'room',bar:1,dim:'room',
+    {t:'yn',id:'room',bar:1,q:1,dim:'room',
      h:'When you walk into a room, do you know what people are thinking about you, just by looking at you?',
      yes:2.5,no:0.6},
 
@@ -1235,7 +1223,7 @@
 
     {t:'reveal',bar:1},
 
-    {t:'choice',id:'goal',bar:1,h:'How do you want people to see you?',
+    {t:'choice',id:'goal',bar:1,q:1,h:'How do you want people to see you?',
      s:'The one you would take today.',
      o:[['\uD83D\uDC51','Like I run the room','Sharp, in charge, hard to ignore','run'],
         ['\uD83E\uDDCA','Like it costs me nothing','Put together without trying','easy'],
@@ -1243,9 +1231,9 @@
 
     {t:'belief1',bar:1},
 
-    {t:'pace',id:'pace',bar:1},
+    {t:'pace',id:'pace',bar:1,q:1},
 
-    {t:'choice',id:'block',bar:1,dim:'suits',h:'{CAP}, what is the main thing in the way?',
+    {t:'choice',id:'block',bar:1,q:1,dim:'suits',h:'{CAP}, what is the main thing in the way?',
      s:'The closest one. Even if it\u2019s a small one.',
      o:[['\uD83D\uDCCF','Nothing fits me properly','Shop sizes never quite work on me','fit',0.6],
         ['\uD83E\uDD37','I can\u2019t tell what suits me','I don\u2019t know what works on my body','suits',0.2],
@@ -1254,7 +1242,7 @@
         ['\u23F3','I haven\u2019t got the time','I\u2019m not spending weekends shopping','time',0.6],
         ['\u2B50','Nothing major','I just want it sharper than it is','none',2.5]]},
 
-    {t:'choice',id:'advice',bar:1,multi:1,h:'Do you follow anyone for style advice?',
+    {t:'choice',id:'advice',bar:1,q:1,multi:1,h:'Do you follow anyone for style advice?',
      s:'Pick as many as you like.',
      o:[['\uD83D\uDCF8','Instagram','',  'ig',undefined,1],
         ['\uD83C\uDFB5','TikTok','',      'tt',undefined,1],
@@ -1264,7 +1252,7 @@
         ['\uD83C\uDFEC','Whoever serves me in the shop','','shop'],
         ['\uD83D\uDEAB','Nobody','',      'none',undefined,undefined,1]]},   /* 1 = clears the rest */
 
-    {t:'choice',id:'want',bar:1,h:'And what would that get you?',
+    {t:'choice',id:'want',bar:1,q:1,h:'And what would that get you?',
      s:'Be honest. It only changes your number.',
      o:[['\uD83D\uDCBC','More deals closed','Walk in and be believed before I speak','deals'],
         ['\uD83C\uDF96\uFE0F','To be taken seriously','Stop being read as the youngest man in the room','respect'],
@@ -1277,7 +1265,7 @@
     {t:'belief2',bar:1},
 
     {t:'gen'},
-    {t:'email',bar:1},
+    {t:'email',bar:1,q:1},
     {t:'score'}
     ];
 
@@ -1399,16 +1387,17 @@
       return true;
     }
     function chrome(){
-      var tot=0,done=0;
-      SCREENS.forEach(function(x,ix){ if(!x.bar||!shows(ix)) return; tot++; if(ix<S.i) done++; });
+      var tot=0,done=0,qtot=0,qdone=0;
+      SCREENS.forEach(function(x,ix){ if(!x.bar||!shows(ix)) return; tot++; if(ix<S.i) done++;
+        if(x.q){ qtot++; if(ix<S.i) qdone++; } });
       var pr = tot ? done/tot : 1;
       /* endowed progress: starts part filled, moves fastest early */
       trk.style.transform='scaleX('+(Math.min(1,0.09+Math.pow(pr,0.68)*0.91)).toFixed(4)+')';
       /* a number, not just a bar. only on the screens the bar actually counts. */
-      if(SCREENS[S.i].bar && tot){ qn.textContent=(done+1)+'/'+tot; qn.classList.add('on'); }
+      if(SCREENS[S.i].q && qtot){ qn.textContent=(qdone+1)+'/'+qtot; qn.classList.add('on'); }
       else { qn.classList.remove('on'); qn.textContent=''; }
       var t=SCREENS[S.i].t;
-      bk.disabled = S.i===0 || t==='ready' || t==='gen' || t==='email' || t==='score';
+      bk.disabled = S.i===0 || t==='ready' || t==='gen' || t==='score';
     }
     function go(n,dir){
       S.dir=dir||'fwd';
@@ -1515,8 +1504,11 @@
     }
 
     function enterGo(inp){ inp.addEventListener('keydown',function(e){
-      if(e.key==='Enter'){ e.preventDefault(); inp.blur();
-        var g=ft.querySelector('#go'); if(g&&!g.disabled) g.click(); } }); }
+      if(e.key!=='Enter') return;
+      e.preventDefault();
+      var g=ft.querySelector('#go');
+      if(g&&!g.disabled){ inp.blur(); g.click(); }
+    }); }
 
     /* how many days a month his closet can actually carry him.
        the four cuts are all answered by the time this screen runs, so it is
@@ -2261,11 +2253,13 @@
           '<h2 class="mid rise mt1" style="animation-delay:2.14s">'+
             'Time to work out your closet score.</h2>'+
           '<p class="cap rise mt2" style="animation-delay:2.42s">'+
-            'Your number comes with a free, short video that explains how to improve it.</p>'+
+            (hasVideo()
+              ? 'Your number comes with a free, short video that explains how to improve it.'
+              : 'Your number, and what it is costing you, written out of your own answers.')+'</p>'+
           '<div class="gap"></div>';
         later(function(){ var rr=sc.querySelector('#rr'); if(rr) rr.style.strokeDashoffset=0; },ms(200));
         footer('Continue',true,function(){ go(S.i+1,'fwd'); });
-        later(function(){ var g2=ft.querySelector('#go'); if(g2){ g2.disabled=false; buzz(14); } },ms(5000));
+        later(function(){ var g2=ft.querySelector('#go'); if(g2){ g2.disabled=false; buzz(14); } },ms(2700));
         fit(sc); return;
       }
 
@@ -2324,8 +2318,9 @@
           'value="'+attr(S.email)+'">'+
           '<p class="eml-err" id="emerr" role="alert" hidden>That address does not look right. '+
           'Check for a typo in the part after the @.</p>'+
-          '<p class="cap rise mt2" style="animation-delay:.66s">Your score and the video that '+
-          'explains it. You can unsubscribe at any time.</p>'+
+          '<p class="cap rise mt2" style="animation-delay:.66s">Your score and '+
+          (hasVideo() ? 'the video that explains it' : 'what it means, written out of your own answers')+
+          '. You can unsubscribe at any time.</p>'+
           '<div class="gap"></div>';
         var onVsl=scoreOnVsl();
         footer(onVsl?'See my score':'Show my score',
@@ -2447,9 +2442,9 @@
 
        '<p class="verd rise" style="animation-delay:1.5s">'+lead+'</p>'+
        '<p class="pers rise" style="animation-delay:1.82s">'+mine+'</p>'+
-       '<p class="cap rise mt2" style="animation-delay:2.12s">'+(hi
-         ? 'This is a score on your closet, not on you. The video is free and plays straight away.'
-         : 'This is a score on your closet, not on you. The video is free and plays straight away.')+
+       '<p class="cap rise mt2" style="animation-delay:2.12s">'+
+       'This is a score on your closet, not on you.'+
+       (hasVideo() ? ' The video is free and plays straight away.' : '')+
        '</p>'+
        '<div class="gap"></div>';
 
@@ -2588,7 +2583,6 @@
       */
     ];
     /* ===================================================================== */
-    var VIDEO        = { iframe:'', file:'', poster:'' };  /* set one and the hero video frame appears */
     var TESTIMONIALS = [];                   /* {iframe|file, poster, who, what}. empty = the section never renders */
 
     /* Stand in answers, so the page can be read in full without coming through the quiz.
