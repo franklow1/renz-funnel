@@ -1056,12 +1056,11 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .port figcaption{flex:1 1 auto;padding-bottom:4px;
  font:600 10px/1.7 var(--micro);letter-spacing:.2em;text-transform:uppercase;color:var(--pencil);
  border-bottom:1px solid var(--hairline)}
-#rz-page .sign{display:block;width:100%;max-width:170px;height:auto;margin:var(--s4) 0 0;
+#rz-page img.sign{display:block;width:100%;max-width:170px;height:auto;margin:var(--s4) 0 0;
  opacity:.88}
-#rz-page .dark .sign{filter:invert(1);opacity:.8}
 @media(min-width:760px){
  #rz-page .port img{width:178px}
- #rz-page .sign{max-width:185px}
+ #rz-page img.sign{max-width:185px}
 }
 #rz-page .q{padding:var(--s4) 0;border-top:1px solid var(--hairline)}
 #rz-page .q:last-child{border-bottom:1px solid var(--hairline)}
@@ -1568,7 +1567,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .val .v-tog:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
 #rz-page .gtee .sign{margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--ink-rule);font:italic 400 26px/32px var(--text);color:var(--chalk)}
 #rz-page .gtee .sign span{display:block;margin-top:10px;font:600 11px/1 var(--micro);letter-spacing:.2em;text-transform:uppercase;color:var(--chalk-soft);font-style:normal}
-#rz-page .sign{position:relative;padding-top:var(--s3)}
+#rz-page .gtee .sign{position:relative;padding-top:var(--s3);max-width:340px}
 #rz-page .sign .ink{display:block;width:min(230px,68%);height:auto;margin:0 0 4px}
 #rz-page .sign .ink path{fill:none;stroke:var(--chalk);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;
  stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.25s cubic-bezier(.55,.05,.3,1)}
@@ -1703,7 +1702,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page .wrap:has(>.port)>.port figcaption{border-bottom:0;padding:0;margin-top:11px;text-align:left}
   #rz-page .wrap:has(>.port)>*:not(.eyeb):not(h2):not(.port){grid-column:2}
   #rz-page .wrap:has(>.port) .body{max-width:46ch}
-  #rz-page .sign{max-width:200px}
+  #rz-page img.sign{max-width:200px}
 
   /* THREE THINGS IT IS NOT. Three parallel statements stacked in a narrow column with
      two thirds of the screen empty beside them. They are a row. */
@@ -1765,6 +1764,14 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page .dark>.wrap:has(>.tsec)>.body{grid-column:2;max-width:42ch}
   #rz-page .dark>.wrap:has(>.tsec)>.body.mt3{margin-top:0}
   #rz-page .dark>.wrap:has(>.tsec)>*:not(.eyeb):not(h2):not(.body){grid-column:1 / -1}
+
+  /* the objection and the answer to it are a pair, and they were a short column in
+     the left third with the rest of the band empty under them */
+  #rz-page .rev{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);
+   column-gap:var(--s6);align-items:start;
+   padding-top:var(--s4);border-top:1px solid var(--ink-rule)}
+  #rz-page .rev h3{font-size:23px;line-height:31px;max-width:18ch}
+  #rz-page .rev p{margin-top:0;font-size:17px;line-height:28px;max-width:44ch}
 
   /* the value stack's rows are a full width ledger, so what opens inside one of them
      keeps the page's measure rather than a phone's */
