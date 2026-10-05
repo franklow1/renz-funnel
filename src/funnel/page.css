@@ -1752,6 +1752,20 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
      leader between them. There is room on a 720px card for all of them. */
   #rz-page .gc-rows li>span,#rz-page .gc-rows li.gap .gp>span{flex:0 0 auto;white-space:nowrap}
 
+  /* WHAT IT IS ACTUALLY FOR. The headline and the three lines under it ran down the
+     left half with the right half empty, while the counter, the comparison and the
+     pull quote below them all use the whole frame. The opening is a spread: the
+     sentence on the left, the argument on the right. Scoped by the counter, because
+     the other dark section on this page is a centred panel and must stay one. */
+  #rz-page .dark>.wrap:has(>.tsec){display:grid;
+   grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:var(--s7);
+   align-items:start;grid-auto-rows:min-content}
+  #rz-page .dark>.wrap:has(>.tsec)>.eyeb{grid-column:1 / -1}
+  #rz-page .dark>.wrap:has(>.tsec)>h2{grid-column:1;grid-row:2 / span 4;margin:0;max-width:15ch}
+  #rz-page .dark>.wrap:has(>.tsec)>.body{grid-column:2;max-width:42ch}
+  #rz-page .dark>.wrap:has(>.tsec)>.body.mt3{margin-top:0}
+  #rz-page .dark>.wrap:has(>.tsec)>*:not(.eyeb):not(h2):not(.body){grid-column:1 / -1}
+
   /* the value stack's rows are a full width ledger, so what opens inside one of them
      keeps the page's measure rather than a phone's */
   #rz-page .val .v-body p{max-width:52ch}
