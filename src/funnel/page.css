@@ -1025,7 +1025,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .doors{margin-top:var(--s5);padding:var(--s4) 0;border-top:1px solid var(--ink-rule);border-bottom:1px solid var(--ink-rule)}
 #rz-page .doors p{font:400 16px/26px var(--text);color:var(--chalk-soft);max-width:34ch;margin:0 auto;text-align:center}
 #rz-page .doors p.b{margin-top:var(--s2);color:var(--chalk);font-weight:700}
-#rz-page .next{position:relative;list-style:none;counter-reset:n;margin-top:var(--s5)}
+#rz-page ol.next{position:relative;list-style:none;counter-reset:n;margin-top:var(--s5)}
 #rz-page .next li{position:relative;display:grid;grid-template-columns:28px 1fr;gap:16px;
  padding:var(--s3) 0;border-top:1px solid var(--ink-rule);
  font:400 16px/25px var(--text);color:var(--chalk-soft);
