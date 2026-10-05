@@ -82,11 +82,15 @@ async function once(i) {
 }
 
 const rows = [];
+const broke = [];
 for (let i = 1; i <= RUNS; i++) {
   const r = await once(i);
   const ok = r.name === NAME && r.email === EMAIL && r.total === '99.00' &&
              r.stripe > 0 && r.pay && !r.bumps.some(Boolean) && !r.sideways && r.errs.length === 0;
   rows.push(ok);
+  if (!ok) broke.push(`run ${i}: name=${JSON.stringify(r.name)} email=${r.email ? 'filled' : 'EMPTY'} ` +
+    `total=${r.total} stripe=${r.stripe} pay=${r.pay} bumps=[${r.bumps}] sideways=${r.sideways} ` +
+    `errors=${r.errs.length ? JSON.stringify(r.errs) : 'none'}`);
   console.log(`run ${i}  name ${JSON.stringify(r.name)}  email ${r.email ? 'filled' : 'EMPTY'}  ` +
     `£${r.total}  stripe ${r.stripe}  bumps [${r.bumps}]  sideways ${r.sideways}  ` +
     `errors ${r.errs.length ? r.errs[0] : 'none'}  => ${ok ? 'CLEAN' : '*** PROBLEM ***'}`);
@@ -94,4 +98,5 @@ for (let i = 1; i <= RUNS; i++) {
 }
 const pass = rows.filter(Boolean).length;
 console.log(`\n${pass}/${RUNS} clean`);
+if (broke.length) { console.log('what went wrong:'); broke.forEach(l => console.log('  ' + l)); }
 process.exit(pass === RUNS ? 0 : 1);
