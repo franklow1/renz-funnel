@@ -2661,7 +2661,7 @@
       /* 'A' is always the control already in the markup. Add objects to test against it:
       { k:'B',
         h:'Your closet is not the problem. Nobody has ever measured you.',
-        l:'No more struggling with fit.<br>No more guessing what to get.<br><b>No more wasted time.</b>' },
+        l:'No more struggling with fit.<br>No more guessing what to get.<br><b>No more walking out hoping.</b>' },
       */
     ];
     /* ===================================================================== */
