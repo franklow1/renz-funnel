@@ -2793,7 +2793,7 @@
       dkrh:'Waiting until the next one closes?',
       dkrp:'Count the pitches between now and then. <b>Which of them are you happy to walk into as you are?</b>',
       dkaft:'After this, every one of those mornings ends with you walking in already believed.',
-      cta:'Believed before you speak. That is the whole of it.', fp:'And look the part in every meeting',
+      cta:'Believed before you speak. Every room, every time.', fp:'And look the part in every meeting',
       forkDo:'And whoever is in the next room decides what you are worth before you have sat down.',
       forkBk:'Then every room you walk into gets the man they were hoping would walk in.',
       naRoom:'The next pitch',
