@@ -1675,7 +1675,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 
   /* THE SCAN. His own cover: the sentence on the left, the scan on the right. */
   #rz-page #sc-fit .wrap{display:grid;grid-template-columns:minmax(0,1fr) 380px;
-   column-gap:var(--s7);align-items:start;max-width:980px}
+   column-gap:var(--s7);align-items:start}
   #rz-page #sc-fit .fit-l{grid-column:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:6px}
   /* the sentence reserves height for the tallest of its three lines on a phone, where
      they stack. Beside the scan there is room, so it hugs the line it is showing. */
@@ -1683,7 +1683,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page #sc-fit .say>p{font-size:26px;line-height:38px;max-width:20ch}
   /* the numbers are the point of this scene, so on a wide screen they carry weight
      rather than sitting as a faint list under a sentence */
-  #rz-page #sc-fit .mrow{margin-top:var(--s4);max-width:440px}
+  #rz-page #sc-fit .mrow{margin-top:var(--s4);max-width:none}
   #rz-page #sc-fit .mrow li{padding:19px 0;font-size:11px;letter-spacing:.2em}
   #rz-page #sc-fit .mrow li b{flex-basis:76px;font-size:17px}
   #rz-page #sc-fit .mcap{margin-top:var(--s4);text-align:left;max-width:34ch}
@@ -1748,6 +1748,10 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
   #rz-page .counter .n{font-size:108px}
   #rz-page .counter .lab{font-size:11px;max-width:12ch}
 
+  /* five of the style guide's labels broke across two lines, which strands the dotted
+     leader between them. There is room on a 720px card for all of them. */
+  #rz-page .gc-rows li>span,#rz-page .gc-rows li.gap .gp>span{flex:0 0 auto;white-space:nowrap}
+
   /* the value stack's rows are a full width ledger, so what opens inside one of them
      keeps the page's measure rather than a phone's */
   #rz-page .val .v-body p{max-width:52ch}
@@ -1797,7 +1801,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 
 @media(min-width:1360px){
   #rz-page{--wrap:1160px}
-  #rz-page #sc-fit .wrap{max-width:1060px;grid-template-columns:minmax(0,1fr) 420px}
+  #rz-page #sc-fit .wrap{grid-template-columns:minmax(0,1fr) 420px}
   #rz-page #sc-fit .say>p{font-size:28px;line-height:40px}
 }
 
