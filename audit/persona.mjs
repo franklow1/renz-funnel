@@ -18,6 +18,9 @@ const MEN=[];
 let k=0;
 for (const want of WANTS) for (const block of BLOCKS) {
   MEN.push({want, block, goal:GOALS[k%3], fitn:FITN[k%3],
+            reach:String(k%2), room:String((k+1)%2),
+            advice:['ig','mate','none','partner','shop','yt'][k%6],
+            pace:String(k%4),
             n:[2,5,8][k%3], own:[12,70,180][k%3], worn:[5,21,54][k%3],
             work:[3,4,9][k%3], days:[3,7,23][k%3]});
   k++;
@@ -47,19 +50,21 @@ await send('Emulation.setDeviceMetricsOverride',{width:W,height:900,deviceScaleF
 
 /* the lines that are supposed to be his, by id */
 const WATCH=['h1','lede','sc-k','dk-h','dk-b1','dk-c1','mine','ch1-r','ch2-r','ch3-r',
-             'cl-h','cl-b1','fk-do','fk-bk','ps-line','nots-h','sw-h','faq-lead','cutend','mg-r'];
+             'cl-h','cl-b1','fk-do','fk-bk','ps-line','nots-h','sw-h','faq-lead','cutend',
+             'mg-r','mg-h','chp1','chp2','dk-rh','dk-rp','costq','ifno-q','trial1'];
 const seen={}; WATCH.forEach(i=>seen[i]=new Set());
 let fails=0;
 for (let i=0;i<MEN.length;i++){
   const m=MEN[i]; errs=[];
   const score={name:'Marcus Webb',first:'Marcus',last:'Webb',email:'m@renztailors-sample.co.uk',
     n:m.n,total:m.n-0.3,worst:m.block==='none'?'fit':m.block,own:m.own,worn:m.worn,work:m.work,
-    days:m.days,goal:m.goal,want:m.want,block:m.block,fitn:m.fitn,t:Date.now()};
+    days:m.days,goal:m.goal,want:m.want,block:m.block,fitn:m.fitn,
+    reach:m.reach,room:m.room,advice:m.advice,pace:m.pace,t:Date.now()};
   await send('Page.navigate',{url:'about:blank'}); await sleep(120);
   await send('Page.navigate',{url:'http://127.0.0.1:8777/funnel.html'}); await sleep(900);
   /* the page writes its own note of the last man it drew, so every key has to go or
      each man in this sweep inherits the one before him and they all look identical */
-  await evl(`try{['renz_you','renz_score','renz_who','renz_crm_pending'].forEach(function(k){localStorage.removeItem(k);});
+  await evl(`try{['renz_you','renz_score','renz_who','renz_crm_pending','renz_ab','renz_v','renz_thanks','renz_booked','renz_when'].forEach(function(k){localStorage.removeItem(k);});
     localStorage.setItem('renz_who',JSON.stringify({f:'Marcus',l:'Webb'}));
     localStorage.setItem('renz_score',JSON.stringify(${JSON.stringify(score)}));}catch(e){};1`);
   await send('Page.navigate',{url:'http://127.0.0.1:8777/funnel.html?r='+i}); await sleep(7000);

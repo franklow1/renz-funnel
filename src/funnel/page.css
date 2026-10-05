@@ -21,7 +21,10 @@ body:has(#rz-funnel) *:has(#rz-funnel){background:var(--rz-bg)!important}
 /* GHL wraps custom code in its own containers with their own line-height and
    colour. Neutralise that at the boundary, once. */
 #rz-funnel{line-height:normal;color:#15130F;letter-spacing:normal;word-spacing:normal}
-#rz-quiz{position:relative;width:100%;height:100svh;min-height:520px;overflow:hidden}
+/* every svh here carries a vh before it. An older browser drops the whole declaration
+   rather than part of it, and a calc() with an unknown unit takes the height with it,
+   which would collapse the scroll scenes and stop the scan scrubbing altogether. */
+#rz-quiz{position:relative;width:100%;height:100vh;height:100svh;min-height:520px;overflow:hidden}
 /* the phone. on a narrow screen it simply fills the stage; on a desktop the quiz's own
    stylesheet turns #rz-quiz into the grey backdrop and sizes this into the handset. */
 #rz-phone{position:relative;width:100%;height:100%;overflow:hidden}
@@ -711,7 +714,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .vid:hover .play{transform:scale(1.06)}
 #rz-page .vid[hidden]{display:none!important}
 #rz-page .promise-hero{margin-top:var(--s3)}
-#rz-page .hero .vid{--asp:1.7778;max-width:min(100%,calc(19svh * var(--asp)));margin-left:auto;margin-right:auto}
+#rz-page .hero .vid{--asp:1.7778;max-width:min(100%,calc(19vh * var(--asp)));max-width:min(100%,calc(19svh * var(--asp)));margin-left:auto;margin-right:auto}
 #rz-page .hero .vid.fitted{max-width:var(--vw-fit)}
 #rz-page .vid.tight .vlabel{display:none}
 @media(max-height:500px){#rz-page .hero .sc{display:none}
@@ -889,12 +892,12 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .scene{position:relative}
 #rz-page .scene+section{padding-top:var(--s3)}
 #rz-page .scene+section>.wrap>.ch-p:first-child{margin-top:0}
-#rz-page .scene>.pin{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;
+#rz-page .scene>.pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;
  padding:calc(24px + env(safe-area-inset-top)) 0 24px;overflow:hidden;pointer-events:none}
 #rz-page .scene>.pin .tap{pointer-events:auto}
 #rz-page .scene>.pin>.wrap{width:100%}
-#rz-page #sc-fit{height:calc(100svh + 100vh)}
-#rz-page #sc-cuts{height:calc(100svh + 120vh)}
+#rz-page #sc-fit{height:200vh;height:calc(100svh + 100vh)}
+#rz-page #sc-cuts{height:220vh;height:calc(100svh + 120vh)}
 #rz-page .measure{display:block;height:7px;margin:0 0 var(--s3);overflow:hidden}
 #rz-page .sc-next[hidden]+.measure{margin-top:var(--s6)}
 #rz-page .measure:after{content:"";display:block;height:100%;width:100%;
@@ -1616,7 +1619,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .reel-stage{min-width:0;overflow:hidden;max-width:none;margin:0 auto;
  border:1px solid var(--rule2);background:var(--ink)}
 #rz-page .reel-track{display:flex;transition:transform var(--t3) var(--ezm)}
-#rz-page .reel-track .tv{flex:0 0 100%;position:relative;aspect-ratio:4/5;max-height:42svh;background:var(--ink);
+#rz-page .reel-track .tv{flex:0 0 100%;position:relative;aspect-ratio:4/5;max-height:42vh;max-height:42svh;background:var(--ink);
  overflow:hidden;display:block}
 #rz-page .reel-track .tv iframe,#rz-page .reel-track .tv video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 #rz-page .reel-track .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
@@ -1835,7 +1838,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
    ===================================================================== */
 @media(min-width:1024px){
   /* a scene sized in viewport height buys empty paper on a big monitor */
-  #rz-page .scene>.pin{height:min(100svh,820px)}
+  #rz-page .scene>.pin{height:min(100vh,820px);height:min(100svh,820px)}
 
   /* THE CLOSE. Two doors, side by side, which is the whole point of a fork.
      The stacked version offset each door vertically so the gap between them opened
