@@ -105,11 +105,44 @@ Two things follow from that, and both have broken this page before:
 The two Wistia ids are placeholders and currently point at real, unrelated
 footage. They must be replaced before this takes a real buyer.
 
+## Checking it
+
+    node tools/serve.mjs 8777 &     a server that answers Range, so video seeks
+    node tools/preview.mjs
+    node audit/all.mjs              everything below, in one go
+
+| What it asks | File |
+|---|---|
+| does `src/` still rebuild the built files byte for byte | `tools/build.mjs --check` |
+| is every id the code reaches for actually in the markup | `audit/ids.mjs` |
+| does any rule reach two different kinds of element sharing a class, and does any selector match nothing | `audit/selectors.mjs` |
+| anything wider than the window, past a readable measure, under a 44px touch area, or clipped | `audit/layout.mjs` |
+| anything holding text that is never once on screen | `audit/invisible.mjs` |
+| two lines saying the same thing in front of the same man | `audit/repeats.mjs` |
+| every kind of man through the page: no placeholder, no undefined, and the lines that are his actually change | `audit/persona.mjs` |
+| how it looks, a screen at a time | `audit/slices.mjs` then `tools/montage.mjs` |
+
+Three of those exist because this page has actually shipped the fault they look
+for: a rule written for an image that reached a div and inverted it, a reveal
+whose observer could never fire, and a personalisation that silently stopped.
+
+The one check that cannot run locally is the money. The checkout only exists on
+the real host, so after a push has gone out:
+
+    node audit/stress.mjs 7 390 844
+    node audit/stress.mjs 7 1440 900
+
+which seeds a man, lands him on the live page, brings the checkout on screen and
+asks whether his name and email are in it, whether it says £99.00, whether
+Stripe drew, whether either bump arrived ticked, and whether anything scrolled
+sideways. Seven runs, because the faults that matter here are the intermittent
+ones.
+
 ## The private half
 
 The research, the ten call transcripts, the market report and the test harness
 are **not** in this repository, because this repository is public. They live in
-`~/Documents/Renz`. So does the one document that explains how the outfit score
+`~/Documents/Renz`. So does the one document that explains how the closet score
 is scored, which stops working the moment it is somewhere a visitor can read it.
 So do the three pages as they were originally authored, recovered from the
 published artifacts and kept for history: `~/Documents/Renz/archive`.
