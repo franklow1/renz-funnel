@@ -2701,8 +2701,17 @@
       var u={}; try{ var q=new URLSearchParams(location.search);
         ['score','worst','own','worn','work','days','goal','want','block','fit','pace','reach','room','advice','lo','sev','name','fn','lid','src','v']
           .forEach(function(k){ var v=q.get(k); if(v!==null&&v!=='') u[k]=v; }); }catch(e){}
-      var st={}; try{ st=JSON.parse(localStorage.getItem('renz_you')||'null')
-                     ||JSON.parse(localStorage.getItem('renz_score')||'{}')||{}; }catch(e){ st={}; }
+      /* renz_you is this page's own note of the last man it drew. renz_score is what the
+         quiz has just written. Taking the note first, unconditionally, meant a man who
+         answered the quiz a second time was shown the answers he gave the first time:
+         his old score, his old closet, his old words, with nothing in the console.
+         Whichever was written last is the one that is true about him. */
+      var st={};
+      try{
+        var _you=JSON.parse(localStorage.getItem('renz_you')||'null');
+        var _sco=JSON.parse(localStorage.getItem('renz_score')||'null');
+        st = (_you&&_sco) ? (((+_sco.t||0) >= (+_you.t||0)) ? _sco : _you) : (_you||_sco||{});
+      }catch(e){ st={}; }
       /* ninety days old and it is no longer true about him. start clean. */
       if(st&&st.t&&(Date.now()-st.t)>90*24*3600*1000) st={};
       function pick(a,b){ return (u[a]!==undefined&&u[a]!=='') ? u[a] : st[b!==undefined?b:a]; }

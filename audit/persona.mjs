@@ -57,7 +57,10 @@ for (let i=0;i<MEN.length;i++){
     days:m.days,goal:m.goal,want:m.want,block:m.block,fitn:m.fitn,t:Date.now()};
   await send('Page.navigate',{url:'about:blank'}); await sleep(120);
   await send('Page.navigate',{url:'http://127.0.0.1:8777/funnel.html'}); await sleep(900);
-  await evl(`try{localStorage.setItem('renz_who',JSON.stringify({f:'Marcus',l:'Webb'}));
+  /* the page writes its own note of the last man it drew, so every key has to go or
+     each man in this sweep inherits the one before him and they all look identical */
+  await evl(`try{['renz_you','renz_score','renz_who','renz_crm_pending'].forEach(function(k){localStorage.removeItem(k);});
+    localStorage.setItem('renz_who',JSON.stringify({f:'Marcus',l:'Webb'}));
     localStorage.setItem('renz_score',JSON.stringify(${JSON.stringify(score)}));}catch(e){};1`);
   await send('Page.navigate',{url:'http://127.0.0.1:8777/funnel.html?r='+i}); await sleep(7000);
   const r=await evl(`(function(){
