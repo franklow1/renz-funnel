@@ -1289,16 +1289,16 @@
     {t:'choice',id:'fitn',bar:1,q:1,dim:'fit',h:'How many of those {N} fit you properly?',
      s:'Properly. Not close enough.',
      o:[['\uD83D\uDC54','Nearly all of them','I only buy what fits me',0.70,2.5],
-        ['\u2696\uFE0F','About half','Some fit, the rest are close enough',0.40,0.6],
-        ['\u26A0\uFE0F','Only a few','Close enough is most of my closet',0.12,0.2]]},
+        ['\u2696\uFE0F','About half','Some fit, the rest are close enough',0.40,1.05],
+        ['\u26A0\uFE0F','Only a few','Close enough is most of my closet',0.12,0.35]]},
 
     {t:'yn',id:'reach',bar:1,q:1,dim:'goes',
      h:'Can you open your closet in the morning and know exactly what to reach for, every time?',
-     yes:2.5,no:0.6},
+     yes:2.5,no:1.05},
 
     {t:'yn',id:'room',bar:1,q:1,dim:'room',
      h:'When you walk into a room, do you know what people are thinking about you, just by looking at you?',
-     yes:2.5,no:0.6},
+     yes:2.5,no:1.05},
 
     {t:'hinge',bar:1},
 
@@ -1316,11 +1316,11 @@
 
     {t:'choice',id:'block',bar:1,q:1,dim:'suits',h:'{CAP}, what is the main thing in the way?',
      s:'The closest one. Even if it\u2019s a small one.',
-     o:[['\uD83D\uDCCF','Nothing fits me properly','Shop sizes never quite work on me','fit',0.6],
-        ['\uD83E\uDD37','I can\u2019t tell what suits me','I don\u2019t know what works on my body','suits',0.2],
-        ['\uD83E\uDDE9','My things don\u2019t go together','Good pieces, no outfits','goes',0.6],
-        ['\uD83D\uDED2','I wouldn\u2019t know where to buy','Every shop looks the same to me','buy',0.6],
-        ['\u23F3','I haven\u2019t got the time','I\u2019m not spending weekends shopping','time',0.6],
+     o:[['\uD83D\uDCCF','Nothing fits me properly','Shop sizes never quite work on me','fit',1.05],
+        ['\uD83E\uDD37','I can\u2019t tell what suits me','I don\u2019t know what works on my body','suits',0.35],
+        ['\uD83E\uDDE9','My things don\u2019t go together','Good pieces, no outfits','goes',1.05],
+        ['\uD83D\uDED2','I wouldn\u2019t know where to buy','Every shop looks the same to me','buy',1.05],
+        ['\u23F3','I haven\u2019t got the time','I\u2019m not spending weekends shopping','time',1.05],
         ['\u2B50','Nothing major','I just want it sharper than it is','none',2.5]]},
 
     {t:'choice',id:'advice',bar:1,q:1,multi:1,h:'Do you follow anyone for style advice?',
@@ -1598,9 +1598,12 @@
     function goodDays(){
       var R=calc();
       /* the exponent was 1.6, which squashed every middling answer onto two or
-         three and made the count read as rigged rather than as arithmetic. 1.35
-         keeps it unkind and gives the middle somewhere to sit. */
-      var d=Math.round(30*Math.pow(Math.max(0,R.total)/10,1.35));
+         three and made the count read as rigged rather than as arithmetic. Then the
+         cut weights were re-spaced so a middling man scores four out of ten instead
+         of two, which lifted every raw total by about 1.8 and would have carried this
+         count from four up to nine on its own. 2.32 holds the line this function was
+         written to hold: a middling set of answers still lands on four. */
+      var d=Math.round(30*Math.pow(Math.max(0,R.total)/10,2.32));
       return Math.max(3,Math.min(30,d));
     }
 
@@ -2456,7 +2459,7 @@
        Nothing weighted, nothing hidden, nothing rounded in his favour.
        ===================================================================== */
     function calc(){
-      var m={fit:0.2,suits:0.2,goes:0.6,room:0.6},id,A;
+      var m={fit:0.35,suits:0.35,goes:1.05,room:1.05},id,A;
       for(id in S.a){ A=S.a[id]; if(A && A.dim && A.score!==undefined) m[A.dim]=A.score; }
       var total=m.fit+m.suits+m.goes+m.room;
       var worst='fit',lo=99;
@@ -2539,7 +2542,8 @@
         var stimer=every(function(){
           var p=Math.min(1,(Date.now()-st0)/DUR);
           var e=1-Math.pow(1-p,3);
-          el.textContent = p<1 ? num(Math.round(e*R.n*10)/10) : num(R.n);
+          /* whole numbers, for the reason written against the hero counter */
+          el.textContent = p<1 ? num(Math.floor(e*R.n)) : num(R.n);
           if(p>=1){ clearInterval(stimer); buzz(16); }
         },40);
       },ms(300));
@@ -3499,14 +3503,29 @@
       if(scn){ /* No arithmetic in this line. It used to name a fixed number of missing points,
              which contradicted the score for most men, and a number that does not add up
              costs more than it buys. */
-          scn.textContent = n>=4 ? 'Here\u2019s how you get it to ten.'
+          /* The absolution rides on the low half of the scale, and the whole scale
+             moved. At the old weights a 4 was the 69th percentile and this line
+             reached roughly seven men in ten; leaving the threshold at 4 after the
+             recalibration would have handed it to three in ten and taken "none of
+             it is about taste" away from exactly the men who need to read it. 5
+             restores the same share of the market. */
+          scn.textContent = n>=5 ? 'Here\u2019s how you get it to ten.'
           : 'Here\u2019s how you get it to ten. None of it is about taste.';
                scn.hidden=false; }
       var el=$('sc-n');
+      /* The box is flexed hard against the right edge, so its width is its position.
+         Counting in tenths changed the string's LENGTH on the way up: 0.8 is three
+         characters, 1 is one, 1.2 is three again, so the digits jumped right, then
+         left, then right, and the count read as going backwards before it went
+         forwards. Whole numbers only, and the width pinned to the width of the final
+         number, so a 10 does not shunt the line sideways on its last frame either. */
+      el.style.display='inline-block';
+      el.style.minWidth=String(shown).length+'ch';
+      el.style.textAlign='right';
       if(RM){ el.textContent=shown; }
       else{ var t0=Date.now(),D=800,iv=setInterval(function(){
         var p=Math.min(1,(Date.now()-t0)/D),e2=1-Math.pow(1-p,3);
-        el.textContent=(Math.round((p<1?e2*n:n)*10)/10).toString().replace(/\.0$/,'');
+        el.textContent = p<1 ? String(Math.floor(e2*n)) : shown;
         if(p>=1) clearInterval(iv); },40); }
     }
     if(first){ var ln=$('ledger-name'); if(ln){ ln.textContent=first; ln.className='named'; } }

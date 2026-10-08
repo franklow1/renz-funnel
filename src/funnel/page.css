@@ -122,7 +122,14 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .trk i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
  background:var(--gold);border-radius:99px;transition:transform .55s var(--ez)}
 #rz-quiz .stage{flex:1;position:relative;overflow:hidden}
-#rz-quiz .sc{position:absolute;inset:0;display:flex;flex-direction:column;padding:16px var(--pad) 30px;
+/* The bottom padding is not spacing, it is clearance. The footer paints a gradient
+   UPWARDS over the stage (.ft:before) to mask anything running under the button, and
+   anything laid out inside that band is painted out. The padding reserved 30px while
+   the band was 96px tall, so fit() was free to fill 66px of screen that the gradient
+   then erased: the last line of the reveal, the days punch and the belief close all
+   landed in it and read as faded. The band is 40px now and this clears it by 8px.
+   These two numbers belong together. Change one, change the other. */
+#rz-quiz .sc{position:absolute;inset:0;display:flex;flex-direction:column;padding:16px var(--pad) 48px;
  overflow:hidden}
 #rz-quiz .sc:focus{outline:none}
 @keyframes rzq-inL{from{opacity:0;transform:translate3d(34px,0,0) scale(var(--sck,1))}to{opacity:1;transform:scale(var(--sck,1))}}
@@ -482,7 +489,7 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
  text-wrap:balance}
 #rz-quiz .ft{flex:0 0 auto;padding:0 var(--pad) max(18px,env(safe-area-inset-bottom));background:var(--bg);
  position:relative}
-#rz-quiz .ft:before{content:"";position:absolute;left:0;right:0;top:-96px;height:96px;pointer-events:none;
+#rz-quiz .ft:before{content:"";position:absolute;left:0;right:0;top:-40px;height:40px;pointer-events:none;
  background:linear-gradient(180deg,rgba(8,8,11,0) 0%,rgba(8,8,11,0) 52%,
   rgba(8,8,11,.055) 90%,rgba(8,8,11,.028) 100%)}
 #rz-quiz .btn{width:100%;background:var(--sel);color:#fff;border:0;border-radius:0;padding:19px;
