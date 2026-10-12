@@ -539,6 +539,7 @@
           try{ if(typeof RZ.initPage==='function') RZ.initPage(); }
           catch(e){ if(window.console&&console.error) console.error('[RZ] page failed to start',e); }
         }
+        try{ RZ.actionBar(); }catch(e){}
         /* the funnel may sit below a GHL header, so go to the top of the page stage,
            not to the top of their document */
         try{
@@ -547,6 +548,37 @@
           window.scrollTo(0,y);
         }catch(e){ try{ window.scrollTo(0,0); }catch(e2){} }
         requestAnimationFrame(function(){ pg.classList.add('rz-in'); });
+      };
+
+      /* Fifteen minutes on the ACTION code, counted from the first time he reaches the
+         sales page. The deadline is stored, so closing the tab and coming back tomorrow
+         does not hand him a fresh fifteen minutes: expired is expired.
+         The bar is a child of #rz-page, which is hidden for the whole quiz, so there is no
+         way for it to appear on a quiz screen. The coupon field on the order form is left
+         alone either way: we stop advertising the code, we do not police it. */
+      var ACT_KEY='rz_act_end', ACT_WINDOW=15*60*1000;
+      RZ.actionBar = function(){
+        var bar=document.getElementById('rz-act'), out=document.getElementById('rz-act-c');
+        if(!bar||!out) return;
+        var end=0;
+        try{
+          var v=localStorage.getItem(ACT_KEY);
+          if(v && +v>0) end=+v;
+          else { end=Date.now()+ACT_WINDOW; localStorage.setItem(ACT_KEY,String(end)); }
+        }catch(e){ end=Date.now()+ACT_WINDOW; }   /* private window: show it, never throw */
+        if(Date.now()>=end){ bar.parentNode&&bar.parentNode.removeChild(bar); return; }
+        bar.hidden=false;
+        var t=null;
+        function stop(){ if(t){ clearInterval(t); t=null; }
+          if(bar.parentNode) bar.parentNode.removeChild(bar); }
+        function tick(){
+          var ms=end-Date.now();
+          if(ms<=0){ stop(); return; }
+          var s=Math.floor(ms/1000), m=Math.floor(s/60);
+          out.textContent=m+':'+(s%60<10?'0':'')+(s%60);
+        }
+        tick();
+        t=setInterval(tick,1000);
       };
 
       /* every ask on the page opens the GHL calendar popup */
