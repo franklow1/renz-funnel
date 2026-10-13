@@ -275,7 +275,19 @@
       }
 
       function film(){
-        if (!MEDIA) return;
+        if (!MEDIA){
+          /* No film. The slot is a black 16:9 box with a play triangle in it: an
+             affordance that looks pressable and does nothing, on the page where a man
+             is being asked for another one nine nine. Take the frame out, and tell the
+             hero to stop holding a column open for it. */
+          try{
+            var holder=document.querySelector('#rz-upsell .film');
+            if(holder) holder.hidden=true;
+            var hero=document.querySelector('#rz-upsell .hero');
+            if(hero) hero.classList.add('no-film');
+          }catch(e){}
+          return;
+        }
         /* the loader may still lift this stage into the page, and a player built before that
            move loses the node it wired itself to */
         if (typeof window.__rzWhenSettled === 'function' && !window.__rzSettled){
