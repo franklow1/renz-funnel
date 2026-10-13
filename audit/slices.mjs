@@ -32,6 +32,7 @@ try { await send('Emulation.setLocaleOverride', { locale: 'en-GB' }); } catch {}
 await send('Page.addScriptToEvaluateOnNewDocument', { source:
   "Object.defineProperty(navigator,'language',{get:()=>'en-GB'});" +
   "Object.defineProperty(navigator,'languages',{get:()=>['en-GB','en']});" + SEED });
+try{ await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:(process.env.RZ_SCHEME||'light')}]}); }catch(e){}
 await send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 1, mobile: W < 760 });
 await send('Page.navigate', { url: URL_ });
 await sleep(9000);

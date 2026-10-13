@@ -633,7 +633,7 @@
 
         /* and the file, for a man who does not use Google. only offered where a save can actually happen. */
         var icsText=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Renz Tailors//Style Solve//EN','BEGIN:VEVENT',
-          'UID:'+(YOU.lid||'renz')+'@renztailors','DTSTAMP:'+ics(new Date()),'DTSTART:'+ics(d),'DTEND:'+ics(end),
+          'UID:'+(YOU.lid||'renz')+'@lorenzosegor.com','DTSTAMP:'+ics(new Date()),'DTSTART:'+ics(d),'DTEND:'+ics(end),
           'SUMMARY:'+TITLE,'DESCRIPTION:'+NOTE,'END:VEVENT','END:VCALENDAR'].join('\r\n');
         var icsBtn=$('cal-file');
         if(icsBtn){
