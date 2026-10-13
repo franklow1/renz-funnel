@@ -3348,7 +3348,7 @@
         }
         var v4=RZ.one('#val li[data-p="0"] p');
         if(v4&&YOU.adv&&YOU.adv.length&&YOU.adv[0]!=='none'){
-         v4.innerHTML='Hold up two shirts, ask which one, get a straight answer from somebody who has your numbers. <b>The private room for the men who\u2019ve done this.</b> Taking the call is the only door there is.';
+         v4.innerHTML='A private club, and the men in it are the point. You meet them properly. And when you are stood there holding two shirts, you ask, and you get a straight answer from somebody who has your numbers. <b>Taking the call is the only door there is.</b>';
         }
        }
       }catch(e){}
