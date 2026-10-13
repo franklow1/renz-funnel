@@ -197,7 +197,12 @@ body:has(#rz-thanks) *:has(#rz-thanks){background:#F4F1EA!important}
  font-size:18px;line-height:29px;color:var(--chalk-soft);margin-top:var(--s3)}
 #rz-thanks .recap{list-style:none;margin-top:var(--s4);display:flex;flex-wrap:wrap;gap:0;
  border-top:1px solid var(--ink-rule)}
-#rz-thanks .recap li{flex:1 1 33%;min-width:120px;padding:var(--s3) var(--s2) var(--s3) 0;
+/* three steps, one row. At 120px the three could not fit a 360 or 390 phone, so the
+   third wrapped and sat alone against an empty half: the orphan that makes a recap look
+   broken rather than counted. 88px clears three across a 272px container, which is a
+   320px phone, and the labels take a second line rather than the row. Measured at 320,
+   360, 390 and 430: one row, equal widths, equal heights, no horizontal scroll. */
+#rz-thanks .recap li{flex:1 1 33%;min-width:88px;padding:var(--s3) var(--s2) var(--s3) 0;
  border-bottom:1px solid var(--ink-rule);
  font:600 11px/1.5 var(--micro);letter-spacing:.16em;text-transform:uppercase;color:var(--chalk-soft)}
 #rz-thanks .recap li i{display:block;font-style:normal;color:var(--brass-ink);margin-bottom:6px;font-size:10px}
