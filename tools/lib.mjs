@@ -7,7 +7,8 @@ import { readFileSync } from 'node:fs';
 export const PAGES = {
   funnel: { js: 'funnel.js', title: 'The Style Solve',      bg: '#EFECE4', mount: 'rz-mount' },
   thanks: { js: 'thanks.js', title: "You're In",            bg: '#F4F1EA', mount: 'rz-thanks-mount' },
-  upsell: { js: 'upsell.js', title: 'The Buyer',            bg: '#F4F1EA', mount: 'rz-upsell-mount' }
+  upsell: { js: 'upsell.js', title: 'The Buyer',            bg: '#F4F1EA', mount: 'rz-upsell-mount' },
+  terms:  { js: 'terms.js',  title: 'Terms',               bg: '#F3EFE7', mount: 'rz-terms-mount' }
 };
 
 /* Read one JS string literal starting at `i` (which must be the opening quote).

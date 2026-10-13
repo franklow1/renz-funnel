@@ -1,0 +1,45 @@
+#rz-legal{
+  --paper:#F3EFE7; --ink:#20211F; --graphite:#4A4B47; --pencil:#6B6C63;
+  --rule:#CFC8BA; --rule2:#B9B1A1; --brass:#856639;
+  --disp:"Newsreader",Georgia,serif; --text:"Libre Caslon Text",Georgia,serif;
+  --micro:"Cabin",system-ui,-apple-system,sans-serif;
+  background:var(--paper); color:var(--ink);
+  font:400 17px/28px var(--text);
+  padding:clamp(28px,6vw,72px) clamp(18px,5vw,40px);
+  -webkit-font-smoothing:antialiased;
+}
+#rz-legal *{box-sizing:border-box}
+#rz-legal .rz-w{max-width:660px;margin:0 auto}
+#rz-legal .rz-eyeb{
+  display:block;font:600 9px/1.5 var(--micro);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--pencil);margin:0 0 14px}
+#rz-legal h1{
+  font:500 clamp(30px,6vw,44px)/1.12 var(--disp);letter-spacing:-.01em;
+  margin:0 0 6px;text-wrap:balance}
+#rz-legal .rz-sub{font:italic 400 16px/26px var(--text);color:var(--graphite);margin:0 0 30px}
+#rz-legal hr{border:0;border-top:1px solid var(--rule);margin:30px 0}
+#rz-legal h2{
+  font:600 11px/1.5 var(--micro);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--pencil);margin:34px 0 10px}
+#rz-legal p{margin:0 0 15px;color:var(--graphite)}
+#rz-legal p strong,#rz-legal li strong{color:var(--ink);font-weight:700}
+#rz-legal ul{margin:0 0 15px;padding:0 0 0 20px;color:var(--graphite)}
+#rz-legal li{margin:0 0 9px}
+#rz-legal a{color:var(--brass);text-underline-offset:3px}
+#rz-legal .rz-fill{
+  background:#EDE6D8;border-left:2px solid var(--brass);
+  padding:12px 15px;margin:0 0 15px;
+  font:500 14px/22px var(--micro);color:var(--ink)}
+#rz-legal .rz-foot{
+  margin-top:40px;padding-top:18px;border-top:1px solid var(--rule);
+  font:400 13px/21px var(--micro);color:var(--pencil)}
+@media (max-width:420px){ #rz-legal{font-size:16px;line-height:26px} }
+
+/* A legal page is a page of its own, so it paints the whole sheet. The builder wraps this
+   element in a section, a row and a column, each with its own white background and padding,
+   which shows as a band above and below the text. Painting behind them cannot help, because
+   their white is opaque and sits on top. So recolour the wrappers themselves: :has picks out
+   exactly the ancestors of this element and nothing else, so a nav bar or anything else on
+   the page is left alone. */
+html,body{background:#F3EFE7!important}
+body:has(#rz-legal) *:has(#rz-legal){background:#F3EFE7!important}
