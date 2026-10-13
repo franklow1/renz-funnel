@@ -131,7 +131,10 @@ body:has(#rz-thanks) *:has(#rz-thanks){background:#F4F1EA!important}
 #rz-thanks .job-in p:last-child{margin-bottom:0}
 #rz-thanks .job-in .why{padding-left:var(--s3);border-left:1px solid var(--brass);color:var(--ink);font-style:italic}
 #rz-thanks .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--s3)}
-#rz-thanks .act{display:inline-block;padding:11px 16px;border:1px solid var(--ink);background:none;cursor:pointer;
+/* 11px of padding made these 38 tall, just under the 44 a thumb wants, and they are
+   the two things a man is actually asked to press on this page. 14 takes them to 44
+   without changing the type or the row they sit in. */
+#rz-thanks .act{display:inline-block;padding:14px 16px;border:1px solid var(--ink);background:none;cursor:pointer;
  font:600 11px/1.3 var(--micro);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
  text-decoration:none;transition:background .24s var(--ez),color .24s var(--ez)}
 #rz-thanks .act:hover{background:var(--ink);color:var(--chalk)}
