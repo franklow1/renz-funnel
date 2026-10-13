@@ -129,8 +129,15 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
    then erased: the last line of the reveal, the days punch and the belief close all
    landed in it and read as faded. The band is 40px now and this clears it by 8px.
    These two numbers belong together. Change one, change the other. */
-#rz-quiz .sc{position:absolute;inset:0;display:flex;flex-direction:column;padding:16px var(--pad) 48px;
- overflow:hidden}
+/* The column is centred in the stage, not packed to the top. .gap used to be the only
+   flexible thing in here, so on any screen whose content is shorter than the phone the
+   whole of the slack collected in one band between the copy and the button: three
+   hundred empty pixels on the chart screen, two hundred on the email capture. Centred,
+   the same slack splits above and below and the screen reads as composed rather than
+   as something that failed to fill. The keyboard rule below still packs to the top,
+   because while a field has focus reachability beats composition. */
+#rz-quiz .sc{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+ padding:16px var(--pad) 48px;overflow:hidden}
 #rz-quiz .sc:focus{outline:none}
 @keyframes rzq-inL{from{opacity:0;transform:translate3d(34px,0,0) scale(var(--sck,1))}to{opacity:1;transform:scale(var(--sck,1))}}
 @keyframes rzq-inR{from{opacity:0;transform:translate3d(-34px,0,0) scale(var(--sck,1))}to{opacity:1;transform:scale(var(--sck,1))}}
@@ -147,7 +154,9 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .sub{color:var(--ink2);font-size:var(--f5);line-height:1.48;text-wrap:pretty}
 #rz-quiz .sub.mid{max-width:330px;margin-left:auto;margin-right:auto}
 #rz-quiz .cap{font-size:var(--f2);line-height:1.5;color:var(--ink3);text-wrap:pretty;text-align:center}
-#rz-quiz .gap{flex:1;min-height:8px}
+/* a breath between the copy and the button, not a dumping ground for leftover height.
+   It may still give way when a tall screen needs the room, hence shrink but not grow. */
+#rz-quiz .gap{flex:0 1 auto;height:26px;min-height:8px}
 #rz-quiz .mid{text-align:center}
 #rz-quiz b,#rz-quiz strong{font-weight:700;color:var(--ink)}
 #rz-quiz .gold{color:var(--goldt)}
@@ -163,7 +172,11 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
    This was two blocks for a while, the new one written above the old one, so the old
    pill rules won on source order: border:0 wiped every hairline and the chosen row's
    sub-line went white on warm paper. It is one block now, and that is the point. */
-#rz-quiz .opts{display:flex;flex-direction:column;gap:0;flex:1 1 auto;justify-content:center;padding:18px 0}
+/* The list sizes to its options. It used to be flex:1, so on a two option question it
+   stretched to whatever height was going spare and then centred two rows inside it:
+   a 200px void between the question and the first answer, and another below. Now the
+   question and its answers hold together as one block and .sc centres the lot. */
+#rz-quiz .opts{display:flex;flex-direction:column;gap:0;flex:0 1 auto;justify-content:center;padding:18px 0}
 #rz-quiz .opts+.gap{display:none}
 #rz-quiz .o .ic{display:none}
 #rz-quiz .o{width:100%;text-align:left;background:transparent;border:0;border-radius:0;
@@ -386,7 +399,9 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-quiz .card .axis span{transition:color .5s var(--ez)}
 #rz-quiz .card .axis span.lit{color:var(--goldt)}
 #rz-quiz .card .cap b{color:var(--goldt)}
-#rz-quiz .gwrap{flex:1;min-height:110px;display:flex;align-items:center;justify-content:center;
+/* the day grid sizes to the grid. flex:1 made it swallow the slack on the two counting
+   screens and centre thirty little cells inside a box twice their height. */
+#rz-quiz .gwrap{flex:0 1 auto;min-height:110px;display:flex;align-items:center;justify-content:center;
  padding:16px 0 10px;overflow:hidden}
 #rz-quiz .grid{display:grid;grid-template-columns:repeat(var(--cols),var(--cw));gap:var(--cg);
  justify-content:center;align-content:center;transform-origin:center}
