@@ -967,22 +967,6 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .blameline{margin-top:0;padding-top:0}
 #rz-page .blameline+*{margin-top:var(--s4);padding-top:var(--s4);border-top:1px solid var(--hairline)}
 #rz-page .blameline[hidden]{display:none!important}
-#rz-page .adds{list-style:none;margin:var(--s4) 0 0;border-top:max(1px,.055em) solid var(--ink)}
-#rz-page .adds li{display:grid;grid-template-columns:1fr auto;column-gap:var(--s3);
- padding:var(--s4) 0;border-bottom:1px solid var(--hairline)}
-#rz-page .adds .askq{grid-column:1;display:block;font:italic 400 15px/23px var(--text);color:var(--brass)}
-#rz-page .adds h3{grid-column:1;margin-top:6px}
-#rz-page .adds p{grid-column:1/-1;margin-top:var(--s2);font:400 16px/25px var(--text);
- color:var(--graphite);max-width:36ch}
-#rz-page .adds p b{color:var(--ink);font-weight:700}
-#rz-page .adds .p{grid-column:2;grid-row:1/3;align-self:start;text-align:right;white-space:nowrap;margin-top:2px}
-#rz-page .adds .p em{display:block;font:600 10px/1.5 var(--micro);letter-spacing:.18em;
- text-transform:uppercase;color:var(--pencil);font-style:normal}
-#rz-page .adds .p b{display:block;margin-top:8px;font:400 22px/1 var(--text);color:var(--ink);
- font-variant-numeric:tabular-nums lining-nums;font-weight:400}
-#rz-page .adds-note{margin:var(--s4) auto 0;max-width:34ch;font:400 15px/24px var(--text);
- color:var(--graphite);text-align:center;text-wrap:balance}
-#rz-page .adds-note b{color:var(--ink);font-weight:700}
 #rz-page .ifall{margin:var(--s5) auto 0;max-width:32ch;font:400 17px/27px var(--text);color:var(--graphite);text-align:center;text-wrap:balance}
 #rz-page .ifall b{color:var(--ink);font-weight:700}
 #rz-page .docket{display:grid;grid-template-columns:62px 1fr;margin:var(--s5) 0 0;background:var(--paper);

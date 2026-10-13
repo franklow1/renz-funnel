@@ -733,10 +733,12 @@
         try{ return !!document.querySelector(
           '.payment-content section, iframe[src*="stripe"], .form-btn'); }catch(e){ return false; }
       };
-      /* The two prices are already on this page, in the section that introduces the lists,
-         so they are read from there rather than written down a second time. One number on the
-         page, and the tick box follows it. A bump whose name matches nothing is left alone,
-         because a wrong price on a checkout is worse than no price at all. */
+      /* A bump's price is read off this page rather than written down a second time, from
+         the section that introduces it. The bumps were retired on 13 Oct 2026 and that
+         section went with them, so this now finds nothing and writes nothing, which is the
+         same thing it has always done for a bump it could not price: a wrong price on a
+         checkout is worse than no price at all. The rest of this block stays as the guard
+         for the day somebody turns a bump back on in the builder. */
       RZ.priceBumps = function(){
         var prices = {}, n = 0;
         try{
