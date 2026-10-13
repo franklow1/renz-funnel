@@ -717,7 +717,14 @@ html.rz-lock,html.rz-lock body{overflow:hidden!important;height:100%!important;
 #rz-page .folio:before{content:"\00B7\00A0"}
 #rz-page .folio:after{content:"\00A0\00B7"}
 #rz-page .hero{padding:var(--s3) 0 var(--s6)}
-#rz-page .sc{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:12px 0 10px;margin-bottom:var(--s4);
+/* The band keeps the reading measure the rest of the page uses, whatever --wrap grows to.
+   Left to fill the wrap it spanned 1080px on a desktop while the verdict itself is capped
+   at 32ch, so the score was flung to the far edge with seven hundred empty pixels between
+   a man and his own number. 620px is the measure already in the file (--wrap at base, and
+   .stick .in), so this reads as the same column as the headline underneath rather than as
+   a new width invented for one block. A no-op on a phone, where the wrap is narrower. */
+#rz-page .sc{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:12px 0 10px;margin:0 auto var(--s4);
+ max-width:620px;
  border-top:max(1px,.055em) solid var(--ink);border-bottom:1px solid var(--rule2)}
 #rz-page .sc[hidden]{display:none!important}
 #rz-page .sc .l{flex:1 1 auto;padding-bottom:5px;min-width:0}
