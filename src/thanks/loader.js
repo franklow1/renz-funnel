@@ -673,6 +673,16 @@
         else { el=document.createElement('video'); el.src=VIDEO.file; el.controls=true; el.playsInline=true;
           el.setAttribute('playsinline',''); el.preload='metadata'; if(VIDEO.poster) el.poster=VIDEO.poster; }
         vid.appendChild(el);
+      } else if(vid){
+        /* No film yet. A box reading "video goes here" on the page a man lands on the
+           moment he has paid is worse than no box: it is the one screen where nothing
+           should look unfinished. Hide the frame and drop the half sentence that points
+           at it, so the page reads as though it was always meant to be this way. The
+           moment a real media id is set, the frame and the original line come back on
+           their own. */
+        vid.hidden=true;
+        var lede=$('lede');
+        if(lede) lede.innerHTML=String(lede.innerHTML).replace(/,?\s*just under this video/i,'');
       }
     }catch(e){}
     function fitHero(){
