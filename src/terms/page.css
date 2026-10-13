@@ -11,7 +11,7 @@
 #rz-legal *{box-sizing:border-box}
 #rz-legal .rz-w{max-width:660px;margin:0 auto}
 #rz-legal .rz-eyeb{
-  display:block;font:600 9px/1.5 var(--micro);letter-spacing:.2em;
+  display:block;font:600 10px/1.5 var(--micro);letter-spacing:.2em;
   text-transform:uppercase;color:var(--pencil);margin:0 0 14px}
 #rz-legal h1{
   font:500 clamp(30px,6vw,44px)/1.12 var(--disp);letter-spacing:-.01em;

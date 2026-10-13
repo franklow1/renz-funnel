@@ -117,7 +117,7 @@ body:has(#rz-thanks) *:has(#rz-thanks){background:#F4F1EA!important}
  opacity:.65;transform:scaleX(0);transform-origin:0 50%;transition:transform .42s var(--ezs)}
 #rz-thanks li.done .job-h:after{transform:scaleX(1)}
 #rz-thanks li.done .job-h{color:var(--pencil)}
-#rz-thanks .job-when{display:block;margin-top:6px;font:600 9px/1.6 var(--micro);letter-spacing:.18em;text-transform:uppercase;color:var(--urgent)}
+#rz-thanks .job-when{display:block;margin-top:6px;font:600 10px/1.6 var(--micro);letter-spacing:.18em;text-transform:uppercase;color:var(--urgent)}
 #rz-thanks li.done .job-when{color:var(--done)}
 #rz-thanks .mk{position:relative;width:12px;height:12px;flex:0 0 auto;margin-top:9px;transition:transform .3s var(--ez)}
 #rz-thanks .mk:before,#rz-thanks .mk:after{content:"";position:absolute;left:0;top:5px;width:12px;height:1px;background:var(--brass)}
@@ -160,15 +160,15 @@ body:has(#rz-thanks) *:has(#rz-thanks){background:#F4F1EA!important}
  background:var(--brass);box-shadow:inset -1px -1px 0 rgba(21,19,15,.28)}
 #rz-thanks .doc:before{left:22px}
 #rz-thanks .doc:after{right:22px}
-#rz-thanks .doc-k{display:block;text-align:center;font:600 9px/1.5 var(--micro);letter-spacing:.2em;
+#rz-thanks .doc-k{display:block;text-align:center;font:600 10px/1.5 var(--micro);letter-spacing:.2em;
  text-transform:uppercase;color:var(--pencil)}
 #rz-thanks .doc-n{display:block;text-align:center;font:italic 400 28px/1.1 var(--text);color:var(--ink);margin:var(--s2) 0 var(--s4)}
 #rz-thanks .doc-rows{list-style:none}
 #rz-thanks .doc-rows li{display:flex;align-items:baseline;gap:10px;padding:11px 0;border-bottom:1px solid var(--hairline)}
 #rz-thanks .doc-rows li:last-child{border-bottom:0}
-#rz-thanks .doc-rows span{flex:0 1 auto;min-width:0;font:600 9px/1.6 var(--micro);letter-spacing:.16em;text-transform:uppercase;color:var(--pencil)}
+#rz-thanks .doc-rows span{flex:0 1 auto;min-width:0;font:600 10px/1.6 var(--micro);letter-spacing:.16em;text-transform:uppercase;color:var(--pencil)}
 #rz-thanks .doc-rows i{flex:1 1 auto;height:1px;border-bottom:1px dotted var(--rule2);transform:translateY(-3px)}
-#rz-thanks .doc-rows b{flex:0 1 auto;min-width:0;overflow-wrap:anywhere;max-width:18ch;font:600 9px/1.6 var(--micro);letter-spacing:.16em;text-transform:uppercase;
+#rz-thanks .doc-rows b{flex:0 1 auto;min-width:0;overflow-wrap:anywhere;max-width:18ch;font:600 10px/1.6 var(--micro);letter-spacing:.16em;text-transform:uppercase;
  color:var(--pencil);font-weight:600;transition:color .4s var(--ez)}
 #rz-thanks .doc-rows li.filled span{color:var(--ink)}
 #rz-thanks .doc-rows li.filled b{color:var(--done)}
@@ -184,7 +184,7 @@ body:has(#rz-thanks) *:has(#rz-thanks){background:#F4F1EA!important}
 #rz-thanks .leave li:before{content:"";flex:0 0 auto;width:18px;height:1px;background:var(--brass);transform:translateY(-6px)}
 #rz-thanks .gtee{margin:0 calc(var(--pad)*-1);padding:var(--s6) var(--s4);text-align:center;position:relative}
 #rz-thanks .seal{display:inline-block;padding:5px 12px;border:1px solid var(--brass-ink);
- font:600 9px/1.6 var(--micro);letter-spacing:.2em;text-transform:uppercase;color:var(--brass-ink)}
+ font:600 10px/1.6 var(--micro);letter-spacing:.2em;text-transform:uppercase;color:var(--brass-ink)}
 #rz-thanks .gtee h2{margin-top:var(--s4);max-width:20ch;margin-left:auto;margin-right:auto}
 #rz-thanks .gtee .txt{margin:var(--s4) auto 0;max-width:32ch;font:400 16px/26px var(--text);color:var(--chalk-soft)}
 #rz-thanks .gtee .split{margin:var(--s5) auto 0;max-width:33ch;padding-top:var(--s4);border-top:1px solid var(--ink-rule)}
@@ -200,7 +200,7 @@ body:has(#rz-thanks) *:has(#rz-thanks){background:#F4F1EA!important}
 #rz-thanks .recap li{flex:1 1 33%;min-width:120px;padding:var(--s3) var(--s2) var(--s3) 0;
  border-bottom:1px solid var(--ink-rule);
  font:600 11px/1.5 var(--micro);letter-spacing:.16em;text-transform:uppercase;color:var(--chalk-soft)}
-#rz-thanks .recap li i{display:block;font-style:normal;color:var(--brass-ink);margin-bottom:6px;font-size:9px}
+#rz-thanks .recap li i{display:block;font-style:normal;color:var(--brass-ink);margin-bottom:6px;font-size:10px}
 #rz-thanks .recap li.done{color:var(--done)}
 #rz-thanks .foot{background:var(--chalk);border-top:1px solid var(--hairline);
  padding:var(--s6) var(--pad) calc(var(--s6) + env(safe-area-inset-bottom));text-align:center}
