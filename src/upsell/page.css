@@ -205,7 +205,7 @@ body:has(#rz-upsell) *:has(#rz-upsell){background:#F4F1EA!important}
   /* with no film there is no pair, so the opening stops reserving the right hand
      column and centres on itself the way the sales page hero does. */
   #rz-upsell .hero.no-film{grid-template-columns:minmax(0,1fr)}
-  #rz-upsell .hero.no-film h1{grid-column:1;text-align:center}
+  #rz-upsell .hero.no-film h1{grid-column:1;text-align:center;margin-left:auto;margin-right:auto}
   #rz-upsell .hero.no-film .sub{grid-column:1;text-align:center;margin-left:auto;margin-right:auto}
 
   /* the argument runs as two columns under the opening rather than as a ribbon down
