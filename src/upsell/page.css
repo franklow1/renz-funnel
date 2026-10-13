@@ -200,7 +200,11 @@ body:has(#rz-upsell) *:has(#rz-upsell){background:#F4F1EA!important}
    column-gap:var(--s7);align-items:start}
   #rz-upsell .stamp{grid-column:1 / -1;margin-bottom:var(--s6)}
   #rz-upsell h1{grid-column:1;grid-row:2;text-align:left}
-  #rz-upsell .sub{grid-column:1;grid-row:3;text-align:left;margin:var(--s4) 0 0;max-width:30ch}
+  /* 30ch measures 315px here and the third statement, which is bold, needs 316. One
+     pixel, so it wrapped and left the word label alone on a fourth line. 34ch gives
+     the line room on any platform's idea of this face without loosening the measure
+     enough to matter: these are three short declaratives, not a paragraph. */
+  #rz-upsell .sub{grid-column:1;grid-row:3;text-align:left;margin:var(--s4) 0 0;max-width:34ch}
   #rz-upsell .film{grid-column:2;grid-row:2 / span 2;align-self:center;margin:0;max-width:none}
   /* with no film there is no pair, so the opening stops reserving the right hand
      column and centres on itself the way the sales page hero does. */
