@@ -79,4 +79,20 @@ export function join(loader, css, html) {
     .replace('/*@HTML@*/', function(){ return writeLiteral(html); });
 }
 
+/* The shared pixel is prepended to every bundle at build time and taken back off
+   at extract time, so there is exactly one copy of it in the source tree and the
+   build stays reversible. */
+export const SHARED_OPEN  = '/*@SHARED@*/';
+export const SHARED_CLOSE = '/*@/SHARED@*/';
+export function withShared(shared, loader) {
+  return SHARED_OPEN + '\n' + shared.trim() + '\n' + SHARED_CLOSE + '\n' + loader;
+}
+export function stripShared(loader) {
+  const a = loader.indexOf(SHARED_OPEN);
+  if (a < 0) return loader;
+  const b = loader.indexOf(SHARED_CLOSE, a);
+  if (b < 0) throw new Error('shared block opened but never closed');
+  return loader.slice(0, a) + loader.slice(b + SHARED_CLOSE.length).replace(/^\n/, '');
+}
+
 export const read = (p) => readFileSync(p, 'utf8');

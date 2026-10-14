@@ -13,7 +13,7 @@
    the built file never drift apart.
    ===================================================================== */
 import { writeFileSync, mkdirSync } from 'node:fs';
-import { PAGES, split, read } from './lib.mjs';
+import { PAGES, split, read, stripShared } from './lib.mjs';
 
 for (const [name, p] of Object.entries(PAGES)) {
   const { css, html, loader } = split(read(p.js));
@@ -21,7 +21,7 @@ for (const [name, p] of Object.entries(PAGES)) {
   mkdirSync(dir, { recursive: true });
   writeFileSync(dir + '/page.css', css);
   writeFileSync(dir + '/page.html', html);
-  writeFileSync(dir + '/loader.js', loader);
+  writeFileSync(dir + '/loader.js', stripShared(loader));
   console.log(name.padEnd(7),
     'css', String(css.length).padStart(7),
     'html', String(html.length).padStart(7),

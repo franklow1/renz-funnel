@@ -291,6 +291,12 @@
       var el=RZT.id('ticket-no'); if(!el) return;
       var id = qp('order_id')||qp('orderId')||qp('transaction_id')||qp('payment_id');
       if(!id) return;
+      /* Purchase. Only ever when the checkout handed us an order id, and only once for
+         that order. Fifteen links in F2, F7 and F11 bring a man who has already paid back
+         to this page to pick a new time; none of them carry an order id, so none of them
+         can report a second sale. */
+      try{ if(window.RZPX) RZPX.fire('Purchase', {value:99, currency:'GBP'},
+            {key:'rzpx_pur_'+String(id), forever:true, id:String(id)}); }catch(e){}
       id=String(id).replace(/[^A-Za-z0-9]/g,'');
       if(id.length<4) return;
       el.textContent='Order '+id.slice(-6).toUpperCase();
@@ -384,6 +390,11 @@
            calendar that is not on the page any more. Step one is done, so say it is done.
            The worklist wakes up after this, so the tick is handed over rather than clicked. */
         if(booked){
+          /* Schedule. Keyed on the slot itself, so re-opening this page with the same time
+             in the URL is the same booking. A man who reschedules has a different time and
+             is counted again, which is right: that is a second booking. */
+          try{ if(window.RZPX) RZPX.fire('Schedule', {},
+                {key:'rzpx_sch_'+String(when||'held'), forever:true}); }catch(e){}
           window.__rzStepOneDone = true;
           try{ $('job-book-p').innerHTML = 'Your time is held. It is written at the top of '
             + 'this page. <b>Now the other three.</b>'; }catch(e){}

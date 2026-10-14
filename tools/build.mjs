@@ -12,14 +12,16 @@
    src/ is a true source and not a stale copy of it.
    ===================================================================== */
 import { writeFileSync } from 'node:fs';
-import { PAGES, join, read } from './lib.mjs';
+import { PAGES, join, read, withShared } from './lib.mjs';
 
 const check = process.argv.includes('--check');
 let bad = 0;
+const SHARED = read('src/shared/analytics.js');
 
 for (const [name, p] of Object.entries(PAGES)) {
   const dir = 'src/' + name;
-  const out = join(read(dir + '/loader.js'), read(dir + '/page.css'), read(dir + '/page.html'));
+  const out = join(withShared(SHARED, read(dir + '/loader.js')),
+                   read(dir + '/page.css'), read(dir + '/page.html'));
   if (check) {
     const now = read(p.js);
     const same = out === now;

@@ -880,6 +880,26 @@
          state changes, which empties anything written into it. One pass on a timer was
          never going to hold. This watches the form itself and refills only what is still
          empty, until both fields are filled or the budget runs out. */
+      /* InitiateCheckout. "Reaching the order form" is him seeing it, not the page
+         happening to contain one, so it waits for the thing to come into view. Once per
+         visit: scrolling back up and down again is the same intent, not a second one. */
+      RZ.watchOrderFormSeen = function(){
+        try{
+          var el=document.querySelector('.c-order, [id^="one-step-order-"]');
+          if(!el || !window.IntersectionObserver || !window.RZPX) return;
+          var io=new IntersectionObserver(function(es){
+            for(var i=0;i<es.length;i++){
+              if(es[i].isIntersecting){
+                RZPX.fire('InitiateCheckout', {value:99, currency:'GBP'}, {key:'rzpx_ic'});
+                try{ io.disconnect(); }catch(e){}
+                return;
+              }
+            }
+          }, {threshold:0.25});
+          io.observe(el);
+        }catch(e){}
+      };
+
       RZ.watchCheckout = function(){
         var t0=Date.now(), BUDGET=180000, obs=null, tick=null;
         function done(){
@@ -1195,6 +1215,7 @@
         }catch(e){}
         try{ RZ.watchBumps(); }catch(e){}
         try{ RZ.watchCheckout(); }catch(e){}
+        try{ RZ.watchOrderFormSeen(); }catch(e){}
         var t=null;
         try{ t=document.querySelector(RZ.CAL_TRIGGER); }catch(e){}
         if(t){ t.style.position='absolute'; t.style.left='-9999px';
@@ -2486,6 +2507,9 @@
           track('email_submit',{sid:'email',dwell_ms:dwell(),depth:SEEN.length,ms:Date.now()-S.t0});
           if(!onVsl){ crmSend(leadPayload('email_submit'),false); go(S.i+1,'fwd'); return; }
           var R2; try{R2=calc();}catch(e){R2={n:null,worst:null};}
+          /* Lead. Keyed on his lead id, so the second route into this screen and a
+             refresh both count as the same man arriving once. */
+          try{ if(window.RZPX) RZPX.fire('Lead', {}, {key:'rzpx_lead_'+LEADID, forever:true, id:'lead_'+LEADID}); }catch(e){}
           track('quiz_complete',{sid:'email',score:R2.n,worst:R2.worst,depth:SEEN.length,
             secs:Math.round((Date.now()-S.t0)/1000),to:'vsl'});
           track('to_vsl',{sid:'email',score:R2.n,worst:R2.worst,depth:SEEN.length});
