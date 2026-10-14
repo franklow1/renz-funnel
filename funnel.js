@@ -983,6 +983,17 @@
         try{
           var el=document.querySelector('.c-order, [id^="one-step-order-"]');
           if(!el || !window.IntersectionObserver || !window.RZPX) return;
+          /* Attaching this while the page is still laying itself out reports the order form
+             as on screen immediately: before the sections have their height everything is
+             stacked at the origin, so a form twenty thousand pixels down the page is briefly
+             inside the viewport. Wait for the layout to settle, or for him to scroll, which
+             is proof enough that there is a page under him. */
+          var armed=false;
+          function arm(){
+            if(armed) return; armed=true;
+            try{ removeEventListener('scroll', arm); }catch(e){}
+            try{ io.observe(el); }catch(e){}
+          }
           var io=new IntersectionObserver(function(es){
             for(var i=0;i<es.length;i++){
               if(es[i].isIntersecting){
@@ -992,7 +1003,8 @@
               }
             }
           }, {threshold:0.25});
-          io.observe(el);
+          try{ addEventListener('scroll', arm, {passive:true, once:true}); }catch(e){}
+          setTimeout(arm, 2500);
         }catch(e){}
       };
 
