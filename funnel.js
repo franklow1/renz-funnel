@@ -369,8 +369,29 @@
         },
 
         STORE : 'renz_score',
-        DAYS  : 90
+        DAYS  : 90,
+
+        /* The sales page is its own funnel step now. It used to sit in this document behind
+           the quiz, which meant every follow up email sent a man back to question one: open
+           it on the phone instead of the laptop he answered on and the quiz is all he gets,
+           because his answers live in the other device's storage. He is not going to do it
+           twice. Splitting the two means the email can point straight at the page that sells,
+           and the quiz hands over by navigating rather than by unhiding. */
+        SALES_PATH : '/style-solve',
+        SALES_URL  : 'https://lorenzosegor.com/style-solve'
       };
+
+      /* Which of the two steps this document is. The host page says so outright when it can;
+         otherwise the path does. Anything that is not the sales step runs the quiz, which is
+         the safe way round: a page we fail to recognise still asks him the questions. */
+      RZ.STAGE = (function(){
+        try{ if(window.RZ_STAGE==='sales'||window.RZ_STAGE==='quiz') return window.RZ_STAGE; }catch(e){}
+        try{
+          var p=String(location.pathname||'').replace(/\/+$/,'').toLowerCase();
+          if(p===RZ.SALES_PATH || p.indexOf(RZ.SALES_PATH+'/')===0) return 'sales';
+        }catch(e){}
+        return 'quiz';
+      })();
 
       RZ.get = function(){
         try{
@@ -513,7 +534,17 @@
 
       /* the handover. the quiz is done, the page takes over, in the same document. */
       var pageStarted=false;
-      RZ.toPage = function(){
+      RZ.toPage = function(href){
+        /* On the quiz step this is a real navigation to the next step, and his answers ride
+           in the URL so the page is already his before it paints. On the sales step there is
+           nowhere to go: the page is in this document and simply takes over.
+           The lead has already gone to the CRM on a keepalive post, so leaving now does not
+           drop it. */
+        if(RZ.STAGE!=='sales'){
+          var to=(href && String(href).charAt(0)!=='#') ? href : RZ.SALES_URL;
+          try{ location.assign(to); }catch(e){ try{ location.href=to; }catch(e2){} }
+          return;
+        }
         var q=document.getElementById('rz-quiz'), pg=document.getElementById('rz-page');
         if(!pg) return;
         /* Drop out of the floating sheet and into the page itself, but only once the host's
@@ -1165,6 +1196,11 @@
         try{ t=document.querySelector(RZ.CAL_TRIGGER); }catch(e){}
         if(t){ t.style.position='absolute'; t.style.left='-9999px';
                t.style.width='1px'; t.style.height='1px'; t.setAttribute('aria-hidden','true'); }
+        /* The sales step has no quiz on it at all. A man who arrives with nothing stored,
+           which is every man opening a follow up email on a second device, still gets the
+           page: it falls back to the copy already in the markup and simply shows him no
+           score, rather than sending him back to question one. */
+        if(RZ.STAGE==='sales'){ RZ.toPage(); return true; }
         var d=RZ.get();
         if(d && d.n!=null){ RZ.toPage(); return true; }
         var pg=document.getElementById('rz-page'); if(pg) pg.hidden=true;
@@ -1233,7 +1269,7 @@
     /* =====================================================================
        Fill these three before shipping: VSL_URL, RZ.WEBHOOK, and the og:image.
        ===================================================================== */
-    var VSL_URL='#rz-page';   /* the sales page is in this document, not another one */
+    var VSL_URL=(RZ&&RZ.SALES_URL)||'#rz-page';   /* its own funnel step since 14 Oct 2026 */
     /* 100 paired testers: putting his number on the video page beat a score page of its own,
        6 to 0 on reaching the video. Falls back to the in quiz score screen until VSL_URL is real,
        because a man who never sees his number at all is worse than either arm. */
@@ -2451,9 +2487,10 @@
             secs:Math.round((Date.now()-S.t0)/1000),to:'vsl'});
           track('to_vsl',{sid:'email',score:R2.n,worst:R2.worst,depth:SEEN.length});
           LEAVING=true;
-          try{ vslHref(); }catch(e){}          /* writes renz_score, which the page reads */
-          RZ.lead(leadPayload('vsl_click'));   /* the contact, into GHL */
-          RZ.toPage();
+          var href=null;
+          try{ href=vslHref(); }catch(e){}     /* writes renz_score, and builds the hop */
+          RZ.lead(leadPayload('vsl_click'));   /* the contact, into GHL, on a keepalive post */
+          RZ.toPage(href);
         });
         var ef=sc.querySelector('#em'),gb3=ft.querySelector('#go'),
             eerr=sc.querySelector('#emerr'),EMOK=/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
@@ -2586,9 +2623,10 @@
         var secs=Math.round((Date.now()-S.t0)/1000);
         track('to_vsl',{sid:'score',score:R.n,worst:R.worst,secs:secs,depth:SEEN.length});
         LEAVING=true;
-        try{ vslHref(); }catch(e){}
+        var href=null;
+        try{ href=vslHref(); }catch(e){}
         RZ.lead(leadPayload('vsl_click'));
-        RZ.toPage();
+        RZ.toPage(href);
       };
     }
 
