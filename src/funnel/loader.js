@@ -371,22 +371,28 @@
         STORE : 'renz_score',
         DAYS  : 90,
 
-        /* A second funnel step carrying the same sales page, for the follow up emails to
-           point at. The quiz step is untouched: he answers, the page takes over in this
-           document, and the ACTION code runs for fifteen minutes exactly as it always has.
-           This second step is that same page with the quiz skipped and the countdown off.
+        /* There is ONE page and ONE checkout. The follow up emails link to the tidy
+           /style-solve, which GoHighLevel redirects onto this same page carrying ?e=1, and
+           that marker is what turns the quiz off and the countdown off.
            It exists for two reasons. A man who opens an email on his phone instead of the
            laptop he answered on has no stored answers, and sending him back to question one
            is how the sequence meant to recover the sale destroys it instead. And a discount
-           he can have again any time he opens an email is not a discount, it is the price. */
+           he can have again any time he opens an email is not a discount, it is the price.
+           A second funnel step would have done the same job and was built first, but it came
+           with a second order form, and two checkouts drift: the price, the button, a coupon,
+           a bump, all of it has to be changed twice and nothing warns you when it was not. */
+        SALES_FLAG : 'e',
         SALES_PATH : '/style-solve'
       };
 
-      /* Which of the two steps this document is. The host page says so outright when it can;
-         otherwise the path does. Anything that is not the sales step runs the quiz, which is
-         the safe way round: a page we fail to recognise still asks him the questions. */
+      /* Which way this document is being read: the quiz, or the sales page on its own.
+         The marker on the URL decides it, and the host page can say so outright. The path is
+         still honoured in case the tidy URL is ever served directly rather than redirected.
+         Anything unrecognised runs the quiz, which is the safe way round: a page we fail to
+         place still asks him the questions rather than selling to a man we know nothing about. */
       RZ.STAGE = (function(){
         try{ if(window.RZ_STAGE==='sales'||window.RZ_STAGE==='quiz') return window.RZ_STAGE; }catch(e){}
+        try{ if(new URLSearchParams(location.search).get(RZ.SALES_FLAG)==='1') return 'sales'; }catch(e){}
         try{
           var p=String(location.pathname||'').replace(/\/+$/,'').toLowerCase();
           if(p===RZ.SALES_PATH || p.indexOf(RZ.SALES_PATH+'/')===0) return 'sales';
