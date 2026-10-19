@@ -383,16 +383,22 @@
     /* The stub used to read "Order 0201" for every single buyer. A made up number on a receipt
        is a small lie that two men comparing notes would catch, so it now says "Paid" unless
        the checkout actually hands us an order id. */
+    /* The ORDER id, and nothing else. The ticket below will happily print a transaction
+       or payment id, but Purchase may not use one: the Conversions API step sends the
+       order id as its event_id, and an event whose id disagrees is not deduplicated, it
+       is counted twice. If the checkout ever stops passing an order id, this goes quiet
+       and the server event stands alone, which is the safe way to be wrong. */
+    function orderIdFromUrl(){ return qp('order_id')||qp('orderId')||''; }
+
     function paintTicket(){
       var el=RZT.id('ticket-no'); if(!el) return;
-      var id = qp('order_id')||qp('orderId')||qp('transaction_id')||qp('payment_id');
+      var oid = orderIdFromUrl();
+      if(oid){
+        try{ if(window.RZPX) RZPX.fire('Purchase', {value:99, currency:'GBP'},
+              {key:'rzpx_pur_'+String(oid), forever:true, id:String(oid)}); }catch(e){}
+      }
+      var id = oid||qp('transaction_id')||qp('payment_id');
       if(!id) return;
-      /* Purchase. Only ever when the checkout handed us an order id, and only once for
-         that order. Fifteen links in F2, F7 and F11 bring a man who has already paid back
-         to this page to pick a new time; none of them carry an order id, so none of them
-         can report a second sale. */
-      try{ if(window.RZPX) RZPX.fire('Purchase', {value:99, currency:'GBP'},
-            {key:'rzpx_pur_'+String(id), forever:true, id:String(id)}); }catch(e){}
       id=String(id).replace(/[^A-Za-z0-9]/g,'');
       if(id.length<4) return;
       el.textContent='Order '+id.slice(-6).toUpperCase();
